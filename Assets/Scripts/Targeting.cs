@@ -7,11 +7,15 @@ public class Targeting : MonoBehaviour
     public Transform target;
     public float waitForTime = 1f;
 
-    private string targetTag;
+    private string targetTag;    
 
-    //target calculation
+    //orientation calculation
     private Vector3 direction;
     private float angle;
+
+    //enemy target selection
+    private GameObject[] enemyTargets;
+    private float minDistance, currentDistance;
 
     private void Start()
     {
@@ -37,7 +41,7 @@ public class Targeting : MonoBehaviour
     private bool FindTarget()
     {
         target = GameObject.FindGameObjectWithTag(targetTag).transform;
-
+        
         var noOfTargets = GameObject.FindGameObjectsWithTag(targetTag).Length;
 
         if (noOfTargets == 0)
@@ -47,8 +51,33 @@ public class Targeting : MonoBehaviour
         }
         else if (noOfTargets > 1)
         {
-            print("Write enemy targeting code here");
-            return false;
+            enemyTargets = GameObject.FindGameObjectsWithTag(targetTag);
+
+            minDistance = 0f;
+
+            try
+            {
+                //add a flag so that it doesnt check unless the position is changed
+                foreach (var enemy in enemyTargets)
+                {
+                    //try if it works the same without the sqrt
+                    currentDistance = (enemy.transform.position.x - transform.position.x) - (enemy.transform.position.z - transform.position.z);
+
+                    print("current enemy = " + enemy.name + ", distance = " + currentDistance);
+
+                    //shouldnt make this check everytime, if min dist will be 0 only once, better try keeping it to an exorbitantly high value
+                    if (minDistance == 0f || minDistance > Mathf.Abs(currentDistance))
+                    {
+                        minDistance = Mathf.Abs(currentDistance);
+                        target = enemy.transform;
+                    }
+                }
+                print("target = " + target.gameObject.name);
+            }
+            catch
+            {
+                print("Problem occurred with finding enemy targets.");
+            }
         }
         else
         {
