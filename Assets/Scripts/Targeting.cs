@@ -14,6 +14,7 @@ public class Targeting : MonoBehaviour
     private float angle;
 
     //enemy target selection
+    public bool DEBUG_ENEMY_FIND = false;
     private GameObject[] enemyTargets;
     private float minDistance, currentDistance;
 
@@ -63,7 +64,8 @@ public class Targeting : MonoBehaviour
                     //try if it works the same without the sqrt
                     currentDistance = (enemy.transform.position.x - transform.position.x) - (enemy.transform.position.z - transform.position.z);
 
-                    print("current enemy = " + enemy.name + ", distance = " + currentDistance);
+                    if(DEBUG_ENEMY_FIND)
+                        print("current enemy = " + enemy.name + ", distance = " + currentDistance);
 
                     //shouldnt make this check everytime, if min dist will be 0 only once, better try keeping it to an exorbitantly high value
                     if (minDistance == 0f || minDistance > Mathf.Abs(currentDistance))
@@ -72,7 +74,8 @@ public class Targeting : MonoBehaviour
                         target = enemy.transform;
                     }
                 }
-                print("target = " + target.gameObject.name);
+                if (DEBUG_ENEMY_FIND)
+                    print("target = " + target.gameObject.name);
             }
             catch
             {
