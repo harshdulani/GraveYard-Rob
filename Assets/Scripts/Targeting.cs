@@ -24,6 +24,7 @@ public class Targeting : MonoBehaviour
             targetTag = "Enemy";
         else
         {
+            print(gameObject.name + " is targeting player");
             targetTag = "Player";
         }
         StartCoroutine("TargetingMechanic");
@@ -41,7 +42,11 @@ public class Targeting : MonoBehaviour
 
     private bool FindTarget()
     {
-        target = GameObject.FindGameObjectWithTag(targetTag).transform;
+        //check if this condition check belongs inside the loop for searching for the player.
+        if (GameObject.FindGameObjectWithTag(targetTag))
+            target = GameObject.FindGameObjectWithTag(targetTag).transform;
+        else
+            return false;
         
         var noOfTargets = GameObject.FindGameObjectsWithTag(targetTag).Length;
 
@@ -50,8 +55,10 @@ public class Targeting : MonoBehaviour
             print("No targets found for " + gameObject.name);
             return false;
         }
+        //split up enemy and player targeting scripts
         else if (noOfTargets > 1)
         {
+            //Targeting Enemies
             enemyTargets = GameObject.FindGameObjectsWithTag(targetTag);
 
             minDistance = 0f;
@@ -61,7 +68,6 @@ public class Targeting : MonoBehaviour
                 //add a flag so that it doesnt check unless the position is changed
                 foreach (var enemy in enemyTargets)
                 {
-                    //try if it works the same without the sqrt
                     currentDistance = (enemy.transform.position.x - transform.position.x) - (enemy.transform.position.z - transform.position.z);
 
                     if(DEBUG_ENEMY_FIND)
@@ -81,10 +87,6 @@ public class Targeting : MonoBehaviour
             {
                 print("Problem occurred with finding enemy targets.");
             }
-        }
-        else
-        {
-            print("Targeting Player now");
         }
 
         direction = target.position - transform.position;
