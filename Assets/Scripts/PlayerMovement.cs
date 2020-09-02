@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    public static bool isMoving = false;
     private FloatingJoystick joystick;
 
     public float movementSpeed = 2f;
@@ -30,15 +31,22 @@ public class PlayerMovement : MonoBehaviour
 
         if (direction.Equals(Vector3.zero)) //or isn't shooting
         {
-            currentAngle = Mathf.Lerp(currentAngle, 0, LerpToSnapSpeed);
+            isMoving = false;
+            if (!GameObject.FindGameObjectWithTag("Enemy"))
+            {
+                currentAngle = Mathf.Lerp(currentAngle, 0, LerpToSnapSpeed);
+
+                transform.eulerAngles = Vector3.up * currentAngle;
+                print("lerping to zero");
+            }
         }
         else
         {
+            isMoving = true;
             transform.Translate(direction * Time.deltaTime * movementSpeed, Space.World);
 
             currentAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
+            transform.eulerAngles = Vector3.up * currentAngle;
         }
-
-        transform.eulerAngles = Vector3.up * currentAngle;
     }
 }

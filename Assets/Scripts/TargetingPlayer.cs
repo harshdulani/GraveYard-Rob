@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Targeting : MonoBehaviour
+public class TargetingPlayer : MonoBehaviour
 {
+    //This is targeting script that belongs on the player object
     public Transform target;
     public float waitForTime = 1f;
 
-    private string targetTag;    
+    private string targetTag;
 
     //orientation calculation
     private Vector3 direction;
@@ -20,13 +21,7 @@ public class Targeting : MonoBehaviour
 
     private void Start()
     {
-        if (gameObject.CompareTag("Player"))
-            targetTag = "Enemy";
-        else
-        {
-            print(gameObject.name + " is targeting player");
-            targetTag = "Player";
-        }
+        targetTag = "Enemy";
         StartCoroutine("TargetingMechanic");
     }
 
@@ -35,46 +30,47 @@ public class Targeting : MonoBehaviour
         while (true)
         {
             yield return new WaitForSeconds(waitForTime);
-            if (!FindTarget())
-                print("Find Target failure.");
+            if(!PlayerMovement.isMoving)
+                if (!FindTarget())
+                    print("Find Target failure for player.");
         }
     }
 
     private bool FindTarget()
     {
-        //check if this condition check belongs inside the loop for searching for the player.
-        if (GameObject.FindGameObjectWithTag(targetTag))
-            target = GameObject.FindGameObjectWithTag(targetTag).transform;
-        else
-            return false;
-        
+        //make this part of a GameController singleton, so that there is a count on the current enemies available,
+        //so I don't have to look up the number all the times
         var noOfTargets = GameObject.FindGameObjectsWithTag(targetTag).Length;
 
-        if (noOfTargets == 0)
+        if (noOfTargets == 1)
+        {
+            target = GameObject.FindGameObjectWithTag(targetTag).transform;
+            print("found 1 target named " + target.name);
+        }
+        else if (noOfTargets == 0)
         {
             print("No targets found for " + gameObject.name);
             return false;
         }
-        //split up enemy and player targeting scripts
         else if (noOfTargets > 1)
         {
-            //Targeting Enemies
+            //Targeting Multiple Enemies
             enemyTargets = GameObject.FindGameObjectsWithTag(targetTag);
 
-            minDistance = 0f;
+            //this has been set to an exorbitantly high value so that i dont have to check if this is zero(unset/default) everytime
+            minDistance = 5000f;
 
             try
             {
                 //add a flag so that it doesnt check unless the position is changed
+                //or no, xerox copy karne ka zarurat naiye
                 foreach (var enemy in enemyTargets)
                 {
                     currentDistance = (enemy.transform.position.x - transform.position.x) - (enemy.transform.position.z - transform.position.z);
 
-                    if(DEBUG_ENEMY_FIND)
+                    if (DEBUG_ENEMY_FIND)
                         print("current enemy = " + enemy.name + ", distance = " + currentDistance);
-
-                    //shouldnt make this check everytime, if min dist will be 0 only once, better try keeping it to an exorbitantly high value
-                    if (minDistance == 0f || minDistance > Mathf.Abs(currentDistance))
+                    if (minDistance > Mathf.Abs(currentDistance))
                     {
                         minDistance = Mathf.Abs(currentDistance);
                         target = enemy.transform;
@@ -91,6 +87,7 @@ public class Targeting : MonoBehaviour
 
         direction = target.position - transform.position;
         angle = (Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg);
+        print("player angle = " + angle);
         transform.rotation = Quaternion.AngleAxis(angle, Vector3.up);
 
         return true;

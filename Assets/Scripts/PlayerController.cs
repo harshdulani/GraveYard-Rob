@@ -34,7 +34,6 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        print("collision w " + collision.gameObject.name);
         if(collision.gameObject.CompareTag("Projectile"))
         {
             DecreaseHealth(collision.gameObject.GetComponent<ProjectileController>().projectileDamage);
