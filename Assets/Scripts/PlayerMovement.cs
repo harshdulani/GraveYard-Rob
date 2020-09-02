@@ -37,7 +37,6 @@ public class PlayerMovement : MonoBehaviour
                 currentAngle = Mathf.Lerp(currentAngle, 0, LerpToSnapSpeed);
 
                 transform.eulerAngles = Vector3.up * currentAngle;
-                print("lerping to zero");
             }
         }
         else

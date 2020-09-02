@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TargetingPlayer : MonoBehaviour
 {
-    //This is targeting script that belongs on the player object
+    //This is the aim targeting script that belongs on the player object
     public Transform target;
     public float waitForTime = 1f;
 
@@ -58,7 +58,7 @@ public class TargetingPlayer : MonoBehaviour
             enemyTargets = GameObject.FindGameObjectsWithTag(targetTag);
 
             //this has been set to an exorbitantly high value so that i dont have to check if this is zero(unset/default) everytime
-            minDistance = 5000f;
+            minDistance = 10000f;
 
             try
             {
@@ -66,13 +66,16 @@ public class TargetingPlayer : MonoBehaviour
                 //or no, xerox copy karne ka zarurat naiye
                 foreach (var enemy in enemyTargets)
                 {
-                    currentDistance = (enemy.transform.position.x - transform.position.x) - (enemy.transform.position.z - transform.position.z);
+                    //this is distance between two points, removed sqrt from formula because increased time complex and sometimes give NaN
+                    currentDistance = 
+                        (enemy.transform.position.x - transform.position.x)* (enemy.transform.position.x - transform.position.x) 
+                        + (enemy.transform.position.z - transform.position.z)* (enemy.transform.position.z - transform.position.z);
 
                     if (DEBUG_ENEMY_FIND)
                         print("current enemy = " + enemy.name + ", distance = " + currentDistance);
-                    if (minDistance > Mathf.Abs(currentDistance))
+                    if (minDistance > currentDistance)
                     {
-                        minDistance = Mathf.Abs(currentDistance);
+                        minDistance = currentDistance;
                         target = enemy.transform;
                     }
                 }
@@ -87,7 +90,6 @@ public class TargetingPlayer : MonoBehaviour
 
         direction = target.position - transform.position;
         angle = (Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg);
-        print("player angle = " + angle);
         transform.rotation = Quaternion.AngleAxis(angle, Vector3.up);
 
         return true;

@@ -6,19 +6,23 @@ using UnityEngine.UI;
 public class PlayerController : MonoBehaviour
 {
     public Image healthBar;
+    public Text healthText;
 
     private PlayerStats playerStats;
 
     private void Start()
     {
         playerStats = FindObjectOfType<PlayerStats>();
+        UpdateHealthBar();
+        UpdateHealthText();
     }
 
     public void DecreaseHealth(int amt)
     {        
         playerStats.playerHealth -= amt;
         UpdateHealthBar();
-        if(playerStats.playerHealth <= 0)
+        UpdateHealthText();
+        if (playerStats.playerHealth <= 0)
         {
             //die
             print("YOU DIED.");
@@ -30,6 +34,11 @@ public class PlayerController : MonoBehaviour
     {
         healthBar.fillAmount = (float)(playerStats.playerHealth) / (float)(playerStats.maxHealth);
         print("health updated to " + (float)(playerStats.playerHealth));
+    }
+
+    private void UpdateHealthText()
+    {
+        healthText.text = playerStats.playerHealth.ToString();
     }
 
     private void OnCollisionEnter(Collision collision)
