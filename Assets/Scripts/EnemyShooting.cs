@@ -9,6 +9,8 @@ public class EnemyShooting : MonoBehaviour
     public float shotInterval = 1f;
     public int bumpDamage = 50;
 
+    public bool keepShooting = true;
+
     private int c = 0;
 
     private void Start()
@@ -21,8 +23,9 @@ public class EnemyShooting : MonoBehaviour
         while(true)
         {
             yield return new WaitForSeconds(shotInterval);
-            if(GameObject.FindGameObjectWithTag("Player") != null)
-                ShotsFired();
+            if (keepShooting)
+                if (GameObject.FindGameObjectWithTag("Player") != null)
+                    ShotsFired();
         }
     }
 

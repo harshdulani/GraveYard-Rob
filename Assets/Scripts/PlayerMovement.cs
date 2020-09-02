@@ -14,7 +14,6 @@ public class PlayerMovement : MonoBehaviour
     //player moves forward by movement speed in the Direction "direction"
     private Vector3 direction;
     private float currentAngle = 0f;
-    private Rigidbody rb;
 
     public float LerpToSnapSpeed = 0.1f;
 
@@ -22,7 +21,6 @@ public class PlayerMovement : MonoBehaviour
     private void Start()
     {
         joystick = FindObjectOfType<FloatingJoystick>();
-        rb = GetComponent<Rigidbody>();
     }
 
     private void Update()

@@ -33,7 +33,6 @@ public class PlayerController : MonoBehaviour
     private void UpdateHealthBar()
     {
         healthBar.fillAmount = (float)(playerStats.playerHealth) / (float)(playerStats.maxHealth);
-        print("health updated to " + (float)(playerStats.playerHealth));
     }
 
     private void UpdateHealthText()
