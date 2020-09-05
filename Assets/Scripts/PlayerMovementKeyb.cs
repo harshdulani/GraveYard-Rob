@@ -4,12 +4,10 @@ using UnityEngine;
 
 public class PlayerMovementKeyb : MonoBehaviour
 {
-    public static bool isMoving = false;
+    public static bool isRunning = false;
     public float movementSpeed = 2f;
 
     private Vector3 direction;
-
-    public float jumpForce = 10f;
 
     private static Animator animator;
 
@@ -25,14 +23,17 @@ public class PlayerMovementKeyb : MonoBehaviour
         if (Input.GetButtonDown("Jump"))
         {
             animator.SetTrigger("isJumping");
-            //GetComponent<Rigidbody>().AddForce(Vector3.up * jumpForce);
         }
 
-        if (direction.Equals(Vector3.zero)) //or isn't shooting
-            isMoving = false;
+        if (direction.Equals(Vector3.zero))     //or isn't shooting
+        {
+            isRunning = false;
+            animator.SetBool("isRunning", false);
+        }
         else
         {
-            isMoving = true;
+            isRunning = true;
+            animator.SetBool("isRunning", true);
             transform.Translate(direction * Time.deltaTime * movementSpeed, Space.Self);
         }
     }

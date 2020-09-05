@@ -180,6 +180,36 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0b0f6562f4d0f3543884ca31558beb69, type: 3}
+--- !u!1 &179468038
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 179468039}
+  m_Layer: 0
+  m_Name: LookAt
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &179468039
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 179468038}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 3.57, z: 8.54}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1077109525}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &267199075
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -536,6 +566,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementSpeed: 10
+--- !u!114 &1077109529
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1077109523}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3048964f6a221d3468df8d9905b42db8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lookAt: {fileID: 179468039}
+  axes: 1
+  sensitivityX: 1
+  sensitivityY: 1
+  minimumX: -360
+  maximumX: 360
+  minimumY: -30
+  maximumY: 30
 --- !u!1 &1155924166
 GameObject:
   m_ObjectHideFlags: 0
@@ -676,11 +726,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd6043bde05a7fc4cba197d06915c1e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Damping: {x: 0.1, y: 0.5, z: 0.3}
-  ShoulderOffset: {x: 1.5, y: 2.75, z: -4}
-  VerticalArmLength: 0.4
+  Damping: {x: 0.1, y: 0.1, z: 0.6}
+  ShoulderOffset: {x: 1.25, y: 2, z: -5}
+  VerticalArmLength: 1
   CameraSide: 1
-  CameraDistance: 6.5
+  CameraDistance: 5
   CameraCollisionFilter:
     serializedVersion: 2
     m_Bits: 257
@@ -704,14 +754,14 @@ MonoBehaviour:
   m_LookaheadIgnoreY: 0
   m_HorizontalDamping: 0.5
   m_VerticalDamping: 0.5
-  m_ScreenX: 0.49999997
+  m_ScreenX: 0.49999994
   m_ScreenY: 0.5
-  m_DeadZoneWidth: 0.13151926
+  m_DeadZoneWidth: 0.027860746
   m_DeadZoneHeight: 0
-  m_SoftZoneWidth: 0.8
-  m_SoftZoneHeight: 0.8
-  m_BiasX: 0
-  m_BiasY: 0
+  m_SoftZoneWidth: 0.1353661
+  m_SoftZoneHeight: 0.14417368
+  m_BiasX: -0.0000005544342
+  m_BiasY: -0.0000012402675
   m_CenterOnActivate: 1
 --- !u!114 &1160117271
 MonoBehaviour:
@@ -950,7 +1000,7 @@ MonoBehaviour:
   m_StreamingVersion: 20170927
   m_Priority: 10
   m_StandbyUpdate: 2
-  m_LookAt: {fileID: 1077109525}
+  m_LookAt: {fileID: 0}
   m_Follow: {fileID: 1077109525}
   m_Lens:
     FieldOfView: 35
@@ -974,14 +1024,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1545085170}
-  m_LocalRotation: {x: 0, y: 0.00000002369124, z: 0, w: 1}
-  m_LocalPosition: {x: 1.5, y: 3.4, z: -10.5}
+  m_LocalRotation: {x: 0, y: 0.000000030451574, z: 0, w: 1}
+  m_LocalPosition: {x: 1.25, y: 3.25, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1160117268}
   m_Father: {fileID: 0}
   m_RootOrder: 6
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -0.42, y: 0, z: 0}
 --- !u!1 &1584989562
 GameObject:
   m_ObjectHideFlags: 0
@@ -1059,13 +1109,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1584989562}
-  m_LocalRotation: {x: 0, y: 0.00000002369124, z: 0, w: 1}
-  m_LocalPosition: {x: 1.5, y: 3.4, z: -10.5}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.25, y: 3.25, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 45, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -0.18}
 --- !u!114 &1584989566
 MonoBehaviour:
   m_ObjectHideFlags: 0
