@@ -5,9 +5,15 @@ using UnityEngine;
 public class PlayerMovementKeyb : MonoBehaviour
 {
     public static bool isRunning = false;
-    public float movementSpeed = 2f;
+    public float maxMovementSpeed = 10f;
 
     private Vector3 direction;
+
+    //ease in lerping
+    private float lerpTime = 1f;
+    private float currentLerpTime;
+
+    public float currentMovementSpeed;
 
     private static Animator animator;
 
@@ -28,13 +34,29 @@ public class PlayerMovementKeyb : MonoBehaviour
         if (direction.Equals(Vector3.zero))     //or isn't shooting
         {
             isRunning = false;
-            animator.SetBool("isRunning", false);
+            animator.SetBool("isRunning", false); 
+            currentLerpTime = 0f;
+            currentMovementSpeed = 0f;
         }
         else
         {
             isRunning = true;
             animator.SetBool("isRunning", true);
-            transform.Translate(direction * Time.deltaTime * movementSpeed, Space.Self);
+
+            #region ease in lerping
+            //increment timer once per frame
+            currentLerpTime += Time.deltaTime * maxMovementSpeed;
+            if (currentLerpTime > lerpTime)
+            {
+                currentLerpTime = lerpTime;
+            }
+
+            currentLerpTime = 1f - Mathf.Cos(currentLerpTime * Mathf.PI * 0.5f);
+
+            currentMovementSpeed = Mathf.Lerp(currentMovementSpeed, maxMovementSpeed, currentLerpTime);
+            #endregion
+
+            transform.Translate(direction * Time.deltaTime * currentMovementSpeed, Space.Self);
         }
     }
 }
