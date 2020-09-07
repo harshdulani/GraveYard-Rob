@@ -7,15 +7,20 @@ public class PlayerMovementKeyb : MonoBehaviour
     public static bool isRunning = false;
     public float maxMovementSpeed = 10f;
 
+    public float idleTime = 0f;
+
+    private static Animator animator;
+
     private Vector3 direction;
 
-    //ease in lerping
+    //ease in lerping movement
     private float lerpTime = 1f;
     private float currentLerpTime;
 
     public float currentMovementSpeed;
 
-    private static Animator animator;
+    public float rotationLerpSpeed = 0.1f;
+    private float targetAngle = 0f, currentAngle = 0f;
 
     private void Start()
     {
@@ -28,22 +33,27 @@ public class PlayerMovementKeyb : MonoBehaviour
 
         if (Input.GetButtonDown("Jump"))
         {
-            animator.SetTrigger("isJumping");
+            animator.SetTrigger("isJumping"); 
+            RotateTowardsMouse.shouldRotate = false;
         }
 
         if (direction.Equals(Vector3.zero))     //or isn't shooting
         {
             isRunning = false;
-            animator.SetBool("isRunning", false); 
+            animator.SetBool("isRunning", false);
+            RotateTowardsMouse.shouldRotate = false;
             currentLerpTime = 0f;
             currentMovementSpeed = 0f;
         }
         else
         {
             isRunning = true;
+            RotateTowardsMouse.shouldRotate = true;
             animator.SetBool("isRunning", true);
+            
+            //PLAYER MOVEMENT
 
-            #region ease in lerping
+            #region ease in lerping movement
             //increment timer once per frame
             currentLerpTime += Time.deltaTime * maxMovementSpeed;
             if (currentLerpTime > lerpTime)
@@ -56,7 +66,28 @@ public class PlayerMovementKeyb : MonoBehaviour
             currentMovementSpeed = Mathf.Lerp(currentMovementSpeed, maxMovementSpeed, currentLerpTime);
             #endregion
 
-            transform.Translate(direction * Time.deltaTime * currentMovementSpeed, Space.Self);
+            //figure this out, this might be key for implementing run fwd and run bckward.
+            //okay so most probably you need to make rotations to the player based on the MainCamera's transform
+            //so
+            transform.Translate(direction * Time.deltaTime * currentMovementSpeed, Space.World);
+
+            //PLAYER ROTATION
+
+            targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
+
+            currentAngle = Mathf.LerpAngle(transform.eulerAngles.y, targetAngle, rotationLerpSpeed);
+
+            transform.rotation = Quaternion.AngleAxis(currentAngle, Vector3.up);
         }
+    }
+
+    private float CoterminalAngle(float angle)
+    {
+        if (angle < 0)
+            return (angle + 360f);
+        else if (angle >= 180)
+            return (angle - 360f);
+
+        return angle;
     }
 }
