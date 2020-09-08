@@ -7,7 +7,9 @@ public class PlayerMovementKeyb : MonoBehaviour
     public static bool isRunning = false;
     public float maxMovementSpeed = 10f;
 
-    public float idleTime = 0f;
+    //idle mgmt, to enable rotating towards camera
+    public float maxIdleTime = 0f;
+    private float currentIdleTime = 0f;
 
     private static Animator animator;
 
@@ -24,7 +26,7 @@ public class PlayerMovementKeyb : MonoBehaviour
 
     private void Start()
     {
-        animator = GetComponent<Animator>();
+        animator = GetComponentInChildren<Animator>();
     }
 
     private void Update()
@@ -41,7 +43,6 @@ public class PlayerMovementKeyb : MonoBehaviour
         {
             isRunning = false;
             animator.SetBool("isRunning", false);
-            RotateTowardsMouse.shouldRotate = false;
             currentLerpTime = 0f;
             currentMovementSpeed = 0f;
         }
@@ -50,7 +51,20 @@ public class PlayerMovementKeyb : MonoBehaviour
             isRunning = true;
             RotateTowardsMouse.shouldRotate = true;
             animator.SetBool("isRunning", true);
-            
+            animator.SetFloat("valX", Input.GetAxis("Horizontal"));
+            animator.SetFloat("valZ", Input.GetAxis("Vertical"));
+
+            //PLAYER ROTATION
+            /*
+            targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
+
+            if (targetAngle == 180f || targetAngle == -180f)
+                targetAngle = 0f;
+
+            currentAngle = Mathf.LerpAngle(transform.eulerAngles.y, targetAngle, rotationLerpSpeed);
+
+            transform.rotation = Quaternion.AngleAxis(currentAngle, transform.up);*/
+
             //PLAYER MOVEMENT
 
             #region ease in lerping movement
@@ -69,25 +83,8 @@ public class PlayerMovementKeyb : MonoBehaviour
             //figure this out, this might be key for implementing run fwd and run bckward.
             //okay so most probably you need to make rotations to the player based on the MainCamera's transform
             //so
-            transform.Translate(direction * Time.deltaTime * currentMovementSpeed, Space.World);
 
-            //PLAYER ROTATION
-
-            targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
-
-            currentAngle = Mathf.LerpAngle(transform.eulerAngles.y, targetAngle, rotationLerpSpeed);
-
-            transform.rotation = Quaternion.AngleAxis(currentAngle, Vector3.up);
+            transform.Translate(direction * Time.deltaTime * currentMovementSpeed, Space.Self);
         }
-    }
-
-    private float CoterminalAngle(float angle)
-    {
-        if (angle < 0)
-            return (angle + 360f);
-        else if (angle >= 180)
-            return (angle - 360f);
-
-        return angle;
     }
 }

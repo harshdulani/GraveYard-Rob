@@ -32,7 +32,7 @@ public class PlayerMovement : MonoBehaviour
             isMoving = false;
             if (!GameObject.FindGameObjectWithTag("Enemy"))
             {
-                currentAngle = Mathf.Lerp(currentAngle, 0, LerpToSnapSpeed);
+                currentAngle = Mathf.LerpAngle(currentAngle, 0, LerpToSnapSpeed);
 
                 transform.eulerAngles = Vector3.up * currentAngle;
             }
