@@ -11,7 +11,6 @@ public class MovementInput : MonoBehaviour
     public bool blockRotationPlayer;    
     public float speed;
     public float allowPlayerRotationSpeed;
-    public bool isGrounded;
 
     public float inputX, inputZ;
     private float tempRotateAngle;
@@ -34,13 +33,17 @@ public class MovementInput : MonoBehaviour
     {
         InputMagnitude();
 
-        isGrounded = controller.isGrounded;
-
-        if(!isGrounded)
+        if(!controller.isGrounded)
         {
             verticalVelocity -= 2f;
             moveVector = Vector3.up * verticalVelocity;
             controller.Move(moveVector);
+        }
+
+        if (Input.GetButtonDown("Jump"))
+        {
+            animator.SetTrigger("startJump");
+            print("set jumper");
         }
     }
 
@@ -52,22 +55,18 @@ public class MovementInput : MonoBehaviour
         forward.y = 0f;
         right.y = 0f;
 
-        //forward.Normalize();
-        //right.Normalize();
+        forward.Normalize();
+        right.Normalize();
 
         desiredMovementDirection = forward * inputZ * movementSpeed + right * inputX * movementSpeed;
 
         if(!blockRotationPlayer)
         {
             if(!desiredMovementDirection.Equals(Vector3.zero))
-            //transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(desiredMovementDirection), rotationSlerpSpeed);
-            {
-                tempRotateAngle = Mathf.LerpAngle(transform.eulerAngles.y, Quaternion.LookRotation(desiredMovementDirection).eulerAngles.y, rotationSlerpSpeed);
-
-                transform.rotation = Quaternion.AngleAxis(tempRotateAngle, Vector3.up);
-            }
+                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(desiredMovementDirection), rotationSlerpSpeed);
         }
         controller.SimpleMove(desiredMovementDirection);
+        animator.SetBool("isMoving", true);
     }
 
     private void InputMagnitude()
@@ -83,9 +82,14 @@ public class MovementInput : MonoBehaviour
         speed = new Vector2(inputX, inputZ).sqrMagnitude;
 
         animator.SetFloat("inputMagnitude", speed);
-        if (speed >= allowPlayerRotationSpeed)
+
+        if (speed > allowPlayerRotationSpeed)
         {
             PlayerMoveAndRotate();
+        }
+        else
+        {
+            animator.SetBool("isMoving", false);
         }
     }
 }
