@@ -13,8 +13,6 @@ public class MovementInput : MonoBehaviour
 
     //jumping
     public float jumpSpeed = 7.5f;
-    public float fallMultiplier = 2.5f;
-    public float jumpMultiplier = 2f;
     public bool doJump = false;
 
     private float speed;
@@ -25,13 +23,11 @@ public class MovementInput : MonoBehaviour
 
     //components
     private Camera cam;
-    private Rigidbody rb;
     private static Animator animator;
     private CharacterController controller;
 
     private void Start()
     {
-        rb = GetComponent<Rigidbody>();
         controller = GetComponent<CharacterController>();
         cam = Camera.main;
         animator = GetComponent<Animator>();
@@ -44,8 +40,9 @@ public class MovementInput : MonoBehaviour
             animator.SetTrigger("startJump");
             doJump = true;
         }
-        /*if (!controller.isGrounded)
+        /*else if (!controller.isGrounded)
         {
+            //create a variable to check if a jump has landed and only then ground it
             verticalVelocity -= 2f;
             moveVector = Vector3.up * verticalVelocity;
             controller.Move(moveVector);
@@ -69,7 +66,8 @@ public class MovementInput : MonoBehaviour
         if(doJump)
         {
             //lava mein it used verlocity, so try velocity
-            desiredMovementDirection += (transform.up * jumpSpeed);
+            desiredMovementDirection += (Vector3.up * jumpSpeed);
+            print(desiredMovementDirection);
             doJump = false;
         }
 
@@ -78,7 +76,11 @@ public class MovementInput : MonoBehaviour
             if(!desiredMovementDirection.Equals(Vector3.zero))
                 transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(desiredMovementDirection), rotationSlerpSpeed);
         }
-        controller.SimpleMove(desiredMovementDirection);
+
+        if (desiredMovementDirection.y >= jumpSpeed)
+            desiredMovementDirection.y = -desiredMovementDirection.y;
+
+        controller.Move(desiredMovementDirection);
         animator.SetBool("isMoving", true);
     }
 
