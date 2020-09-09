@@ -9,21 +9,29 @@ public class MovementInput : MonoBehaviour
 
     public Vector3 desiredMovementDirection;
     public bool blockRotationPlayer;    
-    public float speed;
     public float allowPlayerRotationSpeed;
 
-    public float inputX, inputZ;
-    private float tempRotateAngle;
+    //jumping
+    public float jumpSpeed = 7.5f;
+    public float fallMultiplier = 2.5f;
+    public float jumpMultiplier = 2f;
+    public bool doJump = false;
+
+    private float speed;
+    private float inputX, inputZ;
     private float verticalVelocity;
     private Vector3 moveVector;
     private Vector3 forward, right;
 
+    //components
     private Camera cam;
+    private Rigidbody rb;
     private static Animator animator;
     private CharacterController controller;
 
     private void Start()
     {
+        rb = GetComponent<Rigidbody>();
         controller = GetComponent<CharacterController>();
         cam = Camera.main;
         animator = GetComponent<Animator>();
@@ -31,20 +39,18 @@ public class MovementInput : MonoBehaviour
 
     private void Update()
     {
-        InputMagnitude();
-
-        if(!controller.isGrounded)
+        if (Input.GetButtonDown("Jump"))
+        {
+            animator.SetTrigger("startJump");
+            doJump = true;
+        }
+        /*if (!controller.isGrounded)
         {
             verticalVelocity -= 2f;
             moveVector = Vector3.up * verticalVelocity;
             controller.Move(moveVector);
-        }
-
-        if (Input.GetButtonDown("Jump"))
-        {
-            animator.SetTrigger("startJump");
-            print("set jumper");
-        }
+        }*/
+        InputMagnitude();
     }
 
     private void PlayerMoveAndRotate()
@@ -59,6 +65,13 @@ public class MovementInput : MonoBehaviour
         right.Normalize();
 
         desiredMovementDirection = forward * inputZ * movementSpeed + right * inputX * movementSpeed;
+
+        if(doJump)
+        {
+            //lava mein it used verlocity, so try velocity
+            desiredMovementDirection += (transform.up * jumpSpeed);
+            doJump = false;
+        }
 
         if(!blockRotationPlayer)
         {
@@ -76,8 +89,8 @@ public class MovementInput : MonoBehaviour
 
         //sending input values to animator
         //the third value is damping, set for blending on keyboards
-        animator.SetFloat("valX", inputX, 0.0f, Time.deltaTime * 2f);
-        animator.SetFloat("valZ", inputZ, 0.0f, Time.deltaTime * 2f);
+        animator.SetFloat("valX", inputX, 0.1f, Time.deltaTime * 2f);
+        animator.SetFloat("valZ", inputZ, 0.1f, Time.deltaTime * 2f);
 
         speed = new Vector2(inputX, inputZ).sqrMagnitude;
 

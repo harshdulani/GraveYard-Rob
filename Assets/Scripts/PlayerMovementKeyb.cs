@@ -7,10 +7,6 @@ public class PlayerMovementKeyb : MonoBehaviour
     public static bool isRunning = false;
     public float maxMovementSpeed = 10f;
 
-    //idle mgmt, to enable rotating towards camera
-    public float maxIdleTime = 0f;
-    private float currentIdleTime = 0f;
-
     private static Animator animator;
 
     private Vector3 direction;
@@ -22,7 +18,6 @@ public class PlayerMovementKeyb : MonoBehaviour
     public float currentMovementSpeed;
 
     public float rotationLerpSpeed = 0.1f;
-    private float targetAngle = 0f, currentAngle = 0f;
 
     private void Start()
     {

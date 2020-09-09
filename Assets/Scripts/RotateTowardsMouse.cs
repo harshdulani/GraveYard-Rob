@@ -6,10 +6,6 @@ public class RotateTowardsMouse : MonoBehaviour
 {
     public Transform target;
 
-    //ease in lerping
-    private float lerpTime = 1f;
-    private float currentLerpTime;
-
     public float easeInSpeed = 0.05f;
     public static bool shouldRotate = true;
 
