@@ -65,6 +65,7 @@ public class MovementInput : MonoBehaviour
 
         desiredMovementDirection = forward * inputZ * movementSpeed + right * inputX * movementSpeed;
 
+        //okay i think jumping is still using height of baked animation
         if(doJump)
         {
             //lava mein it used verlocity, so try velocity

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Cinemachine;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -15,9 +16,14 @@ public class TargetingPlayer : MonoBehaviour
     private float angle;
 
     //enemy target selection
-    public bool DEBUG_ENEMY_FIND = false;
+    public bool DEBUG_ENEMY_FIND_NAMES = false;
+    public bool DEBUG_ENEMY_FIND_STATUS = false;
     private GameObject[] enemyTargets;
     private float minDistance, currentDistance;
+
+    //cinemachine
+    public CinemachineTargetGroup targetCameraHelper;
+    public float enemyRadius = 1f, enemyWeight = 1f;
 
     private void Start()
     {
@@ -32,7 +38,8 @@ public class TargetingPlayer : MonoBehaviour
             yield return new WaitForSeconds(waitForTime);
             if(!PlayerMovement.isMoving)
                 if (!FindTarget())
-                    print("Find Target failure for player.");
+                    if(DEBUG_ENEMY_FIND_STATUS)
+                        print("Find Target failure for player.");
         }
     }
 
@@ -45,11 +52,14 @@ public class TargetingPlayer : MonoBehaviour
         if (noOfTargets == 1)
         {
             target = GameObject.FindGameObjectWithTag(targetTag).transform;
-            print("found 1 target named " + target.name);
+            if (DEBUG_ENEMY_FIND_STATUS)
+                print("found 1 target named " + target.name);
         }
         else if (noOfTargets == 0)
         {
-            print("No targets found for " + gameObject.name);
+            target = null; 
+            if (DEBUG_ENEMY_FIND_STATUS)
+                print("No targets found for " + gameObject.name);
             return false;
         }
         else if (noOfTargets > 1)
@@ -62,8 +72,8 @@ public class TargetingPlayer : MonoBehaviour
 
             try
             {
-                //add a flag so that it doesnt check unless the position is changed
-                //or no, xerox copy karne ka zarurat naiye
+                //add a flag so that it doesnt check unless movement is not triggered
+                //or no, xerox copy karne ka zarurat naiye archero ka
                 foreach (var enemy in enemyTargets)
                 {
                     //this is distance between two points, removed sqrt from formula because increased time complex and sometimes give NaN
@@ -71,7 +81,7 @@ public class TargetingPlayer : MonoBehaviour
                         (enemy.transform.position.x - transform.position.x)* (enemy.transform.position.x - transform.position.x) 
                         + (enemy.transform.position.z - transform.position.z)* (enemy.transform.position.z - transform.position.z);
 
-                    if (DEBUG_ENEMY_FIND)
+                    if (DEBUG_ENEMY_FIND_NAMES)
                         print("current enemy = " + enemy.name + ", distance = " + currentDistance);
                     if (minDistance > currentDistance)
                     {
@@ -79,7 +89,7 @@ public class TargetingPlayer : MonoBehaviour
                         target = enemy.transform;
                     }
                 }
-                if (DEBUG_ENEMY_FIND)
+                if (DEBUG_ENEMY_FIND_NAMES)
                     print("target = " + target.gameObject.name);
             }
             catch
@@ -88,10 +98,35 @@ public class TargetingPlayer : MonoBehaviour
             }
         }
 
-        direction = target.position - transform.position;
-        angle = (Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg);
-        transform.rotation = Quaternion.AngleAxis(angle, Vector3.up);
+        if(targetCameraHelper.m_Targets.Length == 1)
+        {
+            targetCameraHelper.AddMember(target, enemyWeight, enemyRadius);
+        }
+        else if(targetCameraHelper.m_Targets.Length == 2)
+        {
+            if (!targetCameraHelper.m_Targets[1].target.Equals(target))
+            {
+                targetCameraHelper.RemoveMember(targetCameraHelper.m_Targets[1].target);
+                targetCameraHelper.AddMember(target, enemyWeight, enemyRadius);
+            }
+        }
 
         return true;
+    }
+
+    // filhaal keep this as a notification of the enemy BY THE ENEMY that is called at enemy birth
+    // later change it to gamecontroller notifying
+    public void BirthNotify(EnemyShooting enemy)
+    {
+        enemy.destructionEvent += OnEnemyDeath;
+        print("subscribed to " + enemy.gameObject.name);
+    }
+
+    private void OnEnemyDeath(Transform enemyTransform)
+    {
+        print(enemyTransform.gameObject.name + " just died");
+        targetCameraHelper.RemoveMember(enemyTransform);
+        enemyTransform.GetComponent<EnemyShooting>().destructionEvent -= OnEnemyDeath;
+        print("unsubscribed to " + enemyTransform.gameObject.name);
     }
 }
