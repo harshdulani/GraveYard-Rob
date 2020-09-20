@@ -11,14 +11,15 @@ public class MovementInput : MonoBehaviour
     public bool blockRotationPlayer;    
     public float allowPlayerRotationSpeed;
 
+    //grounding
+    public bool isGrounded;
+
     //jumping
     public float jumpSpeed = 7.5f;
     public bool doJump = false;
 
     private float speed;
     private float inputX, inputZ;
-    private float verticalVelocity;
-    private Vector3 moveVector;
     private Vector3 forward, right;
 
     //components
@@ -40,6 +41,7 @@ public class MovementInput : MonoBehaviour
             animator.SetTrigger("startJump");
             doJump = true;
         }
+        isGrounded = controller.isGrounded;
         /*else if (!controller.isGrounded)
         {
             //create a variable to check if a jump has landed and only then ground it
@@ -80,7 +82,8 @@ public class MovementInput : MonoBehaviour
         if (desiredMovementDirection.y >= jumpSpeed)
             desiredMovementDirection.y = -desiredMovementDirection.y;
 
-        controller.Move(desiredMovementDirection);
+        //not using delta time made the movement speed dependent on screen size (small screen high fps)
+        controller.Move(desiredMovementDirection * Time.deltaTime);
         animator.SetBool("isMoving", true);
     }
 
