@@ -19,6 +19,8 @@ public class PlayerMovementKeyb : MonoBehaviour
 
     public float rotationLerpSpeed = 0.1f;
 
+    private float targetAngle, currentAngle;
+
     private void Start()
     {
         animator = GetComponentInChildren<Animator>();
@@ -30,14 +32,14 @@ public class PlayerMovementKeyb : MonoBehaviour
 
         if (Input.GetButtonDown("Jump"))
         {
-            animator.SetTrigger("isJumping"); 
+            animator.SetTrigger("startJump"); 
             RotateTowardsMouse.shouldRotate = false;
         }
 
         if (direction.Equals(Vector3.zero))     //or isn't shooting
         {
             isRunning = false;
-            animator.SetBool("isRunning", false);
+            animator.SetBool("isMoving", false);
             currentLerpTime = 0f;
             currentMovementSpeed = 0f;
         }
@@ -45,20 +47,21 @@ public class PlayerMovementKeyb : MonoBehaviour
         {
             isRunning = true;
             RotateTowardsMouse.shouldRotate = true;
-            animator.SetBool("isRunning", true);
+            animator.SetBool("isMoving", true);
             animator.SetFloat("valX", Input.GetAxis("Horizontal"));
             animator.SetFloat("valZ", Input.GetAxis("Vertical"));
 
-            //PLAYER ROTATION
-            /*
-            targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
+            var speed = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")).sqrMagnitude;
 
-            if (targetAngle == 180f || targetAngle == -180f)
-                targetAngle = 0f;
+            animator.SetFloat("inputMagnitude", speed);
+
+            //PLAYER ROTATION
+
+            targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
 
             currentAngle = Mathf.LerpAngle(transform.eulerAngles.y, targetAngle, rotationLerpSpeed);
 
-            transform.rotation = Quaternion.AngleAxis(currentAngle, transform.up);*/
+            transform.rotation = Quaternion.AngleAxis(currentAngle, transform.up);
 
             //PLAYER MOVEMENT
 
@@ -79,7 +82,7 @@ public class PlayerMovementKeyb : MonoBehaviour
             //okay so most probably you need to make rotations to the player based on the MainCamera's transform
             //so
 
-            transform.Translate(direction * Time.deltaTime * currentMovementSpeed, Space.Self);
+            GetComponent<CharacterController>().Move(direction * Time.deltaTime * currentMovementSpeed);
         }
     }
 }
