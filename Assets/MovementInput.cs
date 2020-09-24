@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class MovementInput : MonoBehaviour
 {
-    public bool dontLookBack;
     public float movementSpeed;
     public float rotationSlerpSpeed;
 
@@ -13,13 +12,13 @@ public class MovementInput : MonoBehaviour
     public bool blockRotationPlayer;    
     public float allowPlayerRotationSpeed;
 
-    //grounding
-    public bool isGrounded;
-    public float verticalVelocity;
-
     //jumping
     public float jumpSpeed = 7.5f;
     public bool doJump = false;
+
+    //grounding
+    public bool isGrounded;
+    private bool jumpDone = false;
 
     private float speed;
     private float inputX, inputZ;
@@ -66,33 +65,34 @@ public class MovementInput : MonoBehaviour
             if (!desiredMovementDirection.Equals(Vector3.zero))
             {
                 transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(desiredMovementDirection), rotationSlerpSpeed);
-            }
+                animator.SetBool("isMoving", true);
+            }                
         }
 
-        //okay i think jumping is still using height of baked animation
         if (doJump)
         {
-            //lava mein it used verlocity, so try velocity
             desiredMovementDirection += (Vector3.up * jumpSpeed);
             print(desiredMovementDirection);
             doJump = false;
+            jumpDone = true;
         }
-        else
+
+        if(jumpDone)
         {
-            //create a variable to check if a jump has landed and only then ground it
             if (!isGrounded)
             {
-                verticalVelocity = controller.velocity.y - 0.5f;
-                desiredMovementDirection += Vector3.up * verticalVelocity;
+                if (desiredMovementDirection.y >= 0.5f)
+                    desiredMovementDirection.y = -desiredMovementDirection.y;
+            }
+            else
+            {
+                jumpDone = false;
             }
         }
 
-        if (desiredMovementDirection.y >= jumpSpeed)
-            desiredMovementDirection.y = -desiredMovementDirection.y;        
 
         //not using delta time made the movement speed dependent on screen size (small screen high fps)
         controller.Move(desiredMovementDirection * Time.deltaTime);
-        animator.SetBool("isMoving", true);
     }
 
     private void InputMagnitude()

@@ -4,9 +4,7 @@ using UnityEngine;
 
 public class PlayerMovementKeyb : MonoBehaviour
 {
-    public bool dontLookBack;
     public static bool isRunning = false;
-    public float maxMovementSpeed = 10f;
 
     private static Animator animator;
 
@@ -14,10 +12,9 @@ public class PlayerMovementKeyb : MonoBehaviour
     private Vector3 direction;
 
     //ease in lerping movement
-    public float currentMovementSpeed;
+    public float currentMovementSpeed, desiredMovementSpeed;
 
-    private float lerpTime = 1f;
-    private float currentLerpTime;
+    private float lerpTime = 0.1f;
 
     //lerping of rotation
     public float rotationLerpSpeed = 0.1f;
@@ -33,7 +30,7 @@ public class PlayerMovementKeyb : MonoBehaviour
     {
         inputX = Input.GetAxis("Horizontal");
         inputZ = Input.GetAxis("Vertical");
-        direction = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
+        direction = new Vector3(inputX, 0f, inputZ);
 
         if (Input.GetButtonDown("Jump"))
         {
@@ -45,7 +42,6 @@ public class PlayerMovementKeyb : MonoBehaviour
         {
             isRunning = false;
             animator.SetBool("isMoving", false);
-            currentLerpTime = 0f;
             currentMovementSpeed = 0f;
         }
         else
@@ -54,19 +50,11 @@ public class PlayerMovementKeyb : MonoBehaviour
             RotateTowardsMouse.shouldRotate = true;
             animator.SetBool("isMoving", true);
             animator.SetFloat("valX", inputX);
-            animator.SetFloat("valZ", inputZ);
-
-            var speed = new Vector2(inputX, inputZ).sqrMagnitude;
-
-            animator.SetFloat("inputMagnitude", speed);
+            animator.SetFloat("valZ", inputZ);            
 
             //PLAYER ROTATION
 
             targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
-
-            if(dontLookBack)
-                if (inputZ < 0f)
-                    targetAngle = 0f;
 
             currentAngle = Mathf.LerpAngle(transform.eulerAngles.y, targetAngle, rotationLerpSpeed);
 
@@ -74,22 +62,11 @@ public class PlayerMovementKeyb : MonoBehaviour
 
             //PLAYER MOVEMENT
 
-            #region ease in lerping movement
-            //increment timer once per frame
-            currentLerpTime += Time.deltaTime * maxMovementSpeed;
-            if (currentLerpTime > lerpTime)
-            {
-                currentLerpTime = lerpTime;
-            }
+            desiredMovementSpeed = new Vector2(inputX, inputZ).sqrMagnitude;
 
-            currentLerpTime = 1f - Mathf.Cos(currentLerpTime * Mathf.PI * 0.5f);
-
-            currentMovementSpeed = Mathf.Lerp(currentMovementSpeed, maxMovementSpeed, currentLerpTime);
-            #endregion
-
-            //figure this out, this might be key for implementing run fwd and run bckward.
-            //okay so most probably you need to make rotations to the player based on the MainCamera's transform
-            //so
+            currentMovementSpeed = Mathf.Lerp(currentMovementSpeed, desiredMovementSpeed, lerpTime);
+            //idk what this does
+            animator.SetFloat("inputMagnitude", desiredMovementSpeed);
 
             GetComponent<CharacterController>().Move(direction * Time.deltaTime * currentMovementSpeed);
         }
