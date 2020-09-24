@@ -6,25 +6,6 @@
       "source": "builtin",
       "dependencies": {}
     },
-    "com.unity.animation.rigging": {
-      "version": "0.3.4-preview",
-      "depth": 0,
-      "source": "registry",
-      "dependencies": {
-        "com.unity.burst": "1.2.0-preview.12",
-        "com.unity.test-framework": "1.0.7"
-      },
-      "url": "https://packages.unity.com"
-    },
-    "com.unity.burst": {
-      "version": "1.2.0-preview.12",
-      "depth": 1,
-      "source": "registry",
-      "dependencies": {
-        "com.unity.mathematics": "1.1.0"
-      },
-      "url": "https://packages.unity.com"
-    },
     "com.unity.cinemachine": {
       "version": "2.6.1",
       "depth": 0,
@@ -69,13 +50,6 @@
       "dependencies": {},
       "url": "https://packages.unity.com"
     },
-    "com.unity.mathematics": {
-      "version": "1.1.0",
-      "depth": 2,
-      "source": "registry",
-      "dependencies": {},
-      "url": "https://packages.unity.com"
-    },
     "com.unity.test-framework": {
       "version": "1.1.16",
       "depth": 0,
@@ -84,15 +58,6 @@
         "com.unity.ext.nunit": "1.0.0",
         "com.unity.modules.imgui": "1.0.0",
         "com.unity.modules.jsonserialize": "1.0.0"
-      },
-      "url": "https://packages.unity.com"
-    },
-    "com.unity.textmeshpro": {
-      "version": "3.0.1",
-      "depth": 0,
-      "source": "registry",
-      "dependencies": {
-        "com.unity.ugui": "1.0.0"
       },
       "url": "https://packages.unity.com"
     },

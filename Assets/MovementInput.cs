@@ -4,15 +4,18 @@ using UnityEngine;
 
 public class MovementInput : MonoBehaviour
 {
+    public bool dontLookBack;
     public float movementSpeed;
     public float rotationSlerpSpeed;
 
+    //rotation
     public Vector3 desiredMovementDirection;
     public bool blockRotationPlayer;    
     public float allowPlayerRotationSpeed;
 
     //grounding
     public bool isGrounded;
+    public float verticalVelocity;
 
     //jumping
     public float jumpSpeed = 7.5f;
@@ -36,19 +39,12 @@ public class MovementInput : MonoBehaviour
 
     private void Update()
     {
+        isGrounded = controller.isGrounded;
         if (Input.GetButtonDown("Jump"))
         {
             animator.SetTrigger("startJump");
             doJump = true;
         }
-        isGrounded = controller.isGrounded;
-        /*else if (!controller.isGrounded)
-        {
-            //create a variable to check if a jump has landed and only then ground it
-            verticalVelocity -= 2f;
-            moveVector = Vector3.up * verticalVelocity;
-            controller.Move(moveVector);
-        }*/
         InputMagnitude();
     }
 
@@ -65,23 +61,34 @@ public class MovementInput : MonoBehaviour
 
         desiredMovementDirection = forward * inputZ * movementSpeed + right * inputX * movementSpeed;
 
+        if (!blockRotationPlayer)
+        {
+            if (!desiredMovementDirection.Equals(Vector3.zero))
+            {
+                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(desiredMovementDirection), rotationSlerpSpeed);
+            }
+        }
+
         //okay i think jumping is still using height of baked animation
-        if(doJump)
+        if (doJump)
         {
             //lava mein it used verlocity, so try velocity
             desiredMovementDirection += (Vector3.up * jumpSpeed);
             print(desiredMovementDirection);
             doJump = false;
         }
-
-        if(!blockRotationPlayer)
+        else
         {
-            if(!desiredMovementDirection.Equals(Vector3.zero))
-                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(desiredMovementDirection), rotationSlerpSpeed);
+            //create a variable to check if a jump has landed and only then ground it
+            if (!isGrounded)
+            {
+                verticalVelocity = controller.velocity.y - 0.5f;
+                desiredMovementDirection += Vector3.up * verticalVelocity;
+            }
         }
 
         if (desiredMovementDirection.y >= jumpSpeed)
-            desiredMovementDirection.y = -desiredMovementDirection.y;
+            desiredMovementDirection.y = -desiredMovementDirection.y;        
 
         //not using delta time made the movement speed dependent on screen size (small screen high fps)
         controller.Move(desiredMovementDirection * Time.deltaTime);

@@ -4,19 +4,22 @@ using UnityEngine;
 
 public class PlayerMovementKeyb : MonoBehaviour
 {
+    public bool dontLookBack;
     public static bool isRunning = false;
     public float maxMovementSpeed = 10f;
 
     private static Animator animator;
 
+    private float inputX, inputZ;
     private Vector3 direction;
 
     //ease in lerping movement
+    public float currentMovementSpeed;
+
     private float lerpTime = 1f;
     private float currentLerpTime;
 
-    public float currentMovementSpeed;
-
+    //lerping of rotation
     public float rotationLerpSpeed = 0.1f;
 
     private float targetAngle, currentAngle;
@@ -28,6 +31,8 @@ public class PlayerMovementKeyb : MonoBehaviour
 
     private void Update()
     {
+        inputX = Input.GetAxis("Horizontal");
+        inputZ = Input.GetAxis("Vertical");
         direction = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
 
         if (Input.GetButtonDown("Jump"))
@@ -48,16 +53,20 @@ public class PlayerMovementKeyb : MonoBehaviour
             isRunning = true;
             RotateTowardsMouse.shouldRotate = true;
             animator.SetBool("isMoving", true);
-            animator.SetFloat("valX", Input.GetAxis("Horizontal"));
-            animator.SetFloat("valZ", Input.GetAxis("Vertical"));
+            animator.SetFloat("valX", inputX);
+            animator.SetFloat("valZ", inputZ);
 
-            var speed = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")).sqrMagnitude;
+            var speed = new Vector2(inputX, inputZ).sqrMagnitude;
 
             animator.SetFloat("inputMagnitude", speed);
 
             //PLAYER ROTATION
 
             targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
+
+            if(dontLookBack)
+                if (inputZ < 0f)
+                    targetAngle = 0f;
 
             currentAngle = Mathf.LerpAngle(transform.eulerAngles.y, targetAngle, rotationLerpSpeed);
 
