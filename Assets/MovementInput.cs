@@ -72,7 +72,6 @@ public class MovementInput : MonoBehaviour
         if (doJump)
         {
             desiredMovementDirection += (Vector3.up * jumpSpeed);
-            print(desiredMovementDirection);
             doJump = false;
             jumpDone = true;
         }
