@@ -5,6 +5,7 @@ using UnityEngine;
 public class MovementInput : MonoBehaviour
 {
     public float movementSpeed;
+    public bool isWalking = true;
     public float rotationSlerpSpeed;
 
     //rotation
@@ -44,7 +45,42 @@ public class MovementInput : MonoBehaviour
             animator.SetTrigger("startJump");
             doJump = true;
         }
+        if(Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            isWalking = !isWalking;
+        }
         InputMagnitude();
+    }
+
+    private void InputMagnitude()
+    {
+        inputX = Input.GetAxis("Horizontal");
+        inputZ = Input.GetAxis("Vertical");
+        
+        speed = new Vector2(inputX, inputZ).sqrMagnitude;
+
+        if (isWalking)
+        {
+            speed = Mathf.Clamp(speed, -0.5f, 0.5f);
+            inputX = Mathf.Clamp(inputX, -0.5f, 0.5f);
+        }
+
+
+        //sending input values to animator
+        //the third value is damping, set for blending on keyboards
+        animator.SetFloat("valX", inputX, 0.1f, Time.deltaTime * 2f);
+        animator.SetFloat("valZ", inputZ, 0.1f, Time.deltaTime * 2f);
+
+        animator.SetFloat("inputMagnitude", speed);
+
+        if (speed > allowPlayerRotationSpeed)
+        {
+            PlayerMoveAndRotate();
+        }
+        else
+        {
+            animator.SetBool("isMoving", false);
+        }
     }
 
     private void PlayerMoveAndRotate()
@@ -92,29 +128,5 @@ public class MovementInput : MonoBehaviour
 
         //not using delta time made the movement speed dependent on screen size (small screen high fps)
         controller.Move(desiredMovementDirection * Time.deltaTime);
-    }
-
-    private void InputMagnitude()
-    {
-        inputX = Input.GetAxis("Horizontal");
-        inputZ = Input.GetAxis("Vertical");
-
-        //sending input values to animator
-        //the third value is damping, set for blending on keyboards
-        animator.SetFloat("valX", inputX, 0.1f, Time.deltaTime * 2f);
-        animator.SetFloat("valZ", inputZ, 0.1f, Time.deltaTime * 2f);
-
-        speed = new Vector2(inputX, inputZ).sqrMagnitude;
-
-        animator.SetFloat("inputMagnitude", speed);
-
-        if (speed > allowPlayerRotationSpeed)
-        {
-            PlayerMoveAndRotate();
-        }
-        else
-        {
-            animator.SetBool("isMoving", false);
-        }
     }
 }
