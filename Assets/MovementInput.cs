@@ -25,16 +25,25 @@ public class MovementInput : MonoBehaviour
     private float inputX, inputZ;
     private Vector3 forward, right;
 
-    //components
+    //animator hashes for performance++
+    private int speedHash, valXHash, valZHash, isMovingHash, startJumpHash;
+
+    //componentss
     private Camera cam;
     private static Animator animator;
-    private CharacterController controller;
+    private CharacterController controller;    
 
     private void Start()
     {
         controller = GetComponent<CharacterController>();
         cam = Camera.main;
         animator = GetComponent<Animator>();
+
+        speedHash = Animator.StringToHash("inputMagnitude");
+        valXHash = Animator.StringToHash("valX");
+        valZHash = Animator.StringToHash("valZ");
+        isMovingHash = Animator.StringToHash("isMoving");
+        startJumpHash = Animator.StringToHash("startJump");
     }
 
     private void Update()
@@ -42,13 +51,15 @@ public class MovementInput : MonoBehaviour
         isGrounded = controller.isGrounded;
         if (Input.GetButtonDown("Jump"))
         {
-            animator.SetTrigger("startJump");
+            animator.SetTrigger(startJumpHash);
             doJump = true;
         }
-        if(Input.GetKeyDown(KeyCode.LeftShift))
+        if (Input.GetKey(KeyCode.LeftShift))
         {
-            isWalking = !isWalking;
+            isWalking = true;
         }
+        else
+            isWalking = false;
         InputMagnitude();
     }
 
@@ -62,16 +73,15 @@ public class MovementInput : MonoBehaviour
         if (isWalking)
         {
             speed = Mathf.Clamp(speed, -0.5f, 0.5f);
-            inputX = Mathf.Clamp(inputX, -0.5f, 0.5f);
+            inputX = Mathf.Clamp(inputX, -0.75f, 0.75f);
         }
-
 
         //sending input values to animator
         //the third value is damping, set for blending on keyboards
-        animator.SetFloat("valX", inputX, 0.1f, Time.deltaTime * 2f);
-        animator.SetFloat("valZ", inputZ, 0.1f, Time.deltaTime * 2f);
+        animator.SetFloat(valXHash, inputX, 0.1f, Time.deltaTime * 2f);
+        animator.SetFloat(valZHash, inputZ, 0.1f, Time.deltaTime * 2f);
 
-        animator.SetFloat("inputMagnitude", speed);
+        animator.SetFloat(speedHash, speed);
 
         if (speed > allowPlayerRotationSpeed)
         {
@@ -79,7 +89,7 @@ public class MovementInput : MonoBehaviour
         }
         else
         {
-            animator.SetBool("isMoving", false);
+            animator.SetBool(isMovingHash, false);
         }
     }
 
@@ -96,12 +106,15 @@ public class MovementInput : MonoBehaviour
 
         desiredMovementDirection = forward * inputZ * movementSpeed + right * inputX * movementSpeed;
 
+        if (isWalking)
+            desiredMovementDirection *= 0.15f;
+
         if (!blockRotationPlayer)
         {
             if (!desiredMovementDirection.Equals(Vector3.zero))
             {
                 transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(desiredMovementDirection), rotationSlerpSpeed);
-                animator.SetBool("isMoving", true);
+                animator.SetBool(isMovingHash, true);
             }                
         }
 

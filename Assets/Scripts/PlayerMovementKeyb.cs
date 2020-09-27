@@ -11,6 +11,9 @@ public class PlayerMovementKeyb : MonoBehaviour
     private float inputX, inputZ;
     private Vector3 direction;
 
+    //animator hashes for performance++
+    private int speedHash, valXHash, valZHash, isMovingHash, startJumpHash;
+
     //ease in lerping movement
     public float currentMovementSpeed, desiredMovementSpeed;
 
@@ -24,6 +27,11 @@ public class PlayerMovementKeyb : MonoBehaviour
     private void Start()
     {
         animator = GetComponentInChildren<Animator>();
+        speedHash = Animator.StringToHash("inputMagnitude");
+        valXHash = Animator.StringToHash("valX");
+        valZHash = Animator.StringToHash("valZ");
+        isMovingHash = Animator.StringToHash("isMoving");
+        startJumpHash = Animator.StringToHash("startJump");
     }
 
     private void Update()
@@ -34,23 +42,23 @@ public class PlayerMovementKeyb : MonoBehaviour
 
         if (Input.GetButtonDown("Jump"))
         {
-            animator.SetTrigger("startJump"); 
+            animator.SetTrigger(startJumpHash); 
             RotateTowardsMouse.shouldRotate = false;
         }
 
         if (direction.Equals(Vector3.zero))     //or isn't shooting
         {
             isRunning = false;
-            animator.SetBool("isMoving", false);
+            animator.SetBool(isMovingHash, false);
             currentMovementSpeed = 0f;
         }
         else
         {
             isRunning = true;
             RotateTowardsMouse.shouldRotate = true;
-            animator.SetBool("isMoving", true);
-            animator.SetFloat("valX", inputX);
-            animator.SetFloat("valZ", inputZ);            
+            animator.SetBool(isMovingHash, true);
+            animator.SetFloat(valXHash, inputX);
+            animator.SetFloat(valZHash, inputZ);            
 
             //PLAYER ROTATION
 
@@ -66,7 +74,7 @@ public class PlayerMovementKeyb : MonoBehaviour
 
             currentMovementSpeed = Mathf.Lerp(currentMovementSpeed, desiredMovementSpeed, lerpTime);
             //idk what this does
-            animator.SetFloat("inputMagnitude", desiredMovementSpeed);
+            animator.SetFloat(speedHash, desiredMovementSpeed);
 
             GetComponent<CharacterController>().Move(direction * Time.deltaTime * currentMovementSpeed);
         }
