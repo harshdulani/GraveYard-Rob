@@ -10,8 +10,10 @@ public class MovementInput : MonoBehaviour
 
     //rotation
     public Vector3 desiredMovementDirection;
-    public bool blockRotationPlayer;    
+    public bool blockPlayerRotation;    
     public float allowPlayerRotationSpeed;
+
+    private float currentAngle, targetAngle;
 
     //jumping
     public float jumpSpeed = 7.5f;
@@ -31,7 +33,7 @@ public class MovementInput : MonoBehaviour
     //componentss
     private Camera cam;
     private static Animator animator;
-    private CharacterController controller;    
+    private CharacterController controller;
 
     private void Start()
     {
@@ -49,18 +51,24 @@ public class MovementInput : MonoBehaviour
     private void Update()
     {
         isGrounded = controller.isGrounded;
-        if (Input.GetButtonDown("Jump"))
-        {
-            animator.SetTrigger(startJumpHash);
-            doJump = true;
-        }
-        if (Input.GetKey(KeyCode.LeftShift))
-        {
-            isWalking = true;
-        }
+
+        if (blockPlayerRotation)
+            Rotator();
         else
-            isWalking = false;
-        InputMagnitude();
+        {
+            if (Input.GetButtonDown("Jump"))
+            {
+                animator.SetTrigger(startJumpHash);
+                doJump = true;
+            }
+            if (Input.GetKey(KeyCode.LeftShift))
+            {
+                isWalking = true;
+            }
+            else
+                isWalking = false;
+            InputMagnitude();
+        }
     }
 
     private void InputMagnitude()
@@ -109,13 +117,11 @@ public class MovementInput : MonoBehaviour
         if (isWalking)
             desiredMovementDirection *= 0.15f;
 
-        if (!blockRotationPlayer)
+
+        if (!desiredMovementDirection.Equals(Vector3.zero))
         {
-            if (!desiredMovementDirection.Equals(Vector3.zero))
-            {
-                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(desiredMovementDirection), rotationSlerpSpeed);
-                animator.SetBool(isMovingHash, true);
-            }                
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(desiredMovementDirection), rotationSlerpSpeed);
+            animator.SetBool(isMovingHash, true);
         }
 
         if (doJump)
@@ -138,8 +144,16 @@ public class MovementInput : MonoBehaviour
             }
         }
 
-
-        //not using delta time made the movement speed dependent on screen size (small screen high fps)
+        //not using delta time made the movement speed dependent on screen size (easy render high fps)
         controller.Move(desiredMovementDirection * Time.deltaTime);
+    }
+
+    private void Rotator()
+    {
+        desiredMovementDirection = transform.position - cam.transform.position;
+
+        desiredMovementDirection.y = 0f;
+
+        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(desiredMovementDirection), rotationSlerpSpeed * 2f);
     }
 }
