@@ -12,6 +12,8 @@ public class PlayerCombat : MonoBehaviour
     private bool rotatingToPosition = false;
     private Vector3 desiredMovementDirection;
 
+    private int attack1Hash;
+
     private Animator anim;
     private MovementInput movementInput;
     private Camera cam;
@@ -21,6 +23,8 @@ public class PlayerCombat : MonoBehaviour
         anim = GetComponent<Animator>();
         movementInput = GetComponent<MovementInput>();
         cam = Camera.main;
+
+        attack1Hash = Animator.StringToHash("attack1");
     }
 
     private void Update()
@@ -35,9 +39,7 @@ public class PlayerCombat : MonoBehaviour
                 foreach (var hit in Physics.RaycastAll(ray))
                 {
                     position = hit.point;
-                    print(hit.point);
-                }
-                
+                }                
 
                 //refactor this to hashid
                 anim.SetTrigger("attack1");
