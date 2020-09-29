@@ -10,10 +10,8 @@ public class MovementInput : MonoBehaviour
 
     //rotation
     public Vector3 desiredMovementDirection;
-    public bool blockPlayerRotation;    
+    public bool playerHasControl = true;    
     public float allowPlayerRotationSpeed;
-
-    private float currentAngle, targetAngle;
 
     //jumping
     public float jumpSpeed = 7.5f;
@@ -52,10 +50,8 @@ public class MovementInput : MonoBehaviour
     {
         isGrounded = controller.isGrounded;
 
-        if (blockPlayerRotation)
-            Rotator();
-        else
-        {
+        if(playerHasControl)
+        { 
             if (Input.GetButtonDown("Jump"))
             {
                 animator.SetTrigger(startJumpHash);
@@ -146,14 +142,5 @@ public class MovementInput : MonoBehaviour
 
         //not using delta time made the movement speed dependent on screen size (easy render high fps)
         controller.Move(desiredMovementDirection * Time.deltaTime);
-    }
-
-    private void Rotator()
-    {
-        desiredMovementDirection = transform.position - cam.transform.position;
-
-        desiredMovementDirection.y = 0f;
-
-        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(desiredMovementDirection), rotationSlerpSpeed * 2f);
     }
 }
