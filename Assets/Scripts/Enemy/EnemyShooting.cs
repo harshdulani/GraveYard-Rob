@@ -21,7 +21,7 @@ public class EnemyShooting : MonoBehaviour
     {
         StartCoroutine("ShootYourShot");
         //should go in gamecontroller
-        FindObjectOfType<TargetingPlayer>().BirthNotify(this);
+        //FindObjectOfType<TargetingPlayer>().BirthNotify(this);
     }
 
     private IEnumerator ShootYourShot()

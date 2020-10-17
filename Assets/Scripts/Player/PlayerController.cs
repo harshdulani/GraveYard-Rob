@@ -40,18 +40,18 @@ public class PlayerController : MonoBehaviour
         healthText.text = playerStats.playerHealth.ToString();
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnControllerColliderHit(ControllerColliderHit hit)
     {
-        if(collision.gameObject.CompareTag("Projectile"))
+        if(hit.gameObject.CompareTag("Projectile"))
         {
-            DecreaseHealth(collision.gameObject.GetComponent<ProjectileController>().projectileDamage);
-            print("projectile hit w " + collision.gameObject.name);
-            Destroy(collision.gameObject);
+            DecreaseHealth(hit.gameObject.GetComponent<ProjectileController>().projectileDamage);
+            print("projectile hit w " + hit.gameObject.name);
+            Destroy(hit.gameObject);
         }
-        if(collision.gameObject.CompareTag("Enemy"))
+        if(hit.gameObject.CompareTag("Enemy"))
         {
-            print("enemy hit w " + collision.gameObject.name);
-            DecreaseHealth(collision.gameObject.GetComponent<EnemyShooting>().bumpDamage);
+            //print("enemy hit w " + hit.gameObject.name);
+            //DecreaseHealth(hit.gameObject.GetComponent<EnemyShooting>().bumpDamage);
         }
     }
 }

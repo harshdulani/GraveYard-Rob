@@ -37,9 +37,7 @@ public class PlayerCombat : MonoBehaviour
                 ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
                 foreach (var hit in Physics.RaycastAll(ray))
-                {
-                    position = hit.point;
-                }                
+                    position = hit.point;  
 
                 //refactor this to hashid
                 anim.SetTrigger("attack1");
