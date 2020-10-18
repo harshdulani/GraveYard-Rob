@@ -40,7 +40,7 @@ public class PlayerCombat : MonoBehaviour
                     position = hit.point;  
 
                 //refactor this to hashid
-                anim.SetTrigger("attack1");
+                anim.SetTrigger(attack1Hash);
 
                 //definitely replace this with on animation end
                 StartCoroutine("WaitBeforeAttackingAgain");
