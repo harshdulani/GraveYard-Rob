@@ -8,13 +8,13 @@ public class PlayerWeaponController : MonoBehaviour
 
     public float waitBeforeAttackTime = 0.75f;
 
-    public bool isGivingHit = false;
+    public bool shouldGiveHit = false;
 
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Enemy"))
         {
-            if (isGivingHit)
+            if (shouldGiveHit)
             {
                 Vector3 playerForward = FindObjectOfType<MovementInput>().transform.TransformDirection(Vector3.forward);
                 Vector3 toOther = collision.transform.position - FindObjectOfType<MovementInput>().transform.position;

@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 6888245333165635328}
   - component: {fileID: 8593107777360383562}
   - component: {fileID: 5072570368432368350}
+  - component: {fileID: 5274678436480655249}
+  - component: {fileID: 1821030887761222899}
   m_Layer: 0
   m_Name: Sword classic hoplite
   m_TagString: Untagged
@@ -83,3 +85,31 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &5274678436480655249
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2387428820506010683}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.11297271, y: 0.9955618, z: 0.054777537}
+  m_Center: {x: -0.00019220942, y: -0.40158722, z: -0.0000011277037}
+--- !u!114 &1821030887761222899
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2387428820506010683}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc3b3d07df12ea344974268aff3e2113, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damagePoints: 100
+  waitBeforeAttackTime: 0.75
+  isGivingHit: 0

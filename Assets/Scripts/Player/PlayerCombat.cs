@@ -42,8 +42,13 @@ public class PlayerCombat : MonoBehaviour
                 //refactor this to hashid
                 anim.SetTrigger(attack1Hash);
 
+                isAttacking = true;
+                GetComponentInChildren<PlayerWeaponController>().shouldGiveHit = true;
+                movementInput.playerHasControl = false;
+                rotatingToPosition = true;
+
                 //definitely replace this with on animation end
-                StartCoroutine("WaitBeforeAttackingAgain");
+                StartCoroutine("WaitBeforeAllowingAttack");
             }
         }
         
@@ -53,17 +58,12 @@ public class PlayerCombat : MonoBehaviour
         }
     }
 
-    private IEnumerator WaitBeforeAttackingAgain()
+    private IEnumerator WaitBeforeAllowingAttack()
     {
-        isAttacking = true;
-        GetComponentInChildren<PlayerWeaponController>().isGivingHit = true;
-        movementInput.playerHasControl = false;
-        rotatingToPosition = true;
-
         yield return new WaitForSeconds(waitBeforeAttacking);
 
         isAttacking = false;
-        GetComponentInChildren<PlayerWeaponController>().isGivingHit = false;
+        GetComponentInChildren<PlayerWeaponController>().shouldGiveHit = false;
         movementInput.playerHasControl = true; 
         rotatingToPosition = false;
         position = Vector3.zero;

@@ -140,6 +140,14 @@ public class MovementInput : MonoBehaviour
             }
         }
 
+        if (!isGrounded)
+        {
+            if (transform.position.y >= 0.15f)
+                desiredMovementDirection.y = -transform.position.y * 2f;
+        }
+
+
+
         //not using delta time made the movement speed dependent on screen size (easy render high fps)
         controller.Move(desiredMovementDirection * Time.deltaTime);
     }
