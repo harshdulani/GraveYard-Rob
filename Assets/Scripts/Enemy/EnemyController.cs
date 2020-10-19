@@ -10,26 +10,40 @@ public class EnemyController : MonoBehaviour
     public float waitBeforeAttackTime = 0.5f;
     public float waitBeforeRecievingAttackTime = 0.5f;
 
+    private static int shouldMeleeHash, deathHash, isMovingHash, hitRecievedHash;
+
     private Animator anim;
     private EnemyStats enemyStats;
-    private Quaternion originalHealthBarRotation;
+    private Quaternion originalCanvasRotation;
+    private Canvas canvas;
 
     private void Awake()
     {
-        originalHealthBarRotation = healthBar.transform.rotation;
+        canvas = healthBar.GetComponentInParent<Canvas>();
+        canvas.worldCamera = Camera.main;
+        originalCanvasRotation = canvas.transform.rotation;
     }
 
     private void Start()
     {
-        anim = GetComponent<Animator>();
         enemyStats = GetComponent<EnemyStats>();
+        anim = GetComponent<Animator>();
         UpdateHealthBar();
+
+        if (shouldMeleeHash == 0)
+        {
+            //if one is zero all must be, check here if you have changed a name of a parameter
+            shouldMeleeHash = Animator.StringToHash("shouldMelee");
+            deathHash = Animator.StringToHash("death");
+            isMovingHash = Animator.StringToHash("isMoving");
+            hitRecievedHash = Animator.StringToHash("hitRecieved");
+        }
     }
 
     private void LateUpdate()
     {
-        //so that healthbar always looks at camera
-        healthBar.transform.rotation = originalHealthBarRotation;
+        //so that healthbar canvas always looks at camera
+        canvas.transform.rotation = originalCanvasRotation;
     }
 
     public void DecreaseHealth(int amt)
@@ -40,9 +54,10 @@ public class EnemyController : MonoBehaviour
         {
             //die
             print("Enemy Killed.");
-            Debug.Break();
             EnemyDeath();
         }
+        else
+            StartCoroutine("HitRecieved");
     }
 
     private void UpdateHealthBar()
@@ -52,31 +67,32 @@ public class EnemyController : MonoBehaviour
 
     private void EnemyDeath()
     {
-        anim.ResetTrigger("hitRecieved");
-        anim.ResetTrigger("shouldMelee");
+        anim.ResetTrigger(shouldMeleeHash);
+
         GetComponent<EnemyFollow>().StopAllCoroutines();
         GetComponent<TargetingEnemy>().StopAllCoroutines();
 
-        anim.SetTrigger("death");
+        //destroying and not just disabling this because enabling it didnt stop it from following player
+        Destroy(GetComponent<EnemyFollow>());
+        GetComponent<TargetingEnemy>().enabled = false;
+
+        //so that no more collisions are detected
+        GetComponent<CapsuleCollider>().enabled = false;
+
+        StopAllCoroutines();
+
+        anim.SetTrigger(deathHash);
+
         //reflect in UI
         //consider passing message about enemy death and unsubscribe from enemy
         Destroy(gameObject, 3f);
-    }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("PlayerWeapon"))
-        {
-            //DecreaseHealth(collision.gameObject.GetComponent<PlayerWeaponController>().damagePoints);
-            StartCoroutine("HitRecieved");
-        }
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            anim.SetBool("isMoving", false);
+            anim.SetBool(isMovingHash, false);
             StartCoroutine("OnAttackMelee");            
         }
     }
@@ -91,17 +107,18 @@ public class EnemyController : MonoBehaviour
 
     private IEnumerator OnAttackMelee()
     {
+        yield return new WaitForSeconds(waitBeforeAttackTime / 1.5f);
         while (true)
         {
+            anim.SetTrigger(shouldMeleeHash); 
+            FindObjectOfType<PlayerController>().DecreaseHealth(enemyStats.bumpDamage);
             yield return new WaitForSeconds(waitBeforeAttackTime);
-            anim.SetTrigger("shouldMelee"); 
-            FindObjectOfType<PlayerController>().DecreaseHealth(enemyStats.bumpDamage);            
         }
     }
 
     private IEnumerator HitRecieved()
     {
-        anim.SetTrigger("hitRecieved");
+        anim.SetTrigger(hitRecievedHash);
         yield return new WaitForSeconds(waitBeforeRecievingAttackTime);
     }
 }

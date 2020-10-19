@@ -12,10 +12,12 @@ public class EnemyFollow : MonoBehaviour
     private Transform target;
     private NavMeshAgent agent;
     private Vector3 targetPosOld;
+    private Animator anim;
 
     private void Start()
     {
         agent = GetComponent<NavMeshAgent>();
+        anim = GetComponent<Animator>();
 
         target = GameObject.FindGameObjectWithTag("Player").transform;
 
@@ -44,7 +46,7 @@ public class EnemyFollow : MonoBehaviour
         if(other.gameObject.CompareTag("Player"))
         {
             agent.isStopped = true;
-            GetComponent<Animator>().SetBool("isMoving", false);
+            anim.SetBool("isMoving", false);
             GetComponent<TargetingEnemy>().shouldLookAtTarget = true;
         }
     }
@@ -54,7 +56,7 @@ public class EnemyFollow : MonoBehaviour
         if (other.gameObject.CompareTag("Player"))
         {
             agent.isStopped = false;
-            GetComponent<Animator>().SetBool("isMoving", true);
+            anim.SetBool("isMoving", true);
             GetComponent<TargetingEnemy>().shouldLookAtTarget = false;
         }
     }

@@ -8,7 +8,7 @@ public class EnemyStats : MonoBehaviour
     public int bumpDamage = 50;
     public int enemyHealth;
 
-    private void Start()
+    private void Awake()
     {
         enemyHealth = maxHealth;
     }

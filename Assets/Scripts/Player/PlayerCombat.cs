@@ -56,12 +56,14 @@ public class PlayerCombat : MonoBehaviour
     private IEnumerator WaitBeforeAttackingAgain()
     {
         isAttacking = true;
+        GetComponentInChildren<PlayerWeaponController>().isGivingHit = true;
         movementInput.playerHasControl = false;
         rotatingToPosition = true;
 
         yield return new WaitForSeconds(waitBeforeAttacking);
 
         isAttacking = false;
+        GetComponentInChildren<PlayerWeaponController>().isGivingHit = false;
         movementInput.playerHasControl = true; 
         rotatingToPosition = false;
         position = Vector3.zero;
