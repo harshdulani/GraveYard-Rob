@@ -12,14 +12,20 @@ public class PlayerCombat : MonoBehaviour
     private bool rotatingToPosition = false;
     private Vector3 desiredMovementDirection;
 
+    public bool allowedToDig;
+
     private int attack1Hash;
 
     private Animator anim;
     private MovementInput movementInput;
     private Camera cam;
 
+    private static readonly int ShouldDig = Animator.StringToHash("shouldDig");
+    private PlayerWeaponController _playerWeaponController;
+
     private void Start()
     {
+        _playerWeaponController = GetComponentInChildren<PlayerWeaponController>();
         anim = GetComponent<Animator>();
         movementInput = GetComponent<MovementInput>();
         cam = Camera.main;
@@ -33,22 +39,29 @@ public class PlayerCombat : MonoBehaviour
         {
             if (Input.GetButtonDown("Fire1"))
             {
-                // Reset ray with new mouse position
-                ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                if (allowedToDig)
+                {
+                    StartCoroutine(StartDigging());
+                }
+                else
+                {
+                    // Reset ray with new mouse position
+                    ray = cam.ScreenPointToRay(Input.mousePosition);
 
-                foreach (var hit in Physics.RaycastAll(ray))
-                    position = hit.point;  
+                    foreach (var hit in Physics.RaycastAll(ray))
+                        position = hit.point;  
 
-                //refactor this to hashid
-                anim.SetTrigger(attack1Hash);
+                    //refactor this to hashid
+                    anim.SetTrigger(attack1Hash);
 
-                isAttacking = true;
-                GetComponentInChildren<PlayerWeaponController>().shouldGiveHit = true;
-                movementInput.playerHasControl = false;
-                rotatingToPosition = true;
+                    isAttacking = true;
+                    GetComponentInChildren<PlayerWeaponController>().shouldGiveHit = true;
+                    movementInput.TakeAwayMovementControlFor(waitBeforeAttacking);
+                    rotatingToPosition = true;
 
-                //definitely replace this with on animation end
-                StartCoroutine("WaitBeforeAllowingAttack");
+                    //definitely replace this with on animation end
+                    StartCoroutine(WaitBeforeAllowingAttack());
+                }
             }
         }
         
@@ -57,19 +70,27 @@ public class PlayerCombat : MonoBehaviour
             Rotate(position);
         }
     }
+    
+    private IEnumerator StartDigging()
+    {
+        anim.SetTrigger(ShouldDig);
+        movementInput.TakeAwayMovementControlFor(3f);
+        isAttacking = true;
+        yield return new WaitForSeconds(3f);
+        isAttacking = false;
+    }
 
     private IEnumerator WaitBeforeAllowingAttack()
     {
         yield return new WaitForSeconds(waitBeforeAttacking);
 
         isAttacking = false;
-        GetComponentInChildren<PlayerWeaponController>().shouldGiveHit = false;
-        movementInput.playerHasControl = true; 
+        _playerWeaponController.shouldGiveHit = false;
         rotatingToPosition = false;
         position = Vector3.zero;
     }
 
-    public void Rotate(Vector3 position)
+    private void Rotate(Vector3 position)
     {
         //if using skyrim camera, send v3.zero instead of your camera position
         if (position.Equals(Vector3.zero))

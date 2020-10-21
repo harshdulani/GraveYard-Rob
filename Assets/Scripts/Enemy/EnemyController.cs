@@ -85,7 +85,7 @@ public class EnemyController : MonoBehaviour
 
         //reflect in UI
         //consider passing message about enemy death and unsubscribe from enemy
-        Destroy(gameObject, 3f);
+        Destroy(gameObject, 1.5f);
     }
 
     private void OnTriggerEnter(Collider other)

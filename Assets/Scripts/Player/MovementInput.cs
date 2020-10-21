@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class MovementInput : MonoBehaviour
@@ -51,7 +52,7 @@ public class MovementInput : MonoBehaviour
         isGrounded = controller.isGrounded;
 
         if(playerHasControl)
-        { 
+        {
             if (Input.GetButtonDown("Jump"))
             {
                 animator.SetTrigger(startJumpHash);
@@ -108,7 +109,7 @@ public class MovementInput : MonoBehaviour
         forward.Normalize();
         right.Normalize();
 
-        desiredMovementDirection = forward * inputZ * movementSpeed + right * inputX * movementSpeed;
+        desiredMovementDirection = forward * (inputZ * movementSpeed) + right * (inputX * movementSpeed);
 
         if (isWalking)
             desiredMovementDirection *= 0.15f;
@@ -146,9 +147,23 @@ public class MovementInput : MonoBehaviour
                 desiredMovementDirection.y = -transform.position.y * 2f;
         }
 
-
-
         //not using delta time made the movement speed dependent on screen size (easy render high fps)
         controller.Move(desiredMovementDirection * Time.deltaTime);
+    }
+
+    public void TakeAwayMovementControlFor(float seconds)
+    {
+        playerHasControl = false;
+        print("suspended player control");
+        desiredMovementDirection = Vector3.zero;
+        animator.SetFloat(speedHash, 0f);
+        StartCoroutine(TakingAwayControl(seconds));
+    }
+
+    private IEnumerator TakingAwayControl(float seconds)
+    {
+        yield return new WaitForSeconds(seconds);
+
+        playerHasControl = true;
     }
 }

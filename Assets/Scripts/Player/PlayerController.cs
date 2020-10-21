@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,7 +8,7 @@ public class PlayerController : MonoBehaviour
 {
     public Image healthBar;
     public Text healthText;
-
+    
     private PlayerStats playerStats;
 
     private void Start()
@@ -47,11 +48,6 @@ public class PlayerController : MonoBehaviour
             DecreaseHealth(hit.gameObject.GetComponent<ProjectileController>().projectileDamage);
             print("projectile hit w " + hit.gameObject.name);
             Destroy(hit.gameObject);
-        }
-        if(hit.gameObject.CompareTag("Enemy"))
-        {
-            //print("enemy hit w " + hit.gameObject.name);
-            //DecreaseHealth(hit.gameObject.GetComponent<EnemyShooting>().bumpDamage);
         }
     }
 }
