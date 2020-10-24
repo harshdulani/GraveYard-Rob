@@ -1,9 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class PlayerCombat : MonoBehaviour
 {
+    [Header("Melee Combat")]
     public float waitBeforeAttacking = 0.75f;
     public bool isAttacking = false;
 
@@ -12,6 +14,8 @@ public class PlayerCombat : MonoBehaviour
     private bool rotatingToPosition = false;
     private Vector3 desiredMovementDirection;
 
+    [Header("Digging Grave")]
+    public int digPoints = 100;
     public bool allowedToDig;
 
     private int attack1Hash;
@@ -22,9 +26,11 @@ public class PlayerCombat : MonoBehaviour
 
     private static readonly int ShouldDig = Animator.StringToHash("shouldDig");
     private PlayerWeaponController _playerWeaponController;
+    private TargetAreaController _targetAreaController;
 
     private void Start()
     {
+        _targetAreaController = GameObject.FindGameObjectWithTag("Target").GetComponent<TargetAreaController>();
         _playerWeaponController = GetComponentInChildren<PlayerWeaponController>();
         anim = GetComponent<Animator>();
         movementInput = GetComponent<MovementInput>();
@@ -74,9 +80,12 @@ public class PlayerCombat : MonoBehaviour
     private IEnumerator StartDigging()
     {
         anim.SetTrigger(ShouldDig);
-        movementInput.TakeAwayMovementControlFor(3f);
+        movementInput.TakeAwayMovementControlFor(2.75f);
+
+        _targetAreaController.TargetGiveHit(digPoints);
+        
         isAttacking = true;
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(2.75f);
         isAttacking = false;
     }
 

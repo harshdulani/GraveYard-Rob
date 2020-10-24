@@ -154,7 +154,6 @@ public class MovementInput : MonoBehaviour
     public void TakeAwayMovementControlFor(float seconds)
     {
         playerHasControl = false;
-        print("suspended player control");
         desiredMovementDirection = Vector3.zero;
         animator.SetFloat(speedHash, 0f);
         StartCoroutine(TakingAwayControl(seconds));
