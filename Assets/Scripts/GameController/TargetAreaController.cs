@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class TargetAreaController : MonoBehaviour
@@ -20,53 +21,58 @@ public class TargetAreaController : MonoBehaviour
 
     [SerializeField]
     private Image healthBarLeft, healthBarRight;
-    public int maxHealth;
+    public int digsHitsRequired;
 
-    private int _currentHealth;
-    private float lerpDelta;
+    private int _digHitsRemaining;
+    private float _delta;
 
     private void Start()
     {
-        _currentHealth = maxHealth;
+        _digHitsRemaining = digsHitsRequired;
         var position = dirtHole.position;
         position = new Vector3(position.x, dirtStartY, position.z);
         
         dirtHole.position = position;
+        _delta = Mathf.Abs(dirtEndY - dirtStartY) / digsHitsRequired;
     }
 
-    public void TargetGiveHit(int hitHealth)
+    public void TargetGiveHit()
     {
-        StartCoroutine(TargetTakeHit(hitHealth));
+        StartCoroutine(TargetTakeHit());
     }
 
-    private IEnumerator TargetTakeHit(int hitHealth)
+    private IEnumerator TargetTakeHit()
     {
-        var getToHealth = _currentHealth - hitHealth;
-        
-        if(lerpDelta == 0f)
-            lerpDelta = (_currentHealth - getToHealth) / (float) maxHealth;
-        
         yield return new WaitForSeconds(0.5f);
-        dirtHole.position = Vector3.MoveTowards(dirtHole.position, new Vector3(dirtHole.position.x, dirtEndY, dirtHole.position.z), 0.2f);
         
-        for (int i = _currentHealth; i >= getToHealth; i -= hitHealth / 10)
+        var targetPercent = (--_digHitsRemaining) / (float)(digsHitsRequired);
+        print(_digHitsRemaining);
+
+        dirtHole.position = Vector3.MoveTowards(dirtHole.position, new Vector3(dirtHole.position.x, dirtEndY, dirtHole.position.z), _delta);
+
+        for (var i = healthBarLeft.fillAmount; i >= targetPercent; i -= 0.05f)
         {
-            _currentHealth = i;
-            UpdateHealthBar();
+            UpdateHealthBar(i);
             yield return new WaitForSeconds(0.05f);
         }
+        
+        if(healthBarLeft.fillAmount <= 0f)
+            dirtHole.GetChild(0).gameObject.SetActive(true);
+        //also make sure youre not allowed to dig anymore
+        //either by some if else
+        //or destroy targetarea gameobject hence this manager
     }
     
-    private void UpdateHealthBar()
+    private void UpdateHealthBar(float amount)
     {
-        healthBarRight.fillAmount = healthBarLeft.fillAmount = (float)(_currentHealth) / (float)(maxHealth);
+        healthBarRight.fillAmount = healthBarLeft.fillAmount = amount;
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.CompareTag("Player"))
         {
-            other.GetComponent<PlayerCombat>().allowedToDig = true;
+            other.GetComponent<PlayerCombat>().AllowedToDig = true;
             //play animation for swap weapon with shovel
         }
     }
@@ -74,7 +80,7 @@ public class TargetAreaController : MonoBehaviour
     private void OnTriggerExit(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))
-            other.GetComponent<PlayerCombat>().allowedToDig = false;
+            other.GetComponent<PlayerCombat>().AllowedToDig = false;
         //play animation for swap shovel with weapon
     }
 }

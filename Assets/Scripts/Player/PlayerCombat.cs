@@ -1,11 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.Remoting.Messaging;
 using UnityEditor;
 using UnityEngine;
 
 public class PlayerCombat : MonoBehaviour
 {
-    [Header("Melee Combat")]
+    [Header("Melee Combat")] [SerializeField]
+    private GameObject weapon;
     public float waitBeforeAttacking = 0.75f;
     public bool isAttacking = false;
 
@@ -14,17 +16,31 @@ public class PlayerCombat : MonoBehaviour
     private bool rotatingToPosition = false;
     private Vector3 desiredMovementDirection;
 
-    [Header("Digging Grave")]
-    public int digPoints = 100;
-    public bool allowedToDig;
+    [Header("Digging Grave")] [SerializeField]
+    private GameObject shovel;
+    public float waitBeforeDigging = 2.5f;
 
-    private int attack1Hash;
+    private bool _allowedToDig;
+
+    public bool AllowedToDig
+    {
+        get => _allowedToDig;
+        set
+        {
+            _allowedToDig = value;
+            StartCoroutine(SwapWeapon());
+        }
+    }
+
+    private static readonly int Attack1Hash = Animator.StringToHash("attack1");
+    private static readonly int ShouldDig = Animator.StringToHash("shouldDig");
+    private static readonly int CycleWeapon = Animator.StringToHash("cycleWeapon");
 
     private Animator anim;
     private MovementInput movementInput;
     private Camera cam;
 
-    private static readonly int ShouldDig = Animator.StringToHash("shouldDig");
+    
     private PlayerWeaponController _playerWeaponController;
     private TargetAreaController _targetAreaController;
 
@@ -35,8 +51,6 @@ public class PlayerCombat : MonoBehaviour
         anim = GetComponent<Animator>();
         movementInput = GetComponent<MovementInput>();
         cam = Camera.main;
-
-        attack1Hash = Animator.StringToHash("attack1");
     }
 
     private void Update()
@@ -45,7 +59,7 @@ public class PlayerCombat : MonoBehaviour
         {
             if (Input.GetButtonDown("Fire1"))
             {
-                if (allowedToDig)
+                if (_allowedToDig)
                 {
                     StartCoroutine(StartDigging());
                 }
@@ -58,7 +72,7 @@ public class PlayerCombat : MonoBehaviour
                         position = hit.point;  
 
                     //refactor this to hashid
-                    anim.SetTrigger(attack1Hash);
+                    anim.SetTrigger(Attack1Hash);
 
                     isAttacking = true;
                     GetComponentInChildren<PlayerWeaponController>().shouldGiveHit = true;
@@ -76,16 +90,27 @@ public class PlayerCombat : MonoBehaviour
             Rotate(position);
         }
     }
+
+    private IEnumerator SwapWeapon()
+    {
+        anim.SetTrigger(CycleWeapon);
+        
+        isAttacking = true;
+        yield return new WaitForSeconds(1.5f);
+        shovel.SetActive(_allowedToDig);
+        weapon.SetActive(!_allowedToDig);
+        isAttacking = false;
+    }
     
     private IEnumerator StartDigging()
     {
         anim.SetTrigger(ShouldDig);
-        movementInput.TakeAwayMovementControlFor(2.75f);
+        movementInput.TakeAwayMovementControlFor(waitBeforeDigging);
 
-        _targetAreaController.TargetGiveHit(digPoints);
+        _targetAreaController.TargetGiveHit();
         
         isAttacking = true;
-        yield return new WaitForSeconds(2.75f);
+        yield return new WaitForSeconds(waitBeforeDigging);
         isAttacking = false;
     }
 
