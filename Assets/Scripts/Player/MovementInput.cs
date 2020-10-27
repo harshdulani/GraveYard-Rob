@@ -159,6 +159,18 @@ public class MovementInput : MonoBehaviour
         StartCoroutine(TakingAwayControl(seconds));
     }
 
+    public void TakeAwayMovementControl()
+    {
+        playerHasControl = false;
+        desiredMovementDirection = Vector3.zero;
+        animator.SetFloat(speedHash, 0f);
+    }
+    
+    public void GiveBackMovementControl()
+    {
+        playerHasControl = true;
+    }
+
     private IEnumerator TakingAwayControl(float seconds)
     {
         yield return new WaitForSeconds(seconds);

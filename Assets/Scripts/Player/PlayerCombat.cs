@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.Remoting.Messaging;
 using UnityEditor;
@@ -8,7 +9,6 @@ public class PlayerCombat : MonoBehaviour
 {
     [Header("Melee Combat")] [SerializeField]
     private GameObject weapon;
-    public float waitBeforeAttacking = 0.75f;
     public bool isAttacking = false;
 
     private Ray ray;
@@ -18,17 +18,18 @@ public class PlayerCombat : MonoBehaviour
 
     [Header("Digging Grave")] [SerializeField]
     private GameObject shovel;
-    public float waitBeforeDigging = 2.5f;
+
+    public bool isDiggingComplete;
 
     private bool _allowedToDig;
 
-    public bool AllowedToDig
+    public bool IsAllowedToDig
     {
         get => _allowedToDig;
         set
         {
             _allowedToDig = value;
-            StartCoroutine(SwapWeapon());
+            SwapWeapon();
         }
     }
 
@@ -59,28 +60,22 @@ public class PlayerCombat : MonoBehaviour
         {
             if (Input.GetButtonDown("Fire1"))
             {
-                if (_allowedToDig)
-                {
-                    StartCoroutine(StartDigging());
-                }
+                if(!isDiggingComplete)
+                    if (_allowedToDig)
+                    {
+                        StartDigging();
+                    }
                 else
                 {
                     // Reset ray with new mouse position
                     ray = cam.ScreenPointToRay(Input.mousePosition);
 
                     foreach (var hit in Physics.RaycastAll(ray))
-                        position = hit.point;  
-
-                    //refactor this to hashid
-                    anim.SetTrigger(Attack1Hash);
-
-                    isAttacking = true;
-                    GetComponentInChildren<PlayerWeaponController>().shouldGiveHit = true;
-                    movementInput.TakeAwayMovementControlFor(waitBeforeAttacking);
-                    rotatingToPosition = true;
+                        position = hit.point;
+                    
+                    StartAttack();
 
                     //definitely replace this with on animation end
-                    StartCoroutine(WaitBeforeAllowingAttack());
                 }
             }
         }
@@ -91,37 +86,53 @@ public class PlayerCombat : MonoBehaviour
         }
     }
 
-    private IEnumerator SwapWeapon()
+    private void StartAttack()
+    {
+        anim.SetTrigger(Attack1Hash);
+
+        isAttacking = true;
+        _playerWeaponController.shouldGiveHit = true;
+        movementInput.TakeAwayMovementControl();
+        rotatingToPosition = true;
+    }
+
+    public void CompleteAttack()
+    {
+        movementInput.GiveBackMovementControl();
+        
+        isAttacking = false;
+        _playerWeaponController.shouldGiveHit = false;
+        rotatingToPosition = false;
+        position = Vector3.zero;
+    }
+
+    private void SwapWeapon()
     {
         anim.SetTrigger(CycleWeapon);
-        
         isAttacking = true;
-        yield return new WaitForSeconds(1.5f);
+    }
+
+    public void CompleteWeaponSwap()
+    {
         shovel.SetActive(_allowedToDig);
         weapon.SetActive(!_allowedToDig);
         isAttacking = false;
     }
     
-    private IEnumerator StartDigging()
+    private void StartDigging()
     {
         anim.SetTrigger(ShouldDig);
-        movementInput.TakeAwayMovementControlFor(waitBeforeDigging);
-
+        movementInput.TakeAwayMovementControl();
+        
         _targetAreaController.TargetGiveHit();
         
         isAttacking = true;
-        yield return new WaitForSeconds(waitBeforeDigging);
-        isAttacking = false;
     }
 
-    private IEnumerator WaitBeforeAllowingAttack()
+    public void CompleteDigging()
     {
-        yield return new WaitForSeconds(waitBeforeAttacking);
-
+        movementInput.GiveBackMovementControl();
         isAttacking = false;
-        _playerWeaponController.shouldGiveHit = false;
-        rotatingToPosition = false;
-        position = Vector3.zero;
     }
 
     private void Rotate(Vector3 position)

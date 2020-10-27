@@ -1,4 +1,6 @@
 ﻿using System.Collections;
+using System.ComponentModel.Design;
+using System.Security.Cryptography;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
@@ -26,6 +28,8 @@ public class TargetAreaController : MonoBehaviour
     private int _digHitsRemaining;
     private float _delta;
 
+    private PlayerCombat _playerCombat;
+    
     private void Start()
     {
         _digHitsRemaining = digsHitsRequired;
@@ -34,6 +38,8 @@ public class TargetAreaController : MonoBehaviour
         
         dirtHole.position = position;
         _delta = Mathf.Abs(dirtEndY - dirtStartY) / digsHitsRequired;
+
+        _playerCombat = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerCombat>();
     }
 
     public void TargetGiveHit()
@@ -55,9 +61,15 @@ public class TargetAreaController : MonoBehaviour
             UpdateHealthBar(i);
             yield return new WaitForSeconds(0.05f);
         }
-        
-        if(healthBarLeft.fillAmount <= 0f)
-            dirtHole.GetChild(0).gameObject.SetActive(true);
+
+        if (_digHitsRemaining == 0)
+        {
+            _playerCombat.isDiggingComplete = true;
+            _playerCombat.IsAllowedToDig = false;
+            Destroy(healthBarLeft.transform.parent.parent.gameObject);
+            //change to modified grave with gold inside
+            print("initiate looting grave");
+        }
         //also make sure youre not allowed to dig anymore
         //either by some if else
         //or destroy targetarea gameobject hence this manager
@@ -70,17 +82,16 @@ public class TargetAreaController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.CompareTag("Player"))
-        {
-            other.GetComponent<PlayerCombat>().AllowedToDig = true;
-            //play animation for swap weapon with shovel
-        }
+        if (!other.gameObject.CompareTag("Player")) return;
+        if(_digHitsRemaining >= 0)
+            _playerCombat.IsAllowedToDig = true;
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.CompareTag("Player"))
-            other.GetComponent<PlayerCombat>().AllowedToDig = false;
-        //play animation for swap shovel with weapon
+        if (!other.gameObject.CompareTag("Player")) return;
+        
+        if(_playerCombat.IsAllowedToDig)
+            _playerCombat.IsAllowedToDig = false;
     }
 }
