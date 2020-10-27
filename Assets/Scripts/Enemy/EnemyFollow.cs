@@ -5,21 +5,26 @@ using UnityEngine.AI;
 
 public class EnemyFollow : MonoBehaviour
 {
-    const float pathUpdateMoveThreshold = 0.5f;
+    const float PathUpdateMoveThreshold = 0.5f;
 
     public float minPathUpdateTime = 0.2f;
 
-    private Transform target;
-    private NavMeshAgent agent;
-    private Vector3 targetPosOld;
-    private Animator anim;
+    private Transform _target;
+    private NavMeshAgent _agent;
+    private Vector3 _targetPosOld;
+    private Animator _anim;
+    private TargetingEnemy _targetingEnemy;
+    
+    
+    private static readonly int IsMoving = Animator.StringToHash("isMoving");
 
     private void Start()
     {
-        agent = GetComponent<NavMeshAgent>();
-        anim = GetComponent<Animator>();
+        _agent = GetComponent<NavMeshAgent>();
+        _anim = GetComponent<Animator>();
+        _targetingEnemy = GetComponent<TargetingEnemy>();
 
-        target = GameObject.FindGameObjectWithTag("Player").transform;
+        _target = GameObject.FindGameObjectWithTag("Player").transform;
 
         StartCoroutine("FollowMechanic");
     }
@@ -29,15 +34,15 @@ public class EnemyFollow : MonoBehaviour
         while (true)
         {            
             yield return new WaitForSeconds(minPathUpdateTime);
-            if (target && !agent.isStopped)
+            if (_target && !_agent.isStopped)
             {
-                if ((target.position - targetPosOld).sqrMagnitude > (pathUpdateMoveThreshold * pathUpdateMoveThreshold))
+                if ((_target.position - _targetPosOld).sqrMagnitude > (PathUpdateMoveThreshold * PathUpdateMoveThreshold))
                 {
-                    agent.SetDestination(target.position);
-                    GetComponent<Animator>().SetBool("isMoving", true);
+                    _agent.SetDestination(_target.position);
+                    _anim.SetBool(IsMoving, true);
                 }
             }
-            targetPosOld = target.position;
+            _targetPosOld = _target.position;
         }
     }
 
@@ -45,9 +50,10 @@ public class EnemyFollow : MonoBehaviour
     {
         if(other.gameObject.CompareTag("Player"))
         {
-            agent.isStopped = true;
-            anim.SetBool("isMoving", false);
-            GetComponent<TargetingEnemy>().shouldLookAtTarget = true;
+            _agent.isStopped = true;
+            _anim.SetBool(IsMoving, false);
+            
+            _targetingEnemy.shouldLookAtTarget = true;
         }
     }
 
@@ -55,9 +61,10 @@ public class EnemyFollow : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            agent.isStopped = false;
-            anim.SetBool("isMoving", true);
-            GetComponent<TargetingEnemy>().shouldLookAtTarget = false;
+            _agent.isStopped = false;
+            _anim.SetBool(IsMoving, true);
+            
+            _targetingEnemy.shouldLookAtTarget = false;
         }
     }
 }

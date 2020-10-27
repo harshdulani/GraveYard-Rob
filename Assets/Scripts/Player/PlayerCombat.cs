@@ -11,10 +11,10 @@ public class PlayerCombat : MonoBehaviour
     private GameObject weapon;
     public bool isAttacking = false;
 
-    private Ray ray;
-    private Vector3 position;
-    private bool rotatingToPosition = false;
-    private Vector3 desiredMovementDirection;
+    private Ray _ray;
+    private Vector3 _position;
+    private bool _rotatingToPosition = false;
+    private Vector3 _desiredMovementDirection;
 
     [Header("Digging Grave")] [SerializeField]
     private GameObject shovel;
@@ -37,9 +37,9 @@ public class PlayerCombat : MonoBehaviour
     private static readonly int ShouldDig = Animator.StringToHash("shouldDig");
     private static readonly int CycleWeapon = Animator.StringToHash("cycleWeapon");
 
-    private Animator anim;
-    private MovementInput movementInput;
-    private Camera cam;
+    private Animator _anim;
+    private MovementInput _movementInput;
+    private Camera _cam;
 
     
     private PlayerWeaponController _playerWeaponController;
@@ -49,9 +49,9 @@ public class PlayerCombat : MonoBehaviour
     {
         _targetAreaController = GameObject.FindGameObjectWithTag("Target").GetComponent<TargetAreaController>();
         _playerWeaponController = GetComponentInChildren<PlayerWeaponController>();
-        anim = GetComponent<Animator>();
-        movementInput = GetComponent<MovementInput>();
-        cam = Camera.main;
+        _anim = GetComponent<Animator>();
+        _movementInput = GetComponent<MovementInput>();
+        _cam = Camera.main;
     }
 
     private void Update()
@@ -68,10 +68,10 @@ public class PlayerCombat : MonoBehaviour
                 else
                 {
                     // Reset ray with new mouse position
-                    ray = cam.ScreenPointToRay(Input.mousePosition);
+                    _ray = _cam.ScreenPointToRay(Input.mousePosition);
 
-                    foreach (var hit in Physics.RaycastAll(ray))
-                        position = hit.point;
+                    foreach (var hit in Physics.RaycastAll(_ray))
+                        _position = hit.point;
                     
                     StartAttack();
 
@@ -80,35 +80,35 @@ public class PlayerCombat : MonoBehaviour
             }
         }
         
-        if(rotatingToPosition)
+        if(_rotatingToPosition)
         {
-            Rotate(position);
+            Rotate(_position);
         }
     }
 
     private void StartAttack()
     {
-        anim.SetTrigger(Attack1Hash);
+        _anim.SetTrigger(Attack1Hash);
 
         isAttacking = true;
         _playerWeaponController.shouldGiveHit = true;
-        movementInput.TakeAwayMovementControl();
-        rotatingToPosition = true;
+        _movementInput.TakeAwayMovementControl();
+        _rotatingToPosition = true;
     }
 
     public void CompleteAttack()
     {
-        movementInput.GiveBackMovementControl();
+        _movementInput.GiveBackMovementControl();
         
         isAttacking = false;
         _playerWeaponController.shouldGiveHit = false;
-        rotatingToPosition = false;
-        position = Vector3.zero;
+        _rotatingToPosition = false;
+        _position = Vector3.zero;
     }
 
     private void SwapWeapon()
     {
-        anim.SetTrigger(CycleWeapon);
+        _anim.SetTrigger(CycleWeapon);
         isAttacking = true;
     }
 
@@ -121,8 +121,8 @@ public class PlayerCombat : MonoBehaviour
     
     private void StartDigging()
     {
-        anim.SetTrigger(ShouldDig);
-        movementInput.TakeAwayMovementControl();
+        _anim.SetTrigger(ShouldDig);
+        _movementInput.TakeAwayMovementControl();
         
         _targetAreaController.TargetGiveHit();
         
@@ -131,7 +131,7 @@ public class PlayerCombat : MonoBehaviour
 
     public void CompleteDigging()
     {
-        movementInput.GiveBackMovementControl();
+        _movementInput.GiveBackMovementControl();
         isAttacking = false;
     }
 
@@ -139,12 +139,12 @@ public class PlayerCombat : MonoBehaviour
     {
         //if using skyrim camera, send v3.zero instead of your camera position
         if (position.Equals(Vector3.zero))
-            desiredMovementDirection = transform.position - cam.transform.position;
+            _desiredMovementDirection = transform.position - _cam.transform.position;
         else
-            desiredMovementDirection = position - transform.position;
+            _desiredMovementDirection = position - transform.position;
 
-        desiredMovementDirection.y = 0f;
+        _desiredMovementDirection.y = 0f;
 
-        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(desiredMovementDirection), 0.2f);
+        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(_desiredMovementDirection), 0.2f);
     }
 }

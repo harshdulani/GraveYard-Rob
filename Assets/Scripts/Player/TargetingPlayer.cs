@@ -9,17 +9,17 @@ public class TargetingPlayer : MonoBehaviour
     public Transform target;
     public float waitForTime = 1f;
 
-    private string targetTag;
+    private string _targetTag;
 
     //orientation calculation
-    private Vector3 direction;
-    private float angle;
+    private Vector3 _direction;
+    private float _angle;
 
     //enemy target selection
     public bool DEBUG_ENEMY_FIND_NAMES = false;
     public bool DEBUG_ENEMY_FIND_STATUS = false;
-    private GameObject[] enemyTargets;
-    private float minDistance, currentDistance;
+    private GameObject[] _enemyTargets;
+    private float _minDistance, _currentDistance;
 
     //cinemachine
     public CinemachineTargetGroup targetCameraHelper;
@@ -27,7 +27,7 @@ public class TargetingPlayer : MonoBehaviour
 
     private void Start()
     {
-        targetTag = "Enemy";
+        _targetTag = "Enemy";
         StartCoroutine("TargetingMechanic");
     }
 
@@ -36,7 +36,7 @@ public class TargetingPlayer : MonoBehaviour
         while (true)
         {
             yield return new WaitForSeconds(waitForTime);
-            if(!PlayerMovement.isMoving)
+            if(!PlayerMovement.IsMoving)
                 if (!FindTarget())
                     if(DEBUG_ENEMY_FIND_STATUS)
                         print("Find Target failure for player.");
@@ -47,11 +47,11 @@ public class TargetingPlayer : MonoBehaviour
     {
         //make this part of a GameController singleton, so that there is a count on the current enemies available,
         //so I don't have to look up the number all the times
-        var noOfTargets = GameObject.FindGameObjectsWithTag(targetTag).Length;
+        var noOfTargets = GameObject.FindGameObjectsWithTag(_targetTag).Length;
 
         if (noOfTargets == 1)
         {
-            target = GameObject.FindGameObjectWithTag(targetTag).transform;
+            target = GameObject.FindGameObjectWithTag(_targetTag).transform;
             if (DEBUG_ENEMY_FIND_STATUS)
                 print("found 1 target named " + target.name);
         }
@@ -65,27 +65,27 @@ public class TargetingPlayer : MonoBehaviour
         else if (noOfTargets > 1)
         {
             //Targeting Multiple Enemies
-            enemyTargets = GameObject.FindGameObjectsWithTag(targetTag);
+            _enemyTargets = GameObject.FindGameObjectsWithTag(_targetTag);
 
             //this has been set to an exorbitantly high value so that i dont have to check if this is zero(unset/default) everytime
-            minDistance = 10000f;
+            _minDistance = 10000f;
 
             try
             {
                 //add a flag so that it doesnt check unless movement is not triggered
                 //or no, xerox copy karne ka zarurat naiye archero ka
-                foreach (var enemy in enemyTargets)
+                foreach (var enemy in _enemyTargets)
                 {
                     //this is distance between two points, removed sqrt from formula because increased time complex and sometimes give NaN
-                    currentDistance = 
+                    _currentDistance = 
                         (enemy.transform.position.x - transform.position.x)* (enemy.transform.position.x - transform.position.x) 
                         + (enemy.transform.position.z - transform.position.z)* (enemy.transform.position.z - transform.position.z);
 
                     if (DEBUG_ENEMY_FIND_NAMES)
-                        print("current enemy = " + enemy.name + ", distance = " + currentDistance);
-                    if (minDistance > currentDistance)
+                        print("current enemy = " + enemy.name + ", distance = " + _currentDistance);
+                    if (_minDistance > _currentDistance)
                     {
-                        minDistance = currentDistance;
+                        _minDistance = _currentDistance;
                         target = enemy.transform;
                     }
                 }

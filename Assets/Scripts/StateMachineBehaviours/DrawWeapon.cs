@@ -8,7 +8,7 @@ public class DrawWeapon : StateMachineBehaviour
     private PlayerCombat _playerCombat;
     
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
-    override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         if(!_playerCombat)
             _playerCombat = animator.GetComponent<PlayerCombat>();

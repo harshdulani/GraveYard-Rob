@@ -20,42 +20,42 @@ public class MovementInput : MonoBehaviour
 
     //grounding
     public bool isGrounded;
-    private bool jumpDone = false;
+    private bool _jumpDone = false;
 
-    private float speed;
-    private float inputX, inputZ;
-    private Vector3 forward, right;
+    private float _speed;
+    private float _inputX, _inputZ;
+    private Vector3 _forward, _right;
 
     //animator hashes for performance++
-    private int speedHash, valXHash, valZHash, isMovingHash, startJumpHash;
+    private int _speedHash, _valXHash, _valZHash, _isMovingHash, _startJumpHash;
 
     //componentss
-    private Camera cam;
-    private static Animator animator;
-    private CharacterController controller;
+    private Camera _cam;
+    private static Animator _animator;
+    private CharacterController _controller;
 
     private void Start()
     {
-        controller = GetComponent<CharacterController>();
-        cam = Camera.main;
-        animator = GetComponent<Animator>();
+        _controller = GetComponent<CharacterController>();
+        _cam = Camera.main;
+        _animator = GetComponent<Animator>();
 
-        speedHash = Animator.StringToHash("inputMagnitude");
-        valXHash = Animator.StringToHash("valX");
-        valZHash = Animator.StringToHash("valZ");
-        isMovingHash = Animator.StringToHash("isMoving");
-        startJumpHash = Animator.StringToHash("startJump");
+        _speedHash = Animator.StringToHash("inputMagnitude");
+        _valXHash = Animator.StringToHash("valX");
+        _valZHash = Animator.StringToHash("valZ");
+        _isMovingHash = Animator.StringToHash("isMoving");
+        _startJumpHash = Animator.StringToHash("startJump");
     }
 
     private void Update()
     {
-        isGrounded = controller.isGrounded;
+        isGrounded = _controller.isGrounded;
 
         if(playerHasControl)
         {
             if (Input.GetButtonDown("Jump"))
             {
-                animator.SetTrigger(startJumpHash);
+                _animator.SetTrigger(_startJumpHash);
                 doJump = true;
             }
             if (Input.GetKey(KeyCode.LeftShift))
@@ -70,46 +70,46 @@ public class MovementInput : MonoBehaviour
 
     private void InputMagnitude()
     {
-        inputX = Input.GetAxis("Horizontal");
-        inputZ = Input.GetAxis("Vertical");
+        _inputX = Input.GetAxis("Horizontal");
+        _inputZ = Input.GetAxis("Vertical");
         
-        speed = new Vector2(inputX, inputZ).sqrMagnitude;
+        _speed = new Vector2(_inputX, _inputZ).sqrMagnitude;
 
         if (isWalking)
         {
-            speed = Mathf.Clamp(speed, -0.5f, 0.5f);
-            inputX = Mathf.Clamp(inputX, -0.75f, 0.75f);
+            _speed = Mathf.Clamp(_speed, -0.5f, 0.5f);
+            _inputX = Mathf.Clamp(_inputX, -0.75f, 0.75f);
         }
 
         //sending input values to animator
         //the third value is damping, set for blending on keyboards
-        animator.SetFloat(valXHash, inputX, 0.1f, Time.deltaTime * 2f);
-        animator.SetFloat(valZHash, inputZ, 0.1f, Time.deltaTime * 2f);
+        _animator.SetFloat(_valXHash, _inputX, 0.1f, Time.deltaTime * 2f);
+        _animator.SetFloat(_valZHash, _inputZ, 0.1f, Time.deltaTime * 2f);
 
-        animator.SetFloat(speedHash, speed);
+        _animator.SetFloat(_speedHash, _speed);
 
-        if (speed > allowPlayerRotationSpeed)
+        if (_speed > allowPlayerRotationSpeed)
         {
             PlayerMoveAndRotate();
         }
         else
         {
-            animator.SetBool(isMovingHash, false);
+            _animator.SetBool(_isMovingHash, false);
         }
     }
 
     private void PlayerMoveAndRotate()
     {
-        forward = cam.transform.forward;
-        right = cam.transform.right;
+        _forward = _cam.transform.forward;
+        _right = _cam.transform.right;
 
-        forward.y = 0f;
-        right.y = 0f;
+        _forward.y = 0f;
+        _right.y = 0f;
 
-        forward.Normalize();
-        right.Normalize();
+        _forward.Normalize();
+        _right.Normalize();
 
-        desiredMovementDirection = forward * (inputZ * movementSpeed) + right * (inputX * movementSpeed);
+        desiredMovementDirection = _forward * (_inputZ * movementSpeed) + _right * (_inputX * movementSpeed);
 
         if (isWalking)
             desiredMovementDirection *= 0.15f;
@@ -118,17 +118,17 @@ public class MovementInput : MonoBehaviour
         if (!desiredMovementDirection.Equals(Vector3.zero))
         {
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(desiredMovementDirection), rotationSlerpSpeed);
-            animator.SetBool(isMovingHash, true);
+            _animator.SetBool(_isMovingHash, true);
         }
 
         if (doJump)
         {
             desiredMovementDirection += (Vector3.up * jumpSpeed);
             doJump = false;
-            jumpDone = true;
+            _jumpDone = true;
         }
 
-        if(jumpDone)
+        if(_jumpDone)
         {
             if (!isGrounded)
             {
@@ -137,7 +137,7 @@ public class MovementInput : MonoBehaviour
             }
             else
             {
-                jumpDone = false;
+                _jumpDone = false;
             }
         }
 
@@ -148,14 +148,14 @@ public class MovementInput : MonoBehaviour
         }
 
         //not using delta time made the movement speed dependent on screen size (easy render high fps)
-        controller.Move(desiredMovementDirection * Time.deltaTime);
+        _controller.Move(desiredMovementDirection * Time.deltaTime);
     }
 
     public void TakeAwayMovementControlFor(float seconds)
     {
         playerHasControl = false;
         desiredMovementDirection = Vector3.zero;
-        animator.SetFloat(speedHash, 0f);
+        _animator.SetFloat(_speedHash, 0f);
         StartCoroutine(TakingAwayControl(seconds));
     }
 
@@ -163,7 +163,7 @@ public class MovementInput : MonoBehaviour
     {
         playerHasControl = false;
         desiredMovementDirection = Vector3.zero;
-        animator.SetFloat(speedHash, 0f);
+        _animator.SetFloat(_speedHash, 0f);
     }
     
     public void GiveBackMovementControl()

@@ -9,90 +9,92 @@ public class EnemyController : MonoBehaviour
 
     public float waitBeforeAttackTime = 0.5f;
     public float waitBeforeRecievingAttackTime = 0.5f;
+    
+    private static readonly int ShouldMeleeHash = Animator.StringToHash("shouldMelee");
+    private static readonly int DeathHash = Animator.StringToHash("death");
+    private static readonly int IsMovingHash = Animator.StringToHash("isMoving");
+    private static readonly int HitReceivedHash = Animator.StringToHash("hitReceived");
 
-    private static int shouldMeleeHash, deathHash, isMovingHash, hitRecievedHash;
+    private Animator _anim;
+    private EnemyStats _enemyStats;
+    private EnemyFollow _enemyFollow;
+    private TargetingEnemy _targetingEnemy;
+    
+    private Quaternion _originalCanvasRotation;
+    private Canvas _canvas;
 
-    private Animator anim;
-    private EnemyStats enemyStats;
-    private Quaternion originalCanvasRotation;
-    private Canvas canvas;
+    private PlayerController _playerController;
 
     private void Awake()
     {
-        canvas = healthBar.GetComponentInParent<Canvas>();
-        canvas.worldCamera = Camera.main;
-        originalCanvasRotation = canvas.transform.rotation;
+        _canvas = healthBar.GetComponentInParent<Canvas>();
+        _canvas.worldCamera = Camera.main;
+        _originalCanvasRotation = _canvas.transform.rotation;
     }
 
     private void Start()
     {
-        enemyStats = GetComponent<EnemyStats>();
-        anim = GetComponent<Animator>();
+        _enemyStats = GetComponent<EnemyStats>();
+        _anim = GetComponent<Animator>();
+        _playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+        _enemyFollow = GetComponent<EnemyFollow>();
+        _targetingEnemy = GetComponent<TargetingEnemy>();
+        
         UpdateHealthBar();
-
-        if (shouldMeleeHash == 0)
-        {
-            //if one is zero all must be, check here if you have changed a name of a parameter
-            shouldMeleeHash = Animator.StringToHash("shouldMelee");
-            deathHash = Animator.StringToHash("death");
-            isMovingHash = Animator.StringToHash("isMoving");
-            hitRecievedHash = Animator.StringToHash("hitRecieved");
-        }
     }
 
     private void LateUpdate()
     {
         //so that healthbar canvas always looks at camera
-        canvas.transform.rotation = originalCanvasRotation;
+        _canvas.transform.rotation = _originalCanvasRotation;
     }
 
     public void DecreaseHealth(int amt)
     {
-        enemyStats.enemyHealth -= amt;
+        _enemyStats.enemyHealth -= amt;
         UpdateHealthBar();
-        if (enemyStats.enemyHealth <= 0)
+        if (_enemyStats.enemyHealth <= 0)
         {
             //die
             print("Enemy Killed.");
             EnemyDeath();
         }
         else
-            StartCoroutine("HitRecieved");
+            StartCoroutine(nameof(HitRecieved));
     }
 
     private void UpdateHealthBar()
     {
-        healthBar.fillAmount = (float)(enemyStats.enemyHealth) / (float)(enemyStats.maxHealth);
+        healthBar.fillAmount = (float)(_enemyStats.enemyHealth) / (float)(_enemyStats.maxHealth);
     }
 
     private void EnemyDeath()
     {
-        anim.ResetTrigger(shouldMeleeHash);
-
-        GetComponent<EnemyFollow>().StopAllCoroutines();
-        GetComponent<TargetingEnemy>().StopAllCoroutines();
+        _enemyFollow.StopAllCoroutines();
+        _targetingEnemy.StopAllCoroutines();
 
         //destroying and not just disabling this because enabling it didnt stop it from following player
-        Destroy(GetComponent<EnemyFollow>());
-        GetComponent<TargetingEnemy>().enabled = false;
+        Destroy(_enemyFollow);
+        _targetingEnemy.enabled = false;
 
         //so that no more collisions are detected
         GetComponent<CapsuleCollider>().enabled = false;
 
         StopAllCoroutines();
+        _anim.ResetTrigger(ShouldMeleeHash);
 
-        anim.SetTrigger(deathHash);
+        _anim.SetTrigger(DeathHash);
 
         //reflect in UI
         //consider passing message about enemy death and unsubscribe from enemy
-        Destroy(gameObject, 1.5f);
+        Destroy(gameObject, 3f);
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            anim.SetBool(isMovingHash, false);
+            _anim.SetBool(IsMovingHash, false);
             StartCoroutine("OnAttackMelee");            
         }
     }
@@ -110,15 +112,15 @@ public class EnemyController : MonoBehaviour
         yield return new WaitForSeconds(waitBeforeAttackTime / 1.5f);
         while (true)
         {
-            anim.SetTrigger(shouldMeleeHash); 
-            FindObjectOfType<PlayerController>().DecreaseHealth(enemyStats.bumpDamage);
+            _anim.SetTrigger(ShouldMeleeHash); 
+            FindObjectOfType<PlayerController>().DecreaseHealth(_enemyStats.bumpDamage);
             yield return new WaitForSeconds(waitBeforeAttackTime);
         }
     }
 
     private IEnumerator HitRecieved()
     {
-        anim.SetTrigger(hitRecievedHash);
+        _anim.SetTrigger(HitReceivedHash);
         yield return new WaitForSeconds(waitBeforeRecievingAttackTime);
     }
 }

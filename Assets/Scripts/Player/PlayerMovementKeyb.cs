@@ -4,79 +4,79 @@ using UnityEngine;
 
 public class PlayerMovementKeyb : MonoBehaviour
 {
-    public static bool isRunning = false;
+    public static bool IsRunning = false;
 
-    private static Animator animator;
+    private static Animator _animator;
 
-    private float inputX, inputZ;
-    private Vector3 direction;
+    private float _inputX, _inputZ;
+    private Vector3 _direction;
 
     //animator hashes for performance++
-    private int speedHash, valXHash, valZHash, isMovingHash, startJumpHash;
+    private int _speedHash, _valXHash, _valZHash, _isMovingHash, _startJumpHash;
 
     //ease in lerping movement
     public float currentMovementSpeed, desiredMovementSpeed;
 
-    private float lerpTime = 0.1f;
+    private float _lerpTime = 0.1f;
 
     //lerping of rotation
     public float rotationLerpSpeed = 0.1f;
 
-    private float targetAngle, currentAngle;
+    private float _targetAngle, _currentAngle;
 
     private void Start()
     {
-        animator = GetComponentInChildren<Animator>();
-        speedHash = Animator.StringToHash("inputMagnitude");
-        valXHash = Animator.StringToHash("valX");
-        valZHash = Animator.StringToHash("valZ");
-        isMovingHash = Animator.StringToHash("isMoving");
-        startJumpHash = Animator.StringToHash("startJump");
+        _animator = GetComponentInChildren<Animator>();
+        _speedHash = Animator.StringToHash("inputMagnitude");
+        _valXHash = Animator.StringToHash("valX");
+        _valZHash = Animator.StringToHash("valZ");
+        _isMovingHash = Animator.StringToHash("isMoving");
+        _startJumpHash = Animator.StringToHash("startJump");
     }
 
     private void Update()
     {
-        inputX = Input.GetAxis("Horizontal");
-        inputZ = Input.GetAxis("Vertical");
-        direction = new Vector3(inputX, 0f, inputZ);
+        _inputX = Input.GetAxis("Horizontal");
+        _inputZ = Input.GetAxis("Vertical");
+        _direction = new Vector3(_inputX, 0f, _inputZ);
 
         if (Input.GetButtonDown("Jump"))
         {
-            animator.SetTrigger(startJumpHash); 
+            _animator.SetTrigger(_startJumpHash); 
             //RotateTowardsMouse.shouldRotate = false;
         }
 
-        if (direction.Equals(Vector3.zero))     //or isn't shooting
+        if (_direction.Equals(Vector3.zero))     //or isn't shooting
         {
-            isRunning = false;
-            animator.SetBool(isMovingHash, false);
+            IsRunning = false;
+            _animator.SetBool(_isMovingHash, false);
             currentMovementSpeed = 0f;
         }
         else
         {
-            isRunning = true;
+            IsRunning = true;
             //RotateTowardsMouse.shouldRotate = true;
-            animator.SetBool(isMovingHash, true);
-            animator.SetFloat(valXHash, inputX);
-            animator.SetFloat(valZHash, inputZ);            
+            _animator.SetBool(_isMovingHash, true);
+            _animator.SetFloat(_valXHash, _inputX);
+            _animator.SetFloat(_valZHash, _inputZ);            
 
             //PLAYER ROTATION
 
-            targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
+            _targetAngle = Mathf.Atan2(_direction.x, _direction.z) * Mathf.Rad2Deg;
 
-            currentAngle = Mathf.LerpAngle(transform.eulerAngles.y, targetAngle, rotationLerpSpeed);
+            _currentAngle = Mathf.LerpAngle(transform.eulerAngles.y, _targetAngle, rotationLerpSpeed);
 
-            transform.rotation = Quaternion.AngleAxis(currentAngle, transform.up);
+            transform.rotation = Quaternion.AngleAxis(_currentAngle, transform.up);
 
             //PLAYER MOVEMENT
 
-            desiredMovementSpeed = new Vector2(inputX, inputZ).sqrMagnitude;
+            desiredMovementSpeed = new Vector2(_inputX, _inputZ).sqrMagnitude;
 
-            currentMovementSpeed = Mathf.Lerp(currentMovementSpeed, desiredMovementSpeed, lerpTime);
+            currentMovementSpeed = Mathf.Lerp(currentMovementSpeed, desiredMovementSpeed, _lerpTime);
             //idk what this does
-            animator.SetFloat(speedHash, desiredMovementSpeed);
+            _animator.SetFloat(_speedHash, desiredMovementSpeed);
 
-            GetComponent<CharacterController>().Move(direction * Time.deltaTime * currentMovementSpeed);
+            GetComponent<CharacterController>().Move(_direction * Time.deltaTime * currentMovementSpeed);
         }
     }
 }

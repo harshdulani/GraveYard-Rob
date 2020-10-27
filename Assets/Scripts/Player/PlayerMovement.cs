@@ -2,48 +2,49 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public static bool isMoving = false;
-    private FloatingJoystick joystick;
+    public static bool IsMoving = false;
+    private FloatingJoystick _joystick;
 
     public float movementSpeed = 2f;
 
     //orientation calculation
     //player moves forward by movement speed in the Direction "direction"
-    private Vector3 direction;
-    private float currentAngle = 0f;
+    private Vector3 _direction;
+    private float _currentAngle = 0f;
 
-    public float LerpToSnapSpeed = 0.1f;
+    [FormerlySerializedAs("LerpToSnapSpeed")] public float lerpToSnapSpeed = 0.1f;
 
 
     private void Start()
     {
-        joystick = FindObjectOfType<FloatingJoystick>();
+        _joystick = FindObjectOfType<FloatingJoystick>();
     }
 
     private void Update()
     {
-        direction = new Vector3(joystick.Horizontal, 0f, joystick.Vertical);
+        _direction = new Vector3(_joystick.Horizontal, 0f, _joystick.Vertical);
 
-        if (direction.Equals(Vector3.zero)) //or isn't shooting
+        if (_direction.Equals(Vector3.zero)) //or isn't shooting
         {
-            isMoving = false;
+            IsMoving = false;
             if (!GameObject.FindGameObjectWithTag("Enemy"))
             {
-                currentAngle = Mathf.LerpAngle(currentAngle, 0, LerpToSnapSpeed);
+                _currentAngle = Mathf.LerpAngle(_currentAngle, 0, lerpToSnapSpeed);
 
-                transform.eulerAngles = Vector3.up * currentAngle;
+                transform.eulerAngles = Vector3.up * _currentAngle;
             }
         }
         else
         {
-            isMoving = true;
-            transform.Translate(direction * Time.deltaTime * movementSpeed, Space.World);
+            IsMoving = true;
+            transform.Translate(_direction * Time.deltaTime * movementSpeed, Space.World);
 
-            currentAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
-            transform.eulerAngles = Vector3.up * currentAngle;
+            _currentAngle = Mathf.Atan2(_direction.x, _direction.z) * Mathf.Rad2Deg;
+            transform.eulerAngles = Vector3.up * _currentAngle;
         }
     }
 }

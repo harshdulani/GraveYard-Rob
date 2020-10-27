@@ -15,7 +15,7 @@ public class EnemyShooting : MonoBehaviour
 
     public bool keepShooting = true;
 
-    private int c = 0;
+    private int _c = 0;
 
     private void Start()
     {
@@ -29,15 +29,15 @@ public class EnemyShooting : MonoBehaviour
         while(true)
         {
             yield return new WaitForSeconds(shotInterval);
-            if (keepShooting)
-                if (GameObject.FindGameObjectWithTag("Player") != null)
-                    ShotsFired();
+            if (!keepShooting) continue;
+            if (!(GameObject.FindGameObjectWithTag("Player")))
+                ShotsFired();
         }
     }
 
     public void ShotsFired()
     {
-        Instantiate(projectilePrefab, projectileSpawn).name = "projectile " + c++;
+        Instantiate(projectilePrefab, projectileSpawn).name = "projectile " + _c++;
     }
 
     private void OnDestroy()

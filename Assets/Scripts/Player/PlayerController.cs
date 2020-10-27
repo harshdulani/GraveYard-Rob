@@ -9,21 +9,21 @@ public class PlayerController : MonoBehaviour
     public Image healthBar;
     public Text healthText;
     
-    private PlayerStats playerStats;
+    private PlayerStats _playerStats;
 
     private void Start()
     {
-        playerStats = FindObjectOfType<PlayerStats>();
+        _playerStats = FindObjectOfType<PlayerStats>();
         UpdateHealthBar();
         UpdateHealthText();
     }
 
     public void DecreaseHealth(int amt)
     {        
-        playerStats.playerHealth -= amt;
+        _playerStats.playerHealth -= amt;
         UpdateHealthBar();
         UpdateHealthText();
-        if (playerStats.playerHealth <= 0)
+        if (_playerStats.playerHealth <= 0)
         {
             //die
             print("YOU DIED.");
@@ -33,12 +33,12 @@ public class PlayerController : MonoBehaviour
 
     private void UpdateHealthBar()
     {
-        healthBar.fillAmount = (float)(playerStats.playerHealth) / (float)(playerStats.maxHealth);
+        healthBar.fillAmount = (float)(_playerStats.playerHealth) / (float)(_playerStats.maxHealth);
     }
 
     private void UpdateHealthText()
     {
-        healthText.text = playerStats.playerHealth.ToString();
+        healthText.text = _playerStats.playerHealth.ToString();
     }
 
     private void OnControllerColliderHit(ControllerColliderHit hit)

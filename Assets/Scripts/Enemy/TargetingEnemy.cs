@@ -10,8 +10,8 @@ public class TargetingEnemy : MonoBehaviour
     public float waitForTime = 0.1f;
 
     //orientation calculation
-    private Vector3 direction;
-    private float angle;
+    private Vector3 _direction;
+    private float _angle;
 
     private void Start()
     {
@@ -25,9 +25,9 @@ public class TargetingEnemy : MonoBehaviour
         {
             if (shouldLookAtTarget)
             {
-                direction = target.position - transform.position;
-                angle = (Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg);
-                transform.rotation = Quaternion.AngleAxis(angle, Vector3.up);
+                _direction = target.position - transform.position;
+                _angle = (Mathf.Atan2(_direction.x, _direction.z) * Mathf.Rad2Deg);
+                transform.rotation = Quaternion.AngleAxis(_angle, Vector3.up);
             }
             yield return new WaitForSeconds(waitForTime);
         }
