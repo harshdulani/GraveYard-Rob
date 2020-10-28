@@ -46,22 +46,13 @@ public class LevelFlowController : MonoBehaviour
         if(_isSpawnerRunning)
             StartCoroutine(SpawnLoop());
     }
-
-    private void UpdateWaveCount(int totalWaves = 0)
-    {
-        waveCountText.text = waveCountPrefix + currentWaveCount + " / " + totalWaves;
-    }
-
-    private void UpdateEnemyCount(int totalEnemies = 0)
-    {
-        //change this to enemies killed
-        enemyCountText.text = enemyCountPrefix + currentEnemyCount + " / " + totalEnemies;
-    }
+    
     
     private IEnumerator SpawnLoop()
     {
         while (_isSpawnerRunning)
         {
+            StartCoroutine(CountDown(spawnStartWaitTime));
             //wait before starting to spawn enemies
             yield return new WaitForSeconds(spawnStartWaitTime);
 
@@ -95,10 +86,42 @@ public class LevelFlowController : MonoBehaviour
                 }
                 
                 //wave ends here
-                yield return new WaitForSeconds(Random.Range(
+                var waitTime = Random.Range(
                     idealBreakTimeBetweenWaves - deviationBreakTimeBetweenWaves,
-                    idealBreakTimeBetweenWaves + deviationBreakTimeBetweenWaves));
+                    idealBreakTimeBetweenWaves + deviationBreakTimeBetweenWaves);
+                
+                StartCoroutine(CountDown(waitTime));
+                yield return new WaitForSeconds(waitTime);
             }
+        }
+    }
+
+    private void UpdateWaveCount(int totalWaves = 0)
+    {
+        waveCountText.text = waveCountPrefix + currentWaveCount + " / " + totalWaves;
+    }
+
+    private void UpdateEnemyCount(int totalEnemies = 0)
+    {
+        //change this to enemies killed
+        enemyCountText.text = enemyCountPrefix + currentEnemyCount + " / " + totalEnemies;
+    }
+
+    private IEnumerator CountDown(float seconds)
+    {
+        var startTime = Time.time;
+        var endTime = startTime + seconds;
+        
+        while (true)
+        {
+            var currentTime = Time.time - startTime;
+            if (currentTime < endTime)
+            {
+                waveCountText.text = (endTime - currentTime).ToString("0.0");
+                yield return new WaitForSeconds(0.01f);
+            }
+            else
+                break;
         }
     }
 }

@@ -60,11 +60,13 @@ public class PlayerCombat : MonoBehaviour
         {
             if (Input.GetButtonDown("Fire1"))
             {
-                if(!isDiggingComplete)
-                    if (_allowedToDig)
+                if (_allowedToDig)
+                {
+                    if (!isDiggingComplete)
                     {
                         StartDigging();
                     }
+                }
                 else
                 {
                     // Reset ray with new mouse position
@@ -127,12 +129,14 @@ public class PlayerCombat : MonoBehaviour
         _targetAreaController.TargetGiveHit();
         
         isAttacking = true;
+        _allowedToDig = false;
     }
 
     public void CompleteDigging()
     {
         _movementInput.GiveBackMovementControl();
         isAttacking = false;
+        _allowedToDig = true;
     }
 
     private void Rotate(Vector3 position)
