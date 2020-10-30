@@ -120,12 +120,14 @@ public class PlayerCombat : MonoBehaviour
 
     private void SwapWeapon()
     {
+        print("swap weapon started");
         _anim.SetTrigger(CycleWeapon);
         isAttacking = true;
     }
 
     public void CompleteWeaponSwap()
     {
+        print("swap weapon ended, allowedtodig = " + _allowedToDig);
         shovel.SetActive(_allowedToDig);
         weapon.SetActive(!_allowedToDig);
         isAttacking = false;
@@ -133,6 +135,7 @@ public class PlayerCombat : MonoBehaviour
     
     private void StartDigging()
     {
+        print("digging started");
         _anim.SetTrigger(ShouldDig);
         _movementInput.TakeAwayMovementControl();
         
@@ -144,6 +147,7 @@ public class PlayerCombat : MonoBehaviour
 
     public void CompleteDigging()
     {
+        print("digging ended");
         _movementInput.GiveBackMovementControl();
         isAttacking = false;
         _allowedToDig = true;

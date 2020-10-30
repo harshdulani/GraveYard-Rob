@@ -24,7 +24,10 @@ public class EnemySpawner : MonoBehaviour
     public void SpawnNewEnemy()
     {
         var a = Instantiate(enemyPrefabs[Random.Range(0, enemyPrefabs.Length - 1)], spawnPoints[Random.Range(0, spawnPoints.Length)]);
-        //if you dont parent it to null, it gets parented to current game obj
+        //if you don't parent it to null, it gets parented to current game obj
         a.transform.SetParent(null);
+        
+        //i guess you should make this into a message/Action/Event
+        GameStats.EnemiesSpawned++;
     }
 }

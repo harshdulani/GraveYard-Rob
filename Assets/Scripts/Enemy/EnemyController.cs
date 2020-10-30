@@ -41,7 +41,7 @@ public class EnemyController : MonoBehaviour
         _enemyFollow = GetComponent<EnemyFollow>();
         _targetingEnemy = GetComponent<TargetingEnemy>();
         
-        _playerController.playerDeath += PlayerHasDied;
+        _playerController.PlayerDeath += PlayerHasDied;
 
         UpdateHealthBar();
     }
@@ -73,6 +73,7 @@ public class EnemyController : MonoBehaviour
 
     private void EnemyDeath()
     {
+        GameStats.EnemiesKilled++;
         _enemyFollow.StopAllCoroutines();
         _targetingEnemy.StopAllCoroutines();
 
@@ -95,16 +96,14 @@ public class EnemyController : MonoBehaviour
 
     private void PlayerHasDied()
     {
-        _playerController.playerDeath -= PlayerHasDied;
+        _playerController.PlayerDeath -= PlayerHasDied;
         _enemyFollow.StopAllCoroutines();
         _targetingEnemy.StopAllCoroutines();
     }
 
     private void OnDestroy()
     {
-        _playerController.playerDeath -= PlayerHasDied;
-        _enemyFollow.StopAllCoroutines();
-        _targetingEnemy.StopAllCoroutines();
+        _playerController.PlayerDeath -= PlayerHasDied;
     }
 
     private void OnTriggerEnter(Collider other)

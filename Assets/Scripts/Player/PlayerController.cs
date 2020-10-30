@@ -9,13 +9,15 @@ public class PlayerController : MonoBehaviour
     public Image healthBar;
     public Text healthText;
     
-    public event Action playerDeath;
+    public event Action PlayerDeath, PlayerBirth;
     
     private PlayerStats _playerStats;
 
     private void Start()
     {
-        _playerStats = FindObjectOfType<PlayerStats>();
+        PlayerBirth?.Invoke();
+        
+        _playerStats = GetComponent<PlayerStats>();
         UpdateHealthBar();
         UpdateHealthText();
     }
@@ -29,7 +31,7 @@ public class PlayerController : MonoBehaviour
         {
             //die
             print("YOU DIED.");
-            playerDeath?.Invoke();    //this ? checks and only invokes if Action is not null
+            PlayerDeath?.Invoke();    //this ? checks and only invokes if this Action is not null
             Destroy(gameObject);
         }
     }

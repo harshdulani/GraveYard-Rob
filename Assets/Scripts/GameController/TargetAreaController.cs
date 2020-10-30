@@ -70,9 +70,6 @@ public class TargetAreaController : MonoBehaviour
             //change to modified grave with gold inside
             print("initiate looting grave");
         }
-        //also make sure youre not allowed to dig anymore
-        //either by some if else
-        //or destroy targetarea gameobject hence this manager
     }
     
     private void UpdateHealthBar(float amount)

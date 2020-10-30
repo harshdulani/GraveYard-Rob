@@ -41,7 +41,7 @@ public class LevelFlowController : MonoBehaviour
         _spawner = GetComponent<EnemySpawner>();
         _playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
         
-        _playerController.playerDeath += PlayerHasDied;
+        _playerController.PlayerDeath += PlayerHasDied;
 
         _isSpawnerRunning = shouldSpawn;
         
@@ -88,8 +88,6 @@ public class LevelFlowController : MonoBehaviour
                     yield return new WaitForSeconds(
                         Random.Range(idealWaitBeforeSpawning - deviationWaitBeforeSpawning,
                             idealWaitBeforeSpawning + deviationWaitBeforeSpawning));
-                    
-                    //enemy is spawned here
                 }
                 
                 //wave ends here
@@ -134,13 +132,13 @@ public class LevelFlowController : MonoBehaviour
 
     private void PlayerHasDied()
     {
-        _playerController.playerDeath -= PlayerHasDied;
+        _playerController.PlayerDeath -= PlayerHasDied;
         print("hey");
         StopAllCoroutines();
     }
 
     private void OnDestroy()
     {
-        _playerController.playerDeath -= PlayerHasDied;
+        _playerController.PlayerDeath -= PlayerHasDied;
     }
 }
