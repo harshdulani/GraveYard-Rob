@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -40,6 +41,8 @@ public class EnemyController : MonoBehaviour
         _enemyFollow = GetComponent<EnemyFollow>();
         _targetingEnemy = GetComponent<TargetingEnemy>();
         
+        _playerController.playerDeath += PlayerHasDied;
+
         UpdateHealthBar();
     }
 
@@ -87,7 +90,21 @@ public class EnemyController : MonoBehaviour
 
         //reflect in UI
         //consider passing message about enemy death and unsubscribe from enemy
-        Destroy(gameObject, 3f);
+        Destroy(gameObject, 1.75f);
+    }
+
+    private void PlayerHasDied()
+    {
+        _playerController.playerDeath -= PlayerHasDied;
+        _enemyFollow.StopAllCoroutines();
+        _targetingEnemy.StopAllCoroutines();
+    }
+
+    private void OnDestroy()
+    {
+        _playerController.playerDeath -= PlayerHasDied;
+        _enemyFollow.StopAllCoroutines();
+        _targetingEnemy.StopAllCoroutines();
     }
 
     private void OnTriggerEnter(Collider other)

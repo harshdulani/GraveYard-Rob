@@ -1,50 +1,63 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Serialization;
+using Debug = System.Diagnostics.Debug;
 
 public class MovementInput : MonoBehaviour
 {
+    [Header("General")]
+    public bool playerHasControl = true;
+    [Tooltip("Must also change Animator Blend tree to corresponding change")]
+    public bool shouldFaceTowardMouse = true;
+    
+    [Header("Movement")]
     public float movementSpeed;
     public bool isWalking = true;
-    public float rotationSlerpSpeed;
-
-    //rotation
     public Vector3 desiredMovementDirection;
-    public bool playerHasControl = true;    
+
+    [Header("Rotation")]
+    public float rotationSlerpSpeed;
     public float allowPlayerRotationSpeed;
 
-    //jumping
+    [Header("Jumping And Grounding")]
     public float jumpSpeed = 7.5f;
     public bool doJump = false;
-
-    //grounding
     public bool isGrounded;
     private bool _jumpDone = false;
 
+    [Header("Diagonal StrafeRunning")]
+    [Range(0f, 1f)]
+    public float rotationStrafeFactor;
+    [Range(1f, 2f)]
+    public float speedLimitStrafeRunning = 1.35f;
+
+    [Header("Side Strafe Forward Movement threshold")] [Range(0.25f, 1f)]
+    public float sideStrafeThreshold = 0.25f;
+    
     private float _speed;
     private float _inputX, _inputZ;
     private Vector3 _forward, _right;
 
     //animator hashes for performance++
-    private int _speedHash, _valXHash, _valZHash, _isMovingHash, _startJumpHash;
+    private static readonly int SpeedHash = Animator.StringToHash("inputMagnitude");
+    private static readonly int ValXHash = Animator.StringToHash("valX");
+    private static readonly int ValZHash = Animator.StringToHash("valZ");
+    private static readonly int IsMovingHash= Animator.StringToHash("isMoving");
+    private static readonly int StartJumpHash = Animator.StringToHash("startJump");
 
-    //componentss
-    private Camera _cam;
+    //components
+    private Transform _cam;
     private static Animator _animator;
     private CharacterController _controller;
 
     private void Start()
     {
         _controller = GetComponent<CharacterController>();
-        _cam = Camera.main;
+        _cam = Camera.main.transform;
         _animator = GetComponent<Animator>();
-
-        _speedHash = Animator.StringToHash("inputMagnitude");
-        _valXHash = Animator.StringToHash("valX");
-        _valZHash = Animator.StringToHash("valZ");
-        _isMovingHash = Animator.StringToHash("isMoving");
-        _startJumpHash = Animator.StringToHash("startJump");
     }
 
     private void Update()
@@ -55,7 +68,7 @@ public class MovementInput : MonoBehaviour
         {
             if (Input.GetButtonDown("Jump"))
             {
-                _animator.SetTrigger(_startJumpHash);
+                _animator.SetTrigger(StartJumpHash);
                 doJump = true;
             }
             if (Input.GetKey(KeyCode.LeftShift))
@@ -83,25 +96,78 @@ public class MovementInput : MonoBehaviour
 
         //sending input values to animator
         //the third value is damping, set for blending on keyboards
-        _animator.SetFloat(_valXHash, _inputX, 0.1f, Time.deltaTime * 2f);
-        _animator.SetFloat(_valZHash, _inputZ, 0.1f, Time.deltaTime * 2f);
+        _animator.SetFloat(ValXHash, _inputX, 0.1f, Time.deltaTime * 2f);
+        _animator.SetFloat(ValZHash, _inputZ, 0.1f, Time.deltaTime * 2f);
 
-        _animator.SetFloat(_speedHash, _speed);
+        _animator.SetFloat(SpeedHash, _speed);
 
         if (_speed > allowPlayerRotationSpeed)
         {
-            PlayerMoveAndRotate();
+            if(shouldFaceTowardMouse)
+                MoveFacingMouseForward();
+            else
+                MoveFacingMovementDirection();
         }
         else
         {
-            _animator.SetBool(_isMovingHash, false);
+            _animator.SetBool(IsMovingHash, false);
         }
     }
 
-    private void PlayerMoveAndRotate()
+    private void MoveFacingMouseForward()
     {
-        _forward = _cam.transform.forward;
-        _right = _cam.transform.right;
+        var rotateCamForward = _forward = _cam.forward;
+        _right = _cam.right;
+
+        rotateCamForward.y = _forward.y = 0f;
+        _right.y = 0f;
+
+        _forward.Normalize();
+        _right.Normalize();
+        
+        desiredMovementDirection = _forward * (_inputZ * movementSpeed);
+
+        if (_inputZ >= -sideStrafeThreshold)
+        {
+            //inputz >= -0.25f
+            //_inputX = Mathf.Clamp(_inputX, -0.5f, 0.5f);
+            
+            desiredMovementDirection += _right * (_inputX * movementSpeed);
+            desiredMovementDirection *= Mathf.Clamp(_speed, -speedLimitStrafeRunning, speedLimitStrafeRunning);
+            if (_speed > 1.2f)
+            {
+                rotateCamForward += _right * ((_inputX ) * (_speed - (Mathf.Sign(_speed) * (_speed - rotationStrafeFactor))));
+            }
+        }
+        else
+        {
+            //diagonal movement should not happen
+            //_animator.SetFloat(ValXHash, 0f, 0.1f, Time.deltaTime * 2f);
+        }
+
+        if (!desiredMovementDirection.Equals(Vector3.zero))
+        {
+            if(_speed >= 1.25f && _inputZ >= 0f)
+                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(desiredMovementDirection), rotationSlerpSpeed);
+            else
+                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(rotateCamForward), rotationSlerpSpeed);
+            _animator.SetBool(IsMovingHash, true);
+        }
+
+        if (!isGrounded)
+        {
+            if (transform.position.y >= 0.15f)
+                desiredMovementDirection.y = -transform.position.y * 2f;
+        }
+
+        //not using delta time made the movement speed dependent on screen size (easy render high fps)
+        _controller.Move(desiredMovementDirection * Time.deltaTime);
+    }
+
+    private void MoveFacingMovementDirection()
+    {
+        _forward = _cam.forward;
+        _right = _cam.right;
 
         _forward.y = 0f;
         _right.y = 0f;
@@ -114,11 +180,10 @@ public class MovementInput : MonoBehaviour
         if (isWalking)
             desiredMovementDirection *= 0.15f;
 
-
         if (!desiredMovementDirection.Equals(Vector3.zero))
         {
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(desiredMovementDirection), rotationSlerpSpeed);
-            _animator.SetBool(_isMovingHash, true);
+            _animator.SetBool(IsMovingHash, true);
         }
 
         if (doJump)
@@ -155,7 +220,7 @@ public class MovementInput : MonoBehaviour
     {
         playerHasControl = false;
         desiredMovementDirection = Vector3.zero;
-        _animator.SetFloat(_speedHash, 0f);
+        _animator.SetFloat(SpeedHash, 0f);
         StartCoroutine(TakingAwayControl(seconds));
     }
 
@@ -163,7 +228,7 @@ public class MovementInput : MonoBehaviour
     {
         playerHasControl = false;
         desiredMovementDirection = Vector3.zero;
-        _animator.SetFloat(_speedHash, 0f);
+        _animator.SetFloat(SpeedHash, 0f);
     }
     
     public void GiveBackMovementControl()

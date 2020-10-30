@@ -16,6 +16,7 @@ public class TargetingEnemy : MonoBehaviour
     private void Start()
     {
         target = GameObject.FindGameObjectWithTag("Player").transform;
+        target.GetComponent<PlayerController>().playerDeath += PlayerHasDied;
         StartCoroutine("TargetingMechanic");
     }
 
@@ -31,5 +32,11 @@ public class TargetingEnemy : MonoBehaviour
             }
             yield return new WaitForSeconds(waitForTime);
         }
+    }
+
+    private void PlayerHasDied()
+    {
+        target.GetComponent<PlayerController>().playerDeath -= PlayerHasDied;
+        StopAllCoroutines();
     }
 }

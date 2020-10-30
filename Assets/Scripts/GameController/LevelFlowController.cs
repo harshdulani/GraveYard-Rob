@@ -1,8 +1,10 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public class LevelFlowController : MonoBehaviour
 {
@@ -18,6 +20,8 @@ public class LevelFlowController : MonoBehaviour
     public int deviationEnemyCount;
     public float idealWaitBeforeSpawning, deviationWaitBeforeSpawning;
     public int currentEnemyCount;
+
+    private PlayerController _playerController;
 
     [Header("Waves")] 
     public Text waveCountText;    
@@ -35,9 +39,12 @@ public class LevelFlowController : MonoBehaviour
     private void Start()
     {
         _spawner = GetComponent<EnemySpawner>();
+        _playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+        
+        _playerController.playerDeath += PlayerHasDied;
 
         _isSpawnerRunning = shouldSpawn;
-
+        
         UpdateWaveCount();
         UpdateEnemyCount();
         
@@ -123,5 +130,17 @@ public class LevelFlowController : MonoBehaviour
             else
                 break;
         }
+    }
+
+    private void PlayerHasDied()
+    {
+        _playerController.playerDeath -= PlayerHasDied;
+        print("hey");
+        StopAllCoroutines();
+    }
+
+    private void OnDestroy()
+    {
+        _playerController.playerDeath -= PlayerHasDied;
     }
 }

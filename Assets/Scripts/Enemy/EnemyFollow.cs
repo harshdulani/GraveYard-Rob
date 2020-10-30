@@ -26,7 +26,7 @@ public class EnemyFollow : MonoBehaviour
 
         _target = GameObject.FindGameObjectWithTag("Player").transform;
 
-        StartCoroutine("FollowMechanic");
+        StartCoroutine(FollowMechanic());
     }
 
     private IEnumerator FollowMechanic()
