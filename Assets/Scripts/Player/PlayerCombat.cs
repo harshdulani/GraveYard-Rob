@@ -15,6 +15,7 @@ public class PlayerCombat : MonoBehaviour
     private Vector3 _position;
     private bool _rotatingToPosition = false;
     private Vector3 _desiredMovementDirection;
+    private bool _shouldRotateToRaycastHit;
 
     [Header("Digging Grave")] [SerializeField]
     private GameObject shovel;
@@ -52,6 +53,8 @@ public class PlayerCombat : MonoBehaviour
         _anim = GetComponent<Animator>();
         _movementInput = GetComponent<MovementInput>();
         _cam = Camera.main;
+
+        _shouldRotateToRaycastHit = !_movementInput.shouldFaceTowardMouse;
     }
 
     private void Update()
@@ -69,15 +72,16 @@ public class PlayerCombat : MonoBehaviour
                 }
                 else
                 {
-                    // Reset ray with new mouse position
-                    _ray = _cam.ScreenPointToRay(Input.mousePosition);
+                    if (_shouldRotateToRaycastHit)
+                    {
+                        // Reset ray with new mouse position
+                        _ray = _cam.ScreenPointToRay(Input.mousePosition);
 
-                    foreach (var hit in Physics.RaycastAll(_ray))
-                        _position = hit.point;
-                    
+                        foreach (var hit in Physics.RaycastAll(_ray))
+                            _position = hit.point;
+                    }
+
                     StartAttack();
-
-                    //definitely replace this with on animation end
                 }
             }
         }
@@ -95,7 +99,9 @@ public class PlayerCombat : MonoBehaviour
         isAttacking = true;
         _playerWeaponController.shouldGiveHit = true;
         _movementInput.TakeAwayMovementControl();
-        _rotatingToPosition = true;
+        
+        if (_shouldRotateToRaycastHit)
+            _rotatingToPosition = true;
     }
 
     public void CompleteAttack()
@@ -104,8 +110,12 @@ public class PlayerCombat : MonoBehaviour
         
         isAttacking = false;
         _playerWeaponController.shouldGiveHit = false;
-        _rotatingToPosition = false;
-        _position = Vector3.zero;
+
+        if (_shouldRotateToRaycastHit)
+        {
+            _rotatingToPosition = false;
+            _position = Vector3.zero;
+        }
     }
 
     private void SwapWeapon()
