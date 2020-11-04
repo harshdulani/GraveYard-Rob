@@ -18,11 +18,9 @@ public class EnemyController : MonoBehaviour
 
     private Animator _anim;
     private EnemyStats _enemyStats;
-    private EnemyFollow _enemyFollow;
-    private TargetingEnemy _targetingEnemy;
+    private Canvas _canvas;
     
     private Quaternion _originalCanvasRotation;
-    private Canvas _canvas;
 
     private PlayerController _playerController;
 
@@ -33,24 +31,29 @@ public class EnemyController : MonoBehaviour
         _originalCanvasRotation = _canvas.transform.rotation;
     }
 
+    private void OnEnable()
+    {
+        PlayerEvents.current.playerDeath += OnPlayerDeath;
+    }
+
+    private void OnDisable()
+    {
+        PlayerEvents.current.playerDeath -= OnPlayerDeath;
+    }
+
     private void Start()
     {
         _enemyStats = GetComponent<EnemyStats>();
         _anim = GetComponent<Animator>();
         _playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
-        _enemyFollow = GetComponent<EnemyFollow>();
-        _targetingEnemy = GetComponent<TargetingEnemy>();
-
-        EnemyEvents.current.InvokeEnemyBirth(transform);
         
-        _playerController.PlayerDeath += PlayerHasDied;
-
+        EnemyEvents.current.InvokeEnemyBirth(transform);
         UpdateHealthBar();
     }
 
     private void LateUpdate()
     {
-        //so that healthbar canvas always looks at camera
+        //so that health bar canvas always looks at camera
         _canvas.transform.rotation = _originalCanvasRotation;
     }
 
@@ -88,18 +91,6 @@ public class EnemyController : MonoBehaviour
         Destroy(gameObject, 1.75f);
     }
 
-    private void PlayerHasDied()
-    {
-        _playerController.PlayerDeath -= PlayerHasDied;
-        _enemyFollow.StopAllCoroutines();
-        _targetingEnemy.StopAllCoroutines();
-    }
-
-    private void OnDestroy()
-    {
-        _playerController.PlayerDeath -= PlayerHasDied;
-    }
-
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))
@@ -122,8 +113,13 @@ public class EnemyController : MonoBehaviour
         yield return new WaitForSeconds(waitBeforeAttackTime / 1.5f);
         while (true)
         {
-            _anim.SetTrigger(ShouldMeleeHash); 
-            FindObjectOfType<PlayerController>().DecreaseHealth(_enemyStats.bumpDamage);
+            _anim.SetTrigger(ShouldMeleeHash);
+            if (!_playerController)
+            {
+                yield return null;
+                yield break;
+            }
+            _playerController.DecreaseHealth(_enemyStats.bumpDamage);
             yield return new WaitForSeconds(waitBeforeAttackTime);
         }
     }
@@ -132,5 +128,11 @@ public class EnemyController : MonoBehaviour
     {
         _anim.SetTrigger(HitReceivedHash);
         yield return new WaitForSeconds(waitBeforeRecievingAttackTime);
+    }
+
+    private void OnPlayerDeath()
+    {
+        _playerController = null;
+        StopAllCoroutines();
     }
 }

@@ -8,14 +8,12 @@ public class PlayerController : MonoBehaviour
 {
     public Image healthBar;
     public Text healthText;
-    
-    public event Action PlayerDeath, PlayerBirth;
-    
+
     private PlayerStats _playerStats;
 
     private void Start()
     {
-        PlayerBirth?.Invoke();
+        PlayerEvents.current.InvokePlayerBirth();
         
         _playerStats = GetComponent<PlayerStats>();
         UpdateHealthBar();
@@ -31,18 +29,20 @@ public class PlayerController : MonoBehaviour
         {
             //die
             print("YOU DIED.");
-            PlayerDeath?.Invoke();    //this ? checks and only invokes if this Action is not null
-            Destroy(gameObject, 0.5f);
+            PlayerEvents.current.playerDeath();   //this ? checks and only invokes if this Action is not null
+            Destroy(gameObject);
         }
     }
 
     private void UpdateHealthBar()
     {
+        //this needs to move out
         healthBar.fillAmount = (float)(_playerStats.playerHealth) / (float)(_playerStats.maxHealth);
     }
 
     private void UpdateHealthText()
     {
+        //this needs to move out
         healthText.text = _playerStats.playerHealth.ToString();
     }
 

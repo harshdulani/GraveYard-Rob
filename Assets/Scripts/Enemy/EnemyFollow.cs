@@ -22,11 +22,15 @@ public class EnemyFollow : MonoBehaviour
     private void OnEnable()
     {
         EnemyEvents.current.enemyDeath += OnEnemyDeath;
+
+        PlayerEvents.current.playerDeath += OnPlayerDeath;
     }
 
     private void OnDisable()
     {
         EnemyEvents.current.enemyDeath -= OnEnemyDeath;
+
+        PlayerEvents.current.playerDeath -= OnPlayerDeath;
     }
 
     private void Start()
@@ -55,7 +59,8 @@ public class EnemyFollow : MonoBehaviour
                     _anim.SetBool(IsMoving, true);
                 }
             }
-            _targetPosOld = _target.position;
+            if(_target)
+                _targetPosOld = _target.position;
         }
     }
 
@@ -85,8 +90,14 @@ public class EnemyFollow : MonoBehaviour
     {
         if (enemy == transform)
         {
-            StopCoroutine(_followMechanic);
+            StopAllCoroutines();
             Destroy(this, 0.15f);
         }
+    }
+
+    private void OnPlayerDeath()
+    {
+        StopAllCoroutines();
+        _anim.SetBool(IsMoving, false);
     }
 }

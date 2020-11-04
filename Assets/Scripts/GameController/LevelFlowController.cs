@@ -20,8 +20,6 @@ public class LevelFlowController : MonoBehaviour
     public int currentEnemiesSpawnedCount;
     public int enemiesInThisWave, enemiesKilledInThisWave;
 
-    private PlayerController _playerController;
-
     [Header("Waves")] 
     public Text waveCountText;    
     public string waveCountPrefix;
@@ -38,19 +36,20 @@ public class LevelFlowController : MonoBehaviour
     private void OnEnable()
     {
         EnemyEvents.current.enemyDeath += OnEnemyDeath;
+
+        PlayerEvents.current.playerDeath += OnPlayerDeath;
     }
 
     private void OnDisable()
     {
         EnemyEvents.current.enemyDeath -= OnEnemyDeath;
+        
+        PlayerEvents.current.playerDeath -= OnPlayerDeath;
     }
 
     private void Start()
     {
         _spawner = GetComponent<EnemySpawner>();
-        _playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
-        
-        _playerController.PlayerDeath += OnPlayerDeath;
 
         UpdateWaveCount();
         UpdateEnemyCount();
@@ -98,9 +97,9 @@ public class LevelFlowController : MonoBehaviour
                     yield return new WaitForSeconds(1f);
                 
                 //wave ends here
-                var waitTime = Random.Range(
+                var waitTime = Mathf.Ceil(Random.Range(
                     idealBreakTimeBetweenWaves - deviationBreakTimeBetweenWaves,
-                    idealBreakTimeBetweenWaves + deviationBreakTimeBetweenWaves);
+                    idealBreakTimeBetweenWaves + deviationBreakTimeBetweenWaves));
                 
                 print(waitTime);
                 
@@ -150,12 +149,6 @@ public class LevelFlowController : MonoBehaviour
 
     private void OnPlayerDeath()
     {
-        _playerController.PlayerDeath -= OnPlayerDeath;
         StopAllCoroutines();
-    }
-
-    private void OnDestroy()
-    {
-        _playerController.PlayerDeath -= OnPlayerDeath;
     }
 }

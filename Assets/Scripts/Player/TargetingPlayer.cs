@@ -89,9 +89,11 @@ public class TargetingPlayer : MonoBehaviour
                 foreach (var enemy in _enemyTargets)
                 {
                     //this is distance between two points, removed sqrt from formula because increased time complex and sometimes give NaN
+                    var enemyPos = enemy.transform.position;
+                    var playerPos = transform.position;
                     _currentDistance = 
-                        (enemy.transform.position.x - transform.position.x)* (enemy.transform.position.x - transform.position.x) 
-                        + (enemy.transform.position.z - transform.position.z)* (enemy.transform.position.z - transform.position.z);
+                        (enemyPos.x - playerPos.x)* (enemyPos.x - playerPos.x) 
+                        + (enemyPos.z - playerPos.z)* (enemyPos.z - playerPos.z);
 
                     if (DEBUG_ENEMY_FIND_NAMES)
                         print("current enemy = " + enemy.name + ", distance = " + _currentDistance);

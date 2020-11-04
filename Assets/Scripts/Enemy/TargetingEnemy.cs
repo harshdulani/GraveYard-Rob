@@ -18,19 +18,22 @@ public class TargetingEnemy : MonoBehaviour
     private void OnEnable()
     {
         EnemyEvents.current.enemyDeath += OnEnemyDeath;
+        
+        PlayerEvents.current.playerBirth += OnPlayerDeath;
     }
 
     private void OnDisable()
     {
         EnemyEvents.current.enemyDeath -= OnEnemyDeath;
+        
+        PlayerEvents.current.playerBirth -= OnPlayerDeath;
     }
 
     private void Start()
     {
         target = GameObject.FindGameObjectWithTag("Player").transform;
-        target.GetComponent<PlayerController>().PlayerDeath += PlayerHasDied;
-
         _targetingMech = TargetingMechanic();
+        
         StartCoroutine(_targetingMech);
     }
 
@@ -48,9 +51,8 @@ public class TargetingEnemy : MonoBehaviour
         }
     }
 
-    private void PlayerHasDied()
+    private void OnPlayerDeath()
     {
-        target.GetComponent<PlayerController>().PlayerDeath -= PlayerHasDied;
         StopAllCoroutines();
     }
 

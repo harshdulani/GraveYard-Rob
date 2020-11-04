@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class GameStats : MonoBehaviour
 {
@@ -13,10 +14,7 @@ public class GameStats : MonoBehaviour
     public static int EnemiesKilled = 0;
 
     //might be useful for a respawn ability, game start checks, game end checks  
-    [SerializeField] private bool _isPlayerAlive = false;
-
-    //components that hold Action events
-    private PlayerController _playerController;
+    [SerializeField] private bool isPlayerAlive = false;
 
     private void Awake()
     {
@@ -30,39 +28,23 @@ public class GameStats : MonoBehaviour
     {
         EnemyEvents.current.enemyBirth += OnEnemyBirth;
         EnemyEvents.current.enemyDeath += OnEnemyDeath;
+
+        PlayerEvents.current.playerBirth += OnPlayerBirth;
+        PlayerEvents.current.playerDeath += OnPlayerDeath;
     }
 
     private void OnDisable()
     {
         EnemyEvents.current.enemyBirth -= OnEnemyBirth;
         EnemyEvents.current.enemyDeath -= OnEnemyDeath;
+        
+        PlayerEvents.current.playerBirth -= OnPlayerBirth;
+        PlayerEvents.current.playerDeath -= OnPlayerDeath;
     }
 
     private void Start()
     {
         _activeEnemies = new List<Transform>();
-        //subscribe to:
-        /*
-         * player birth
-         * player death
-         *
-         * enemy birth
-         * enemy death
-         *    *create function to check for each kill -> whether this kill ended a wave
-         *    *you can achieve, for eg: behaviour for after game ends. spawning mini enemies
-         *     after waves end for time pass i guess idk
-         *     whatever it will be useful
-         *
-         * wave start
-         */
-
-        _playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
-        _playerController.PlayerBirth += OnPlayerBirth;
-        _playerController.PlayerDeath += OnPlayerDeath;
-        
-        //by calling a function call/event here - from EnemySpawner
-        
-        //store all of these enemies in a list and remove them from the list on their death also
     }
 
     private void OnEnemyBirth(Transform enemy)
@@ -79,11 +61,11 @@ public class GameStats : MonoBehaviour
     
     private void OnPlayerBirth()
     {
-        _isPlayerAlive = true;
+        isPlayerAlive = true;
     }
 
     private void OnPlayerDeath()
     {
-        _isPlayerAlive = false;
+        isPlayerAlive = false;
     }
 }
