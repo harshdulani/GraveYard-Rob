@@ -1,4 +1,5 @@
-﻿using Cinemachine;
+﻿using System;
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,6 +11,7 @@ public class TargetingPlayer : MonoBehaviour
     public float waitForTime = 1f;
 
     private string _targetTag;
+    private IEnumerator _targetingMechanic;
 
     //orientation calculation
     private Vector3 _direction;
@@ -28,7 +30,17 @@ public class TargetingPlayer : MonoBehaviour
     private void Start()
     {
         _targetTag = "Enemy";
-        StartCoroutine("TargetingMechanic");
+        _targetingMechanic = TargetingMechanic();
+    }
+    
+    private void OnEnable()
+    {
+        EnemyEvents.current.enemyDeath += OnEnemyDeath;
+    }
+
+    private void OnDisable()
+    {
+        EnemyEvents.current.enemyDeath -= OnEnemyDeath;
     }
 
     private IEnumerator TargetingMechanic()
@@ -114,19 +126,8 @@ public class TargetingPlayer : MonoBehaviour
         return true;
     }
 
-    // filhaal keep this as a notification of the enemy BY THE ENEMY that is called at enemy birth
-    // later change it to gamecontroller notifying
-    public void BirthNotify(EnemyShooting enemy)
+    private void OnEnemyDeath(Transform enemy)
     {
-        enemy.destructionEvent += OnEnemyDeath;
-        print("subscribed to " + enemy.gameObject.name);
-    }
-
-    private void OnEnemyDeath(Transform enemyTransform)
-    {
-        print(enemyTransform.gameObject.name + " just died");
-        targetCameraHelper.RemoveMember(enemyTransform);
-        enemyTransform.GetComponent<EnemyShooting>().destructionEvent -= OnEnemyDeath;
-        print("unsubscribed to " + enemyTransform.gameObject.name);
+        targetCameraHelper.RemoveMember(enemy);
     }
 }

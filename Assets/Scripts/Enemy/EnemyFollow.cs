@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -14,9 +15,19 @@ public class EnemyFollow : MonoBehaviour
     private Vector3 _targetPosOld;
     private Animator _anim;
     private TargetingEnemy _targetingEnemy;
-    
-    
+    private IEnumerator _followMechanic;
+
     private static readonly int IsMoving = Animator.StringToHash("isMoving");
+
+    private void OnEnable()
+    {
+        EnemyEvents.current.enemyDeath += OnEnemyDeath;
+    }
+
+    private void OnDisable()
+    {
+        EnemyEvents.current.enemyDeath -= OnEnemyDeath;
+    }
 
     private void Start()
     {
@@ -26,17 +37,19 @@ public class EnemyFollow : MonoBehaviour
 
         _target = GameObject.FindGameObjectWithTag("Player").transform;
 
-        StartCoroutine(FollowMechanic());
+        _followMechanic = FollowMechanic();
+        StartCoroutine(_followMechanic);
     }
 
     private IEnumerator FollowMechanic()
     {
         while (true)
-        {            
+        {
             yield return new WaitForSeconds(minPathUpdateTime);
             if (_target && !_agent.isStopped)
             {
-                if ((_target.position - _targetPosOld).sqrMagnitude > (PathUpdateMoveThreshold * PathUpdateMoveThreshold))
+                if ((_target.position - _targetPosOld).sqrMagnitude >
+                    (PathUpdateMoveThreshold * PathUpdateMoveThreshold))
                 {
                     _agent.SetDestination(_target.position);
                     _anim.SetBool(IsMoving, true);
@@ -48,11 +61,11 @@ public class EnemyFollow : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.CompareTag("Player"))
+        if (other.gameObject.CompareTag("Player"))
         {
             _agent.isStopped = true;
             _anim.SetBool(IsMoving, false);
-            
+
             _targetingEnemy.shouldLookAtTarget = true;
         }
     }
@@ -63,8 +76,17 @@ public class EnemyFollow : MonoBehaviour
         {
             _agent.isStopped = false;
             _anim.SetBool(IsMoving, true);
-            
+
             _targetingEnemy.shouldLookAtTarget = false;
+        }
+    }
+
+    private void OnEnemyDeath(Transform enemy)
+    {
+        if (enemy == transform)
+        {
+            StopCoroutine(_followMechanic);
+            Destroy(this, 0.15f);
         }
     }
 }

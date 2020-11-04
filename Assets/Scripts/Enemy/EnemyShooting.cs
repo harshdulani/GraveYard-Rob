@@ -4,10 +4,6 @@ using UnityEngine;
 
 public class EnemyShooting : MonoBehaviour
 {
-    //death //make class for this asap
-    public delegate void OnEnemyDestroy(Transform enemyTransform);
-    public OnEnemyDestroy destructionEvent;
-
     public Transform projectileSpawn;
     public GameObject projectilePrefab;
     public float shotInterval = 1f;
@@ -15,13 +11,13 @@ public class EnemyShooting : MonoBehaviour
 
     public bool keepShooting = true;
 
-    private int _c = 0;
+    private int _projectileCounter = 0;
+    private Transform _player;
 
     private void Start()
     {
-        StartCoroutine("ShootYourShot");
-        //should go in gamecontroller
-        //FindObjectOfType<TargetingPlayer>().BirthNotify(this);
+        _player = GameObject.FindGameObjectWithTag("Player").transform;
+        StartCoroutine(ShootYourShot());
     }
 
     private IEnumerator ShootYourShot()
@@ -30,19 +26,13 @@ public class EnemyShooting : MonoBehaviour
         {
             yield return new WaitForSeconds(shotInterval);
             if (!keepShooting) continue;
-            if (!(GameObject.FindGameObjectWithTag("Player")))
+            if (!_player)
                 ShotsFired();
         }
     }
 
-    public void ShotsFired()
+    private void ShotsFired()
     {
-        Instantiate(projectilePrefab, projectileSpawn).name = "projectile " + _c++;
-    }
-
-    private void OnDestroy()
-    {
-        //same as checking if destructionevent is null or not
-        destructionEvent?.Invoke(transform);
+        Instantiate(projectilePrefab, projectileSpawn).name = "projectile " + _projectileCounter++;
     }
 }

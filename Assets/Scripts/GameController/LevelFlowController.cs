@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 public class LevelFlowController : MonoBehaviour
 {
-    [Header("General")]
-    public bool shouldSpawn = true;
+    [Header("General")] 
+    public bool isSpawnerRunning;
+
     public float spawnStartWaitTime;
 
     [Header("Enemy Spawning")] 
@@ -19,7 +17,8 @@ public class LevelFlowController : MonoBehaviour
     public int idealEnemyCount;
     public int deviationEnemyCount;
     public float idealWaitBeforeSpawning, deviationWaitBeforeSpawning;
-    public int currentEnemyCount;
+    public int currentEnemiesSpawnedCount;
+    public int enemiesInThisWave, enemiesKilledInThisWave;
 
     private PlayerController _playerController;
 
@@ -32,32 +31,39 @@ public class LevelFlowController : MonoBehaviour
     public int idealWaveCount, deviationWaveCount;
     public int currentWaveCount;
 
-    private bool _isSpawnerRunning;
+    private bool _hasWaveEnded;
     
     private EnemySpawner _spawner;
+
+    private void OnEnable()
+    {
+        EnemyEvents.current.enemyDeath += OnEnemyDeath;
+    }
+
+    private void OnDisable()
+    {
+        EnemyEvents.current.enemyDeath -= OnEnemyDeath;
+    }
 
     private void Start()
     {
         _spawner = GetComponent<EnemySpawner>();
         _playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
         
-        _playerController.PlayerDeath += PlayerHasDied;
+        _playerController.PlayerDeath += OnPlayerDeath;
 
-        _isSpawnerRunning = shouldSpawn;
-        
         UpdateWaveCount();
         UpdateEnemyCount();
         
         //this will ofc be called at another place where it makes sense
-        //too late, forgot what i meant by making more sense here^
-        if(_isSpawnerRunning)
+        //another place se mera matlab tha, from someone who manages main menu wagera
+        if(isSpawnerRunning)
             StartCoroutine(SpawnLoop());
     }
-    
-    
+
     private IEnumerator SpawnLoop()
     {
-        while (_isSpawnerRunning)
+        while (isSpawnerRunning)
         {
             StartCoroutine(CountDown(spawnStartWaitTime));
             //wait before starting to spawn enemies
@@ -72,28 +78,31 @@ public class LevelFlowController : MonoBehaviour
                 UpdateWaveCount(wavesInThisGame);
                 
                 //calculate enemies in current wave
-                int enemiesInThisWave = Random.Range(idealEnemyCount - deviationEnemyCount,
+                enemiesInThisWave = Random.Range(idealEnemyCount - deviationEnemyCount,
                     idealEnemyCount + deviationEnemyCount);
                 
-                UpdateEnemyCount(enemiesInThisWave);
+                UpdateEnemyCount();
 
-                for (currentEnemyCount = 0; currentEnemyCount < enemiesInThisWave; currentEnemyCount++)
+                for (currentEnemiesSpawnedCount = 0; currentEnemiesSpawnedCount < enemiesInThisWave; currentEnemiesSpawnedCount++)
                 {
-                    if (shouldSpawn)
-                    {
-                        _spawner.SpawnNewEnemy();
-                        UpdateEnemyCount(enemiesInThisWave);
-                    }
+                    //spawn these enemies
+                    _spawner.SpawnNewEnemy();
+                    UpdateEnemyCount();
 
                     yield return new WaitForSeconds(
                         Random.Range(idealWaitBeforeSpawning - deviationWaitBeforeSpawning,
                             idealWaitBeforeSpawning + deviationWaitBeforeSpawning));
                 }
                 
+                while(enemiesKilledInThisWave != enemiesInThisWave)
+                    yield return new WaitForSeconds(1f);
+                
                 //wave ends here
                 var waitTime = Random.Range(
                     idealBreakTimeBetweenWaves - deviationBreakTimeBetweenWaves,
                     idealBreakTimeBetweenWaves + deviationBreakTimeBetweenWaves);
+                
+                print(waitTime);
                 
                 StartCoroutine(CountDown(waitTime));
                 yield return new WaitForSeconds(waitTime);
@@ -103,13 +112,15 @@ public class LevelFlowController : MonoBehaviour
 
     private void UpdateWaveCount(int totalWaves = 0)
     {
+        //this needs to move out of here
         waveCountText.text = waveCountPrefix + currentWaveCount + " / " + totalWaves;
     }
 
-    private void UpdateEnemyCount(int totalEnemies = 0)
+    private void UpdateEnemyCount()
     {
+        //this needs to move out of here
         //change this to enemies killed
-        enemyCountText.text = enemyCountPrefix + currentEnemyCount + " / " + totalEnemies;
+        enemyCountText.text = enemyCountPrefix + enemiesKilledInThisWave + " / " + enemiesInThisWave;
     }
 
     private IEnumerator CountDown(float seconds)
@@ -119,7 +130,7 @@ public class LevelFlowController : MonoBehaviour
         
         while (true)
         {
-            var currentTime = Time.time - startTime;
+            var currentTime = Time.time;
             if (currentTime < endTime)
             {
                 waveCountText.text = (endTime - currentTime).ToString("0.0");
@@ -130,15 +141,21 @@ public class LevelFlowController : MonoBehaviour
         }
     }
 
-    private void PlayerHasDied()
+    private void OnEnemyDeath(Transform enemy)
     {
-        _playerController.PlayerDeath -= PlayerHasDied;
-        print("hey");
+        //this marks the end of the wave and hence the start of a wait period
+        enemiesKilledInThisWave++;
+        UpdateEnemyCount();
+    }
+
+    private void OnPlayerDeath()
+    {
+        _playerController.PlayerDeath -= OnPlayerDeath;
         StopAllCoroutines();
     }
 
     private void OnDestroy()
     {
-        _playerController.PlayerDeath -= PlayerHasDied;
+        _playerController.PlayerDeath -= OnPlayerDeath;
     }
 }

@@ -32,7 +32,7 @@ public class PlayerController : MonoBehaviour
             //die
             print("YOU DIED.");
             PlayerDeath?.Invoke();    //this ? checks and only invokes if this Action is not null
-            Destroy(gameObject);
+            Destroy(gameObject, 0.5f);
         }
     }
 

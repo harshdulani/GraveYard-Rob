@@ -10,7 +10,7 @@ public class EnemyController : MonoBehaviour
 
     public float waitBeforeAttackTime = 0.5f;
     public float waitBeforeRecievingAttackTime = 0.5f;
-    
+
     private static readonly int ShouldMeleeHash = Animator.StringToHash("shouldMelee");
     private static readonly int DeathHash = Animator.StringToHash("death");
     private static readonly int IsMovingHash = Animator.StringToHash("isMoving");
@@ -40,6 +40,8 @@ public class EnemyController : MonoBehaviour
         _playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
         _enemyFollow = GetComponent<EnemyFollow>();
         _targetingEnemy = GetComponent<TargetingEnemy>();
+
+        EnemyEvents.current.InvokeEnemyBirth(transform);
         
         _playerController.PlayerDeath += PlayerHasDied;
 
@@ -60,6 +62,7 @@ public class EnemyController : MonoBehaviour
         {
             //die
             print("Enemy Killed.");
+            EnemyEvents.current.InvokeEnemyDeath(transform);
             EnemyDeath();
         }
         else
@@ -73,14 +76,6 @@ public class EnemyController : MonoBehaviour
 
     private void EnemyDeath()
     {
-        GameStats.EnemiesKilled++;
-        _enemyFollow.StopAllCoroutines();
-        _targetingEnemy.StopAllCoroutines();
-
-        //destroying and not just disabling this because enabling it didnt stop it from following player
-        Destroy(_enemyFollow);
-        _targetingEnemy.enabled = false;
-
         //so that no more collisions are detected
         GetComponent<CapsuleCollider>().enabled = false;
 
@@ -90,7 +85,6 @@ public class EnemyController : MonoBehaviour
         _anim.SetTrigger(DeathHash);
 
         //reflect in UI
-        //consider passing message about enemy death and unsubscribe from enemy
         Destroy(gameObject, 1.75f);
     }
 

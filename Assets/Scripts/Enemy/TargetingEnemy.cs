@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,12 +13,25 @@ public class TargetingEnemy : MonoBehaviour
     //orientation calculation
     private Vector3 _direction;
     private float _angle;
+    private IEnumerator _targetingMech;
+
+    private void OnEnable()
+    {
+        EnemyEvents.current.enemyDeath += OnEnemyDeath;
+    }
+
+    private void OnDisable()
+    {
+        EnemyEvents.current.enemyDeath -= OnEnemyDeath;
+    }
 
     private void Start()
     {
         target = GameObject.FindGameObjectWithTag("Player").transform;
         target.GetComponent<PlayerController>().PlayerDeath += PlayerHasDied;
-        StartCoroutine("TargetingMechanic");
+
+        _targetingMech = TargetingMechanic();
+        StartCoroutine(_targetingMech);
     }
 
     private IEnumerator TargetingMechanic()
@@ -38,5 +52,14 @@ public class TargetingEnemy : MonoBehaviour
     {
         target.GetComponent<PlayerController>().PlayerDeath -= PlayerHasDied;
         StopAllCoroutines();
+    }
+
+    private void OnEnemyDeath(Transform enemy)
+    {
+        if (enemy == transform)
+        {
+            StopCoroutine(_targetingMech);
+            enabled = false;
+        }
     }
 }
