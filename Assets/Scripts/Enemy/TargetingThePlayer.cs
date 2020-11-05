@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TargetingEnemy : MonoBehaviour
+public class TargetingThePlayer : MonoBehaviour
 {
     //This is the aim targeting script that belongs on the enemy object
     public Transform target;
@@ -19,14 +19,14 @@ public class TargetingEnemy : MonoBehaviour
     {
         EnemyEvents.current.enemyDeath += OnEnemyDeath;
         
-        PlayerEvents.current.playerBirth += OnPlayerDeath;
+        PlayerEvents.current.playerDeath += OnPlayerDeath;
     }
 
     private void OnDisable()
     {
         EnemyEvents.current.enemyDeath -= OnEnemyDeath;
         
-        PlayerEvents.current.playerBirth -= OnPlayerDeath;
+        PlayerEvents.current.playerDeath -= OnPlayerDeath;
     }
 
     private void Start()

@@ -94,6 +94,8 @@ public class PlayerCombat : MonoBehaviour
 
     private void StartAttack()
     {
+        PlayerEvents.current.InvokePlayerCombatStrikeStart();
+        
         _anim.SetTrigger(Attack1Hash);
 
         isAttacking = true;

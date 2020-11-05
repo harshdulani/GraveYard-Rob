@@ -29,7 +29,7 @@ public class PlayerController : MonoBehaviour
         {
             //die
             print("YOU DIED.");
-            PlayerEvents.current.playerDeath();   //this ? checks and only invokes if this Action is not null
+            PlayerEvents.current.InvokePlayerDeath();   //this ? checks and only invokes if this Action is not null
             Destroy(gameObject);
         }
     }

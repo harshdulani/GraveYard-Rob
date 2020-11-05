@@ -14,7 +14,7 @@ public class EnemyFollow : MonoBehaviour
     private NavMeshAgent _agent;
     private Vector3 _targetPosOld;
     private Animator _anim;
-    private TargetingEnemy _targetingEnemy;
+    private TargetingThePlayer _targetingEnemy;
     private IEnumerator _followMechanic;
 
     private static readonly int IsMoving = Animator.StringToHash("isMoving");
@@ -37,7 +37,7 @@ public class EnemyFollow : MonoBehaviour
     {
         _agent = GetComponent<NavMeshAgent>();
         _anim = GetComponent<Animator>();
-        _targetingEnemy = GetComponent<TargetingEnemy>();
+        _targetingEnemy = GetComponent<TargetingThePlayer>();
 
         _target = GameObject.FindGameObjectWithTag("Player").transform;
 

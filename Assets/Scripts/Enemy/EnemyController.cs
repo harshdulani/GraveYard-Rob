@@ -19,6 +19,7 @@ public class EnemyController : MonoBehaviour
     private Animator _anim;
     private EnemyStats _enemyStats;
     private Canvas _canvas;
+    private Transform _mainCam;
     
     private Quaternion _originalCanvasRotation;
 
@@ -28,6 +29,7 @@ public class EnemyController : MonoBehaviour
     {
         _canvas = healthBar.GetComponentInParent<Canvas>();
         _canvas.worldCamera = Camera.main;
+        _mainCam = Camera.main.transform;
         _originalCanvasRotation = _canvas.transform.rotation;
     }
 
@@ -53,8 +55,10 @@ public class EnemyController : MonoBehaviour
 
     private void LateUpdate()
     {
-        //so that health bar canvas always looks at camera
-        _canvas.transform.rotation = _originalCanvasRotation;
+        //so that health bar canvas always looks at camera in DotaCam
+        //_canvas.transform.rotation = _originalCanvasRotation;
+
+        _canvas.transform.rotation = Quaternion.LookRotation(_mainCam.forward, _mainCam.up);
     }
 
     public void DecreaseHealth(int amt)

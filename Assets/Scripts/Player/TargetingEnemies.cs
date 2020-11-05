@@ -1,10 +1,8 @@
-﻿using System;
-using Cinemachine;
+﻿using Cinemachine;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class TargetingPlayer : MonoBehaviour
+public class TargetingEnemies : MonoBehaviour
 {
     //This is the aim targeting script that belongs on the player object
     public Transform target;
@@ -23,7 +21,8 @@ public class TargetingPlayer : MonoBehaviour
     private GameObject[] _enemyTargets;
     private float _minDistance, _currentDistance;
 
-    //cinemachine
+    [Header("Cinemachine TargetGroup")] 
+    public bool useTargetGroup = false;
     public CinemachineTargetGroup targetCameraHelper;
     public float enemyRadius = 1f, enemyWeight = 1f;
 
@@ -31,6 +30,7 @@ public class TargetingPlayer : MonoBehaviour
     {
         _targetTag = "Enemy";
         _targetingMechanic = TargetingMechanic();
+        StartCoroutine(_targetingMechanic);
     }
     
     private void OnEnable()
@@ -112,16 +112,19 @@ public class TargetingPlayer : MonoBehaviour
             }
         }
 
-        if(targetCameraHelper.m_Targets.Length == 1)
+        if (useTargetGroup)
         {
-            targetCameraHelper.AddMember(target, enemyWeight, enemyRadius);
-        }
-        else if(targetCameraHelper.m_Targets.Length == 2)
-        {
-            if (!targetCameraHelper.m_Targets[1].target.Equals(target))
+            if (targetCameraHelper.m_Targets.Length == 1)
             {
-                targetCameraHelper.RemoveMember(targetCameraHelper.m_Targets[1].target);
                 targetCameraHelper.AddMember(target, enemyWeight, enemyRadius);
+            }
+            else if (targetCameraHelper.m_Targets.Length == 2)
+            {
+                if (!targetCameraHelper.m_Targets[1].target.Equals(target))
+                {
+                    targetCameraHelper.RemoveMember(targetCameraHelper.m_Targets[1].target);
+                    targetCameraHelper.AddMember(target, enemyWeight, enemyRadius);
+                }
             }
         }
 

@@ -1,14 +1,12 @@
 ﻿using System;
-using System.ComponentModel.Design;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class PlayerEvents : MonoBehaviour
 {
     //Make sure your EventHandler class is on a gameobject
     public static PlayerEvents current;
 
-    public Action playerDeath, playerBirth;
+    public Action playerDeath, playerBirth, startCombatStrike;
 
     private void Awake()
     {
@@ -26,5 +24,10 @@ public class PlayerEvents : MonoBehaviour
     public void InvokePlayerDeath()
     {
         playerDeath?.Invoke();
+    }
+
+    public void InvokePlayerCombatStrikeStart()
+    {
+        startCombatStrike?.Invoke();
     }
 }

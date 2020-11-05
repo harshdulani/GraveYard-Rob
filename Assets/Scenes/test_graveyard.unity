@@ -4580,7 +4580,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 566229444}
-  m_LocalRotation: {x: 0.23156622, y: 0.00000007091376, z: -0.000000016880046, w: 0.97281915}
+  m_LocalRotation: {x: 0.23156622, y: 0.00000008765245, z: -0.00000002086446, w: 0.97281915}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -6307,6 +6307,37 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 20.625996, y: 26.028667, z: 24.245722}
   m_Center: {x: -7.6544726e-17, y: 12.514334, z: 0.021011353}
+--- !u!1 &866412427
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 866412428}
+  m_Layer: 0
+  m_Name: Have all canvases controlled by their own scripts and listening to Action
+    events
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &866412428
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 866412427}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1833735538}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &868395513
 GameObject:
   m_ObjectHideFlags: 0
@@ -12527,6 +12558,36 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fcd787e2b64490c408b8a25d7afaa2c7, type: 3}
+--- !u!1 &1182228960
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1182228961}
+  m_Layer: 0
+  m_Name: try object pooling because enemy spawns do create a fps drop
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1182228961
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1182228960}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1833735538}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1195408152 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 8ce01b95f6e934a4e8adff13bceaadc8, type: 3}
@@ -14098,6 +14159,36 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 2.0427792, y: 2.1752045, z: 7.1973763}
   m_Center: {x: -0.020093322, y: 0, z: 3.5986881}
+--- !u!1 &1372487820
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1372487821}
+  m_Layer: 0
+  m_Name: playertargeting
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1372487821
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1372487820}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1833735538}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1373081686 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 8ce01b95f6e934a4e8adff13bceaadc8, type: 3}
@@ -14742,7 +14833,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1458113811}
-  m_LocalRotation: {x: 0.24146381, y: 0.00000006439317, z: -0.000000016022735, w: 0.97040987}
+  m_LocalRotation: {x: 0.24146381, y: 0.000000093780315, z: -0.00000002333504, w: 0.97040987}
   m_LocalPosition: {x: 29.53, y: 10.049889, z: 44.468224}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -15411,6 +15502,7 @@ GameObject:
   - component: {fileID: 1512084987}
   - component: {fileID: 1512084988}
   - component: {fileID: 1512084989}
+  - component: {fileID: 1512084990}
   m_Layer: 0
   m_Name: GameController
   m_TagString: GameController
@@ -15510,7 +15602,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c45990e7460a1b247b89ef7d64f556c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _isPlayerAlive: 0
+  isPlayerAlive: 0
 --- !u!114 &1512084989
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15521,6 +15613,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9c1d35c0515698846a9024860a8f1cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1512084990
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1512084984}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6379ce0742dfdc04dac310d3b3c92030, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1513219270 stripped
@@ -17977,6 +18081,9 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1858408383}
+  - {fileID: 866412428}
+  - {fileID: 1372487821}
+  - {fileID: 1182228961}
   m_Father: {fileID: 1933508151}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -18894,18 +19001,25 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1953902205}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3e621b940a2f0a844b115741ad17d8b4, type: 3}
+  m_Script: {fileID: 11500000, guid: 31cb8175b29387b448b64b86ee134fca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
-  waitForTime: 1
-  DEBUG_ENEMY_FIND_NAMES: 0
-  DEBUG_ENEMY_FIND_STATUS: 0
-  targetCameraHelper: {fileID: 0}
-  enemyRadius: 1
-  enemyWeight: 1
+  enemies: []
+--- !u!65 &1953902214
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1953902205}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 6, y: 5, z: 6.5}
+  m_Center: {x: 0, y: 2.5, z: 3.75}
 --- !u!1001 &1954099715
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -9,9 +9,10 @@ public class GameStats : MonoBehaviour
     
     private static List<Transform> _activeEnemies; 
     public static int WavesKilled = 0;
+    public static int EnemiesKilled = 0;
 
     private static int _enemiesSpawned = 0;
-    public static int EnemiesKilled = 0;
+    public static int EnemiesAlive => _activeEnemies.Count;
 
     //might be useful for a respawn ability, game start checks, game end checks  
     [SerializeField] private bool isPlayerAlive = false;
