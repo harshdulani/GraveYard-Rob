@@ -7,12 +7,12 @@ public class GameStats : MonoBehaviour
 {
     public static GameStats current;
     
-    private static List<Transform> _activeEnemies; 
-    public static int WavesKilled = 0;
-    public static int EnemiesKilled = 0;
+    public List<Transform> activeEnemies; 
+    public int wavesKilled = 0;
+    public int enemiesKilled = 0;
 
-    private static int _enemiesSpawned = 0;
-    public static int EnemiesAlive => _activeEnemies.Count;
+    private int _enemiesSpawned = 0;
+    public int EnemiesAlive => activeEnemies.Count;
 
     //might be useful for a respawn ability, game start checks, game end checks  
     [SerializeField] private bool isPlayerAlive = false;
@@ -45,19 +45,19 @@ public class GameStats : MonoBehaviour
 
     private void Start()
     {
-        _activeEnemies = new List<Transform>();
+        activeEnemies = new List<Transform>();
     }
 
     private void OnEnemyBirth(Transform enemy)
     {
-        _activeEnemies.Add(enemy);
+        activeEnemies.Add(enemy);
         _enemiesSpawned++;
     }
 
     private void OnEnemyDeath(Transform enemy)
     {
-        _activeEnemies.Remove(enemy);
-        EnemiesKilled++;
+        activeEnemies.Remove(enemy);
+        enemiesKilled++;
     }
     
     private void OnPlayerBirth()

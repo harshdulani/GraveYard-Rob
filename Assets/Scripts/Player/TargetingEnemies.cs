@@ -18,7 +18,6 @@ public class TargetingEnemies : MonoBehaviour
     //enemy target selection
     public bool DEBUG_ENEMY_FIND_NAMES = false;
     public bool DEBUG_ENEMY_FIND_STATUS = false;
-    private GameObject[] _enemyTargets;
     private float _minDistance, _currentDistance;
 
     [Header("Cinemachine TargetGroup")] 
@@ -59,11 +58,11 @@ public class TargetingEnemies : MonoBehaviour
     {
         //make this part of a GameController singleton, so that there is a count on the current enemies available,
         //so I don't have to look up the number all the times
-        var noOfTargets = GameObject.FindGameObjectsWithTag(_targetTag).Length;
+        var noOfTargets = GameStats.current.EnemiesAlive;
 
         if (noOfTargets == 1)
         {
-            target = GameObject.FindGameObjectWithTag(_targetTag).transform;
+            target = GameStats.current.activeEnemies[0];
             if (DEBUG_ENEMY_FIND_STATUS)
                 print("found 1 target named " + target.name);
         }
@@ -77,7 +76,6 @@ public class TargetingEnemies : MonoBehaviour
         else if (noOfTargets > 1)
         {
             //Targeting Multiple Enemies
-            _enemyTargets = GameObject.FindGameObjectsWithTag(_targetTag);
 
             //this has been set to an exorbitantly high value so that i dont have to check if this is zero(unset/default) everytime
             _minDistance = 10000f;
@@ -86,10 +84,10 @@ public class TargetingEnemies : MonoBehaviour
             {
                 //add a flag so that it doesnt check unless movement is not triggered
                 //or no, xerox copy karne ka zarurat naiye archero ka
-                foreach (var enemy in _enemyTargets)
+                foreach (var enemy in GameStats.current.activeEnemies)
                 {
-                    //this is distance between two points, removed sqrt from formula because increased time complex and sometimes give NaN
-                    var enemyPos = enemy.transform.position;
+                    //this is distance between two points, removed sqrt from formula because increased time complexity and sometimes give NaN
+                    var enemyPos = enemy.position;
                     var playerPos = transform.position;
                     _currentDistance = 
                         (enemyPos.x - playerPos.x)* (enemyPos.x - playerPos.x) 
