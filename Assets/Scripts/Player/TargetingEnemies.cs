@@ -8,7 +8,6 @@ public class TargetingEnemies : MonoBehaviour
     public Transform target;
     public float waitForTime = 1f;
 
-    private string _targetTag;
     private IEnumerator _targetingMechanic;
 
     //orientation calculation
@@ -27,7 +26,6 @@ public class TargetingEnemies : MonoBehaviour
 
     private void Start()
     {
-        _targetTag = "Enemy";
         _targetingMechanic = TargetingMechanic();
         StartCoroutine(_targetingMechanic);
     }
@@ -56,8 +54,6 @@ public class TargetingEnemies : MonoBehaviour
 
     private bool FindTarget()
     {
-        //make this part of a GameController singleton, so that there is a count on the current enemies available,
-        //so I don't have to look up the number all the times
         var noOfTargets = GameStats.current.EnemiesAlive;
 
         if (noOfTargets == 1)
@@ -110,6 +106,7 @@ public class TargetingEnemies : MonoBehaviour
             }
         }
 
+        //uses the cinemachine target group
         if (useTargetGroup)
         {
             if (targetCameraHelper.m_Targets.Length == 1)

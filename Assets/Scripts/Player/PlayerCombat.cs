@@ -108,6 +108,7 @@ public class PlayerCombat : MonoBehaviour
 
     public void CompleteAttack()
     {
+        PlayerEvents.current.InvokePlayerCombatStrikeEnd();
         _movementInput.GiveBackMovementControl();
         
         isAttacking = false;
