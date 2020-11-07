@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using UnityEditor;
@@ -22,9 +23,9 @@ public class MovementInput : MonoBehaviour
     public float rotationSlerpSpeed;
     public float allowPlayerRotationSpeed;
 
-    [Header("Jumping And Grounding")]
-    public float jumpSpeed = 7.5f;
-    public bool doJump = false;
+    [Header("Rolling And Grounding")]
+    public float rollSpeed = 7.5f; //is a good value for vertical jumps
+    public bool isJumping = false;
     public bool isGrounded;
     private bool _jumpDone = false;
 
@@ -66,10 +67,9 @@ public class MovementInput : MonoBehaviour
 
         if(playerHasControl)
         {
-            if (Input.GetButtonDown("Jump"))
+            if (Input.GetButtonDown("Jump") && !isJumping)
             {
-                _animator.SetTrigger(StartJumpHash);
-                doJump = true;
+                StartJump();
             }
             if (Input.GetKey(KeyCode.LeftShift))
             {
@@ -101,12 +101,13 @@ public class MovementInput : MonoBehaviour
 
         _animator.SetFloat(SpeedHash, _speed);
 
+        
         if (_speed > allowPlayerRotationSpeed)
         {
-            if(shouldFaceTowardMouse)
+            if(shouldFaceTowardMouse && !isJumping)
                 MoveFacingMouseForward();
             else
-                MoveFacingMovementDirection();
+                MoveFacingMovementDirection(isJumping ? 5f : 1f);
         }
         else
         {
@@ -129,20 +130,12 @@ public class MovementInput : MonoBehaviour
 
         if (_inputZ >= -sideStrafeThreshold)
         {
-            //inputz >= -0.25f
-            //_inputX = Mathf.Clamp(_inputX, -0.5f, 0.5f);
-            
             desiredMovementDirection += _right * (_inputX * movementSpeed);
             desiredMovementDirection *= Mathf.Clamp(_speed, -speedLimitStrafeRunning, speedLimitStrafeRunning);
             if (_speed > 1.2f)
             {
                 rotateCamForward += _right * ((_inputX ) * (_speed - (Mathf.Sign(_speed) * (_speed - rotationStrafeFactor))));
             }
-        }
-        else
-        {
-            //diagonal movement should not happen
-            //_animator.SetFloat(ValXHash, 0f, 0.1f, Time.deltaTime * 2f);
         }
 
         if (!desiredMovementDirection.Equals(Vector3.zero))
@@ -153,7 +146,7 @@ public class MovementInput : MonoBehaviour
                 transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(rotateCamForward), rotationSlerpSpeed);
             _animator.SetBool(IsMovingHash, true);
         }
-
+        
         if (!isGrounded)
         {
             if (transform.position.y >= 0.15f)
@@ -164,7 +157,7 @@ public class MovementInput : MonoBehaviour
         _controller.Move(desiredMovementDirection * Time.deltaTime);
     }
 
-    private void MoveFacingMovementDirection()
+    private void MoveFacingMovementDirection(float lerpMultiplier = 1f)
     {
         _forward = _cam.forward;
         _right = _cam.right;
@@ -182,15 +175,15 @@ public class MovementInput : MonoBehaviour
 
         if (!desiredMovementDirection.Equals(Vector3.zero))
         {
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(desiredMovementDirection), rotationSlerpSpeed);
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(desiredMovementDirection), rotationSlerpSpeed * lerpMultiplier);
             _animator.SetBool(IsMovingHash, true);
         }
 
-        if (doJump)
+        if(isJumping)
         {
-            desiredMovementDirection += (Vector3.up * jumpSpeed);
-            doJump = false;
+            desiredMovementDirection *= rollSpeed;
             _jumpDone = true;
+            playerHasControl = false;
         }
 
         if(_jumpDone)
@@ -203,6 +196,7 @@ public class MovementInput : MonoBehaviour
             else
             {
                 _jumpDone = false;
+                GiveBackMovementControl();
             }
         }
 
@@ -216,14 +210,26 @@ public class MovementInput : MonoBehaviour
         _controller.Move(desiredMovementDirection * Time.deltaTime);
     }
 
-    public void TakeAwayMovementControlFor(float seconds)
+    private void StartJump()
     {
-        playerHasControl = false;
-        desiredMovementDirection = Vector3.zero;
-        _animator.SetFloat(SpeedHash, 0f);
-        StartCoroutine(TakingAwayControl(seconds));
-    }
+        _animator.SetTrigger(StartJumpHash);
+        isJumping = true;
+        _jumpDone = false;
+        TakeAwayMovementControl();
 
+        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(desiredMovementDirection), rotationSlerpSpeed * 2f);
+        
+        rotationSlerpSpeed *= 0.1f;
+    }
+    
+    public void EndJump()
+    {
+        isJumping = false;
+        _jumpDone = true;
+        GiveBackMovementControl();
+        rotationSlerpSpeed /= 0.1f;
+    }
+    
     public void TakeAwayMovementControl()
     {
         playerHasControl = false;
@@ -235,11 +241,23 @@ public class MovementInput : MonoBehaviour
     {
         playerHasControl = true;
     }
+    
+    #region  legacy coroutine code for taking away movement control
 
+    public void TakeAwayMovementControlFor(float seconds)
+    {
+        playerHasControl = false;
+        desiredMovementDirection = Vector3.zero;
+        _animator.SetFloat(SpeedHash, 0f);
+        StartCoroutine(TakingAwayControl(seconds));
+    }
+    
     private IEnumerator TakingAwayControl(float seconds)
     {
         yield return new WaitForSeconds(seconds);
 
         playerHasControl = true;
     }
+
+    #endregion
 }

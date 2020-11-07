@@ -16,8 +16,7 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 _direction;
     private float _currentAngle = 0f;
 
-    [FormerlySerializedAs("LerpToSnapSpeed")] public float lerpToSnapSpeed = 0.1f;
-
+    public float lerpToSnapSpeed = 0.1f;
 
     private void Start()
     {

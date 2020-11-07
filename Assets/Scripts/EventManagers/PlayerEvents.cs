@@ -6,7 +6,9 @@ public class PlayerEvents : MonoBehaviour
     //Make sure your EventHandler class is on a gameobject
     public static PlayerEvents current;
 
-    public Action playerDeath, playerBirth, startCombatStrike;
+    public Action playerDeath, playerBirth;
+    public Action startCombatStrike, endCombatStrike;
+    public Action rollStart, rollEnd;
 
     private void Awake()
     {
@@ -29,5 +31,21 @@ public class PlayerEvents : MonoBehaviour
     public void InvokePlayerCombatStrikeStart()
     {
         startCombatStrike?.Invoke();
+    }
+    
+    public void InvokePlayerCombatStrikeEnd()
+    {
+        endCombatStrike?.Invoke();
+    }
+
+    public void InvokeJumpStart()
+    {
+        rollStart?.Invoke();
+    }
+    
+    public void InvokeJumpEnd()
+    {
+        //to be invoked in an animation behaviour
+        rollEnd?.Invoke();
     }
 }
