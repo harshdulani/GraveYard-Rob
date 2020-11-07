@@ -8,7 +8,6 @@ public class PlayerEvents : MonoBehaviour
 
     public Action playerDeath, playerBirth;
     public Action startCombatStrike, endCombatStrike;
-    public Action rollStart, rollEnd;
 
     private void Awake()
     {
@@ -36,16 +35,5 @@ public class PlayerEvents : MonoBehaviour
     public void InvokePlayerCombatStrikeEnd()
     {
         endCombatStrike?.Invoke();
-    }
-
-    public void InvokeJumpStart()
-    {
-        rollStart?.Invoke();
-    }
-    
-    public void InvokeJumpEnd()
-    {
-        //to be invoked in an animation behaviour
-        rollEnd?.Invoke();
     }
 }
