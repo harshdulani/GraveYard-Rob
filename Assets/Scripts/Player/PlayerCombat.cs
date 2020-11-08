@@ -42,7 +42,6 @@ public class PlayerCombat : MonoBehaviour
     private MovementInput _movementInput;
     private Camera _cam;
 
-    
     private PlayerWeaponController _playerWeaponController;
     private TargetAreaController _targetAreaController;
 
@@ -59,7 +58,7 @@ public class PlayerCombat : MonoBehaviour
 
     private void Update()
     {
-        if (!isAttacking)
+        if (!isAttacking && !MovementInput.current.isJumping)
         {
             if (Input.GetButtonDown("Fire1"))
             {

@@ -7,8 +7,7 @@ using UnityEngine.UI;
 public class EnemyController : MonoBehaviour
 {
     public Image healthBar;
-
-    public float waitBeforeAttackTime = 0.5f;
+    
     public float waitBeforeRecievingAttackTime = 0.5f;
 
     private static readonly int ShouldMeleeHash = Animator.StringToHash("shouldMelee");
@@ -63,9 +62,7 @@ public class EnemyController : MonoBehaviour
 
     public void DecreaseHealth(int amt)
     {
-        _enemyStats.enemyHealth -= amt;
-        UpdateHealthBar();
-        if (_enemyStats.enemyHealth <= 0)
+        if (_enemyStats.TakeHit(amt))
         {
             //die
             print("Enemy Killed.");
@@ -74,6 +71,7 @@ public class EnemyController : MonoBehaviour
         }
         else
             StartCoroutine(nameof(HitRecieved));
+        UpdateHealthBar();
     }
 
     private void UpdateHealthBar()
@@ -114,7 +112,7 @@ public class EnemyController : MonoBehaviour
 
     private IEnumerator OnAttackMelee()
     {
-        yield return new WaitForSeconds(waitBeforeAttackTime / 1.5f);
+        yield return new WaitForSeconds(_enemyStats.waitBeforeAttackTime / 1.5f);
         while (true)
         {
             _anim.SetTrigger(ShouldMeleeHash);
@@ -123,8 +121,10 @@ public class EnemyController : MonoBehaviour
                 yield return null;
                 yield break;
             }
-            _playerController.DecreaseHealth(_enemyStats.bumpDamage);
-            yield return new WaitForSeconds(waitBeforeAttackTime);
+            //TODO bump damage/ bump mechanic
+            //_playerController.DecreaseHealth(_enemyStats.bumpDamage);
+            _playerController.DecreaseHealth(_enemyStats.meleeDamage);
+            yield return new WaitForSeconds(_enemyStats.waitBeforeAttackTime);
         }
     }
 

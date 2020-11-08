@@ -7,12 +7,6 @@ using UnityEngine.UI;
 
 public class TargetAreaController : MonoBehaviour
 {
-    //TO DO: elevate the dirthole (and maybe coffin) using lerp
-    //with the lerp rate being the percentage of change in prev _currentHealth to new _currentHealth
-    //as compared to the distance between dirthole's initial pos and final pos
-    //which should be calculate at start via a coroutine so that it doesnt slow down the start by a lot of calculations
-    //or maybe calculate every time there is a new dig call
-
     [SerializeField]
     private Transform dirtHole;
 
@@ -34,9 +28,8 @@ public class TargetAreaController : MonoBehaviour
     {
         _digHitsRemaining = digsHitsRequired;
         var position = dirtHole.position;
-        position = new Vector3(position.x, dirtStartY, position.z);
+        dirtHole.position = new Vector3(position.x, dirtStartY, position.z);
         
-        dirtHole.position = position;
         _delta = Mathf.Abs(dirtEndY - dirtStartY) / digsHitsRequired;
 
         _playerCombat = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerCombat>();
@@ -54,7 +47,8 @@ public class TargetAreaController : MonoBehaviour
         var targetPercent = (--_digHitsRemaining) / (float)(digsHitsRequired);
         print(_digHitsRemaining);
 
-        dirtHole.position = Vector3.MoveTowards(dirtHole.position, new Vector3(dirtHole.position.x, dirtEndY, dirtHole.position.z), _delta);
+        var position = dirtHole.position;
+        dirtHole.position = Vector3.MoveTowards(position, new Vector3(position.x, dirtEndY, position.z), _delta);
 
         for (var i = healthBarLeft.fillAmount; i >= targetPercent; i -= 0.05f)
         {
@@ -67,7 +61,7 @@ public class TargetAreaController : MonoBehaviour
             _playerCombat.isDiggingComplete = true;
             _playerCombat.IsAllowedToDig = false;
             Destroy(healthBarLeft.transform.parent.parent.gameObject);
-            //change to modified grave with gold inside
+            //TODO change to modified grave with gold inside
             print("initiate looting grave");
         }
     }

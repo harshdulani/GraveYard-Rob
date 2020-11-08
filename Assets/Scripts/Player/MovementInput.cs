@@ -9,6 +9,8 @@ using Debug = System.Diagnostics.Debug;
 
 public class MovementInput : MonoBehaviour
 {
+    public static MovementInput current;
+    
     [Header("General")]
     public bool playerHasControl = true;
     [Tooltip("Must also change Animator Blend tree to corresponding change")]
@@ -53,6 +55,14 @@ public class MovementInput : MonoBehaviour
     private Transform _cam;
     private static Animator _animator;
     private CharacterController _controller;
+
+    private void Awake()
+    {
+        if (current == null)
+            current = this;
+        else
+            Destroy(this);
+    }
 
     private void Start()
     {

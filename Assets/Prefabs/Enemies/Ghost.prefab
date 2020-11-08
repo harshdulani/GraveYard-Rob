@@ -951,6 +951,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 500
   bumpDamage: 50
+  meleeDamage: 75
+  waitBeforeAttackTime: 2
   enemyHealth: 0
 --- !u!114 &919132147837541352
 MonoBehaviour:
@@ -965,7 +967,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthBar: {fileID: 177689023}
-  waitBeforeAttackTime: 1
   waitBeforeRecievingAttackTime: 0.5
 --- !u!114 &919132147837541354
 MonoBehaviour:

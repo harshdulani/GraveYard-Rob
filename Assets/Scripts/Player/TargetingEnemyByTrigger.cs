@@ -11,7 +11,7 @@ public class TargetingEnemyByTrigger : MonoBehaviour
     private Vector3 _desiredMovementDirection;
     private float _currentDistance;
     private float _minDistance;
-    private bool _isRotatingToEnemy;
+    private bool _isRotatingToEnemy = false;
 
     private Camera _cam;
 
@@ -41,8 +41,9 @@ public class TargetingEnemyByTrigger : MonoBehaviour
 
     private void LateUpdate()
     {
-        if(_isRotatingToEnemy)
-            Rotate(_target.position);
+        if (!_isRotatingToEnemy) return;
+        if (!_target) return;
+        Rotate(_target.position);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -71,7 +72,7 @@ public class TargetingEnemyByTrigger : MonoBehaviour
 
     private bool FindTarget()
     {
-        var noOfTargets = GameStats.current.EnemiesAlive;
+        var noOfTargets = enemies.Count;
 
         if (noOfTargets == 1)
         {
@@ -91,7 +92,7 @@ public class TargetingEnemyByTrigger : MonoBehaviour
             _minDistance = 10000f;
             try
             {
-                foreach (var enemy in GameStats.current.activeEnemies)
+                foreach (var enemy in enemies)
                 {
                     //this is distance between two points, removed sqrt from formula because increased time complexity and sometimes give NaN
                     var enemyPos = enemy.position;
@@ -110,9 +111,9 @@ public class TargetingEnemyByTrigger : MonoBehaviour
                     }
                 }
             }
-            catch
+            catch (Exception e)
             {
-                print("Problem occurred with finding enemy targets.");
+                print(e);
                 return false;
             }
         }
@@ -140,18 +141,9 @@ public class TargetingEnemyByTrigger : MonoBehaviour
         if (enemies.Contains(enemy))
             enemies.Remove(enemy);
     }
-    
-    private void ReOrient(Transform target)
-    {
-        var direction = target.position - _player.position;
-        var angle = (Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg);
-        _player.rotation = Quaternion.AngleAxis(angle, Vector3.up);
-    }
-    
+
     private void Rotate(Vector3 position)
     {
-        print("rotating to " + position);
-        
         if (position.Equals(Vector3.zero))
             _desiredMovementDirection = _player.position - _cam.transform.position;
         else

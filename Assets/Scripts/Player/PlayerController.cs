@@ -21,17 +21,17 @@ public class PlayerController : MonoBehaviour
     }
 
     public void DecreaseHealth(int amt)
-    {        
-        _playerStats.playerHealth -= amt;
-        UpdateHealthBar();
-        UpdateHealthText();
-        if (_playerStats.playerHealth <= 0)
+    {
+        if (_playerStats.TakeHit(amt))
         {
             //die
             print("YOU DIED.");
-            PlayerEvents.current.InvokePlayerDeath();   //this ? checks and only invokes if this Action is not null
+            PlayerEvents.current.InvokePlayerDeath();
             Destroy(gameObject);
         }
+
+        UpdateHealthBar();
+        UpdateHealthText();
     }
 
     private void UpdateHealthBar()

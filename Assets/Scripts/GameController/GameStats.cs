@@ -1,17 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class GameStats : MonoBehaviour
 {
+    //TODO we shall also require a GameEvents class for containing events like
+    //game start game end wave start wave end
     public static GameStats current;
     
-    public List<Transform> activeEnemies; 
-    public int wavesKilled = 0;
-    public int enemiesKilled = 0;
-
-    private int _enemiesSpawned = 0;
+    public List<Transform> activeEnemies;
+    
     public int EnemiesAlive => activeEnemies.Count;
 
     //might be useful for a respawn ability, game start checks, game end checks  
@@ -51,13 +49,11 @@ public class GameStats : MonoBehaviour
     private void OnEnemyBirth(Transform enemy)
     {
         activeEnemies.Add(enemy);
-        _enemiesSpawned++;
     }
 
     private void OnEnemyDeath(Transform enemy)
     {
         activeEnemies.Remove(enemy);
-        enemiesKilled++;
     }
     
     private void OnPlayerBirth()

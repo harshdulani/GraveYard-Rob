@@ -1974,7 +1974,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 231666163}
-  m_LocalRotation: {x: 0.21387976, y: 0.00000009840459, z: -0.000000021545308, w: 0.97686}
+  m_LocalRotation: {x: 0.21387976, y: 0.00000006082026, z: -0.000000013316363, w: 0.97686}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -2638,7 +2638,7 @@ Transform:
   m_Children:
   - {fileID: 1255688150}
   m_Father: {fileID: 1833735538}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &358466692
 PrefabInstance:
@@ -4671,7 +4671,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 566229444}
-  m_LocalRotation: {x: 0.23156622, y: 0.00000008765245, z: -0.00000002086446, w: 0.97281915}
+  m_LocalRotation: {x: 0.23156622, y: 0.00000007091376, z: -0.000000016880046, w: 0.97281915}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -6408,7 +6408,7 @@ GameObject:
   m_Component:
   - component: {fileID: 866412428}
   m_Layer: 0
-  m_Name: Have all canvases controlled by their own scripts and listening to Action
+  m_Name: Have all canvases be controlled by their own scripts and listening to Action
     events
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11740,7 +11740,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1095523731}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 0.43313423, y: 0.10126754, z: 1.9519945}
@@ -12677,7 +12677,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1833735538}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1195408152 stripped
 GameObject:
@@ -14280,36 +14280,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 2.0427792, y: 2.1752045, z: 7.1973763}
   m_Center: {x: -0.020093322, y: 0, z: 3.5986881}
---- !u!1 &1372487820
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1372487821}
-  m_Layer: 0
-  m_Name: playertargeting
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1372487821
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1372487820}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1833735538}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1373081686 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 8ce01b95f6e934a4e8adff13bceaadc8, type: 3}
@@ -14954,7 +14924,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1458113811}
-  m_LocalRotation: {x: 0.24146381, y: 0.000000093780315, z: -0.00000002333504, w: 0.97040987}
+  m_LocalRotation: {x: 0.24146381, y: 0.00000006439317, z: -0.000000016022735, w: 0.97040987}
   m_LocalPosition: {x: 29.53, y: 10.049889, z: 44.468224}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -15442,7 +15412,7 @@ GameObject:
   - component: {fileID: 1497086998}
   - component: {fileID: 1497086997}
   m_Layer: 5
-  m_Name: GameCanvas
+  m_Name: ObjectivesCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15724,8 +15694,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   activeEnemies: []
-  wavesKilled: 0
-  enemiesKilled: 0
   isPlayerAlive: 0
 --- !u!114 &1512084989
 MonoBehaviour:
@@ -18206,9 +18174,9 @@ Transform:
   m_Children:
   - {fileID: 1858408383}
   - {fileID: 866412428}
-  - {fileID: 1372487821}
   - {fileID: 1182228961}
   - {fileID: 349221033}
+  - {fileID: 1972164445}
   m_Father: {fileID: 1933508151}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -19404,6 +19372,36 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 0, z: 0.827}
   m_TimeToStationary: 0.5
+--- !u!1 &1972164444
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1972164445}
+  m_Layer: 0
+  m_Name: Start restoring health after a timeout
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1972164445
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1972164444}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1833735538}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1978021706
 GameObject:
   m_ObjectHideFlags: 0
