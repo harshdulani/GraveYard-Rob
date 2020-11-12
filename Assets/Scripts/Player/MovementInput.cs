@@ -227,7 +227,8 @@ public class MovementInput : MonoBehaviour
         _jumpDone = false;
         TakeAwayMovementControl();
 
-        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(desiredMovementDirection), rotationSlerpSpeed * 2f);
+        if(!desiredMovementDirection.Equals(Vector3.zero))
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(desiredMovementDirection), rotationSlerpSpeed * 2f);
         
         rotationSlerpSpeed *= 0.1f;
     }
