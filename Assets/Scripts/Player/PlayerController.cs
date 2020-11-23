@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,6 +8,8 @@ public class PlayerController : MonoBehaviour
     public Text healthText;
 
     private PlayerStats _playerStats;
+    private static readonly int PlayerBorn = Animator.StringToHash("playerBorn");
+    private static readonly int CycleWeapon = Animator.StringToHash("cycleWeapon");
 
     private void Start()
     {
@@ -18,6 +18,37 @@ public class PlayerController : MonoBehaviour
         _playerStats = GetComponent<PlayerStats>();
         UpdateHealthBar();
         UpdateHealthText();
+    }
+
+    private void OnEnable()
+    {
+        GameFlowEvents.current.gameplayStart += OnGameplayStart;
+    }
+
+    private void OnDisable()
+    {
+        GameFlowEvents.current.gameplayStart -= OnGameplayStart;
+    }
+
+    private void OnGameplayStart()
+    {
+        GetComponent<CharacterController>().enabled = false;
+        StartCoroutine(StartAnimation());
+        GetComponentInChildren<PlayerWeaponController>().gameObject.SetActive(false);
+    }
+
+    private IEnumerator StartAnimation()
+    {
+        yield return new WaitForSeconds(1f);
+        GetComponent<Animator>().SetBool(PlayerBorn, true);
+    }
+
+    public void OnClimbDownFence()
+    {
+        GetComponent<Animator>().SetTrigger(CycleWeapon);
+        GetComponent<CharacterController>().enabled = true;
+        GetComponentInChildren<PlayerWeaponController>().gameObject.SetActive(true);
+        //slide in objective canvas & player canvas
     }
 
     public void DecreaseHealth(int amt)
