@@ -7,9 +7,6 @@ public class EnemyWaveController : MonoBehaviour
     [Header("General")] 
     public bool isSpawnerRunning;
 
-    [HideInInspector]
-    public float spawnStartWaitTime;
-
     [Header("Enemy Spawning")] 
     public Text enemyCountText;
     public string enemyCountPrefix;
@@ -48,13 +45,13 @@ public class EnemyWaveController : MonoBehaviour
         _spawner = GetComponent<EnemySpawner>();
     }
 
-    private IEnumerator SpawnLoop()
+    private IEnumerator SpawnLoop(float startWaitTime)
     {
         while (isSpawnerRunning)
         {
-            StartCoroutine(CountDown(spawnStartWaitTime));
+            StartCoroutine(CountDown(startWaitTime));
             //wait before starting to spawn enemies
-            yield return new WaitForSeconds(spawnStartWaitTime);
+            yield return new WaitForSeconds(startWaitTime);
 
             //calculate waves in current game
             int wavesInThisGame = Random.Range(idealWaveCount - deviationWaveCount,
@@ -135,14 +132,14 @@ public class EnemyWaveController : MonoBehaviour
         UpdateEnemyCount();
     }
 
-    public void StartWaveSpawning()
+    public void StartWaveSpawning(float startWaitTime)
     {
         UpdateWaveCount();
         UpdateEnemyCount();
         
         //this will ofc be called by GameFlowController/LevelFlowController
         if(isSpawnerRunning)
-            StartCoroutine(SpawnLoop());
+            StartCoroutine(SpawnLoop(startWaitTime));
     }
     
     public void EndWaveSpawning()

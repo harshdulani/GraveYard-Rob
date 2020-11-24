@@ -35,7 +35,7 @@ public class LevelFlowController : MonoBehaviour
 
     private void OnGameplayStart()
     {
-        _waveController.StartWaveSpawning();
+        _waveController.StartWaveSpawning(gameplayStartWaitTime);
 
         //change CM Live camera field
         foreach (var thing in thingsToEnableWhenGameplayStarts)

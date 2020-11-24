@@ -19,8 +19,8 @@ public class PlayerCombat : MonoBehaviour
 
     [Header("Digging Grave")] [SerializeField]
     private GameObject shovel;
-
     public bool isDiggingComplete;
+    public TargetAreaController _targetAreaController;
 
     private bool _allowedToDig;
 
@@ -43,11 +43,9 @@ public class PlayerCombat : MonoBehaviour
     private Camera _cam;
 
     private PlayerWeaponController _playerWeaponController;
-    private TargetAreaController _targetAreaController;
 
     private void Start()
     {
-        _targetAreaController = GameObject.FindGameObjectWithTag("Target").GetComponent<TargetAreaController>();
         _playerWeaponController = GetComponentInChildren<PlayerWeaponController>();
         _anim = GetComponent<Animator>();
         _movementInput = GetComponent<MovementInput>();

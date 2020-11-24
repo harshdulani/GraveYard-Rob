@@ -8,6 +8,8 @@ public class PlayerController : MonoBehaviour
     public Text healthText;
 
     private PlayerStats _playerStats;
+    private PlayerWeaponController _weaponController;
+
     private static readonly int PlayerBorn = Animator.StringToHash("playerBorn");
     private static readonly int CycleWeapon = Animator.StringToHash("cycleWeapon");
 
@@ -33,8 +35,10 @@ public class PlayerController : MonoBehaviour
     private void OnGameplayStart()
     {
         GetComponent<CharacterController>().enabled = false;
+        GetComponent<MovementInput>().TakeAwayMovementControl();
         StartCoroutine(StartAnimation());
-        GetComponentInChildren<PlayerWeaponController>().gameObject.SetActive(false);
+        _weaponController = GetComponentInChildren<PlayerWeaponController>();
+        _weaponController.gameObject.SetActive(false);
     }
 
     private IEnumerator StartAnimation()
@@ -47,7 +51,8 @@ public class PlayerController : MonoBehaviour
     {
         GetComponent<Animator>().SetTrigger(CycleWeapon);
         GetComponent<CharacterController>().enabled = true;
-        GetComponentInChildren<PlayerWeaponController>().gameObject.SetActive(true);
+        _weaponController.gameObject.SetActive(true);
+        GetComponent<MovementInput>().GiveBackMovementControl();
         //slide in objective canvas & player canvas
     }
 

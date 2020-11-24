@@ -31,8 +31,10 @@ public class GameFlowController : MonoBehaviour
         
         //fire an event that the player will listen to
         //char controller off - X
+        //change camera to be looking at the player but using cm 3rd person 
+        //try different animation
         //player jumps from gate onto ground - X
-        //wields sword
+        //wields sword - X
         //char controller on - X
         //objectives canvas & player canvas slides in
         //unload mainmenu

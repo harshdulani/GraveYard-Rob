@@ -48,7 +48,7 @@ public class MainMenuController : MonoBehaviour
 
     private float waitBeforeScrolling = 1f;
     private int _totalOptionCount = 4;
-    private bool _initiated, _allowedToScroll = true;
+    private bool _initiated, _allowedToScroll = true, inGame;
 
     private static readonly mainMenuOptions _selection;
     
@@ -67,7 +67,8 @@ public class MainMenuController : MonoBehaviour
     private void Update()
     {
         if (!_initiated) return;
-        if(!_allowedToScroll) return;
+        if (inGame) return;
+        if (!_allowedToScroll) return;
         
         if (Input.GetAxisRaw("Horizontal") == 1f)
         {
@@ -96,6 +97,7 @@ public class MainMenuController : MonoBehaviour
                 break;
             case mainMenuOptions.Play:
                 GameFlowEvents.current.InvokeGameplayStart();
+                OnGameplayStart();
                 break;
             case mainMenuOptions.About:
                 print("lmao later");
@@ -103,7 +105,17 @@ public class MainMenuController : MonoBehaviour
             case mainMenuOptions.Settings:
                 print("lmao later");
                 break;
+            default:
+                print("not processed properly");
+                break;
         }
+
+        inGame = true;
+    }
+
+    private void OnGameplayStart()
+    {
+        SceneManager.UnloadSceneAsync("MainMenuScene");
     }
 
     private void OnLoadMainMenu()
