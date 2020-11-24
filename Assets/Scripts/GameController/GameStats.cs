@@ -13,7 +13,7 @@ public class GameStats : MonoBehaviour
     public int EnemiesAlive => activeEnemies.Count;
 
     //might be useful for a respawn ability, game start checks, game end checks  
-    [SerializeField] private bool isPlayerAlive = false;
+    public bool isPlayerAlive;
 
     private void Awake()
     {

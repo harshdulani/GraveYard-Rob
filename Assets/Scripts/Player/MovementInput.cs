@@ -55,6 +55,7 @@ public class MovementInput : MonoBehaviour
     private Transform _cam;
     private static Animator _animator;
     private CharacterController _controller;
+    private static readonly int LandingFromFence = Animator.StringToHash("landingFromFence");
 
     private void Awake()
     {
@@ -74,7 +75,9 @@ public class MovementInput : MonoBehaviour
     private void Update()
     {
         isGrounded = _controller.isGrounded;
-
+        
+        if(!GameStats.current.isPlayerAlive) return;
+        
         if(playerHasControl)
         {
             if (Input.GetButtonDown("Jump") && !isJumping)
@@ -189,7 +192,7 @@ public class MovementInput : MonoBehaviour
             _animator.SetBool(IsMovingHash, true);
         }
 
-        if(isJumping)
+        if(isJumping && !_animator.GetBool(LandingFromFence))
         {
             desiredMovementDirection *= rollSpeed;
             _jumpDone = true;

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -34,25 +35,26 @@ public class PlayerController : MonoBehaviour
 
     private void OnGameplayStart()
     {
-        GetComponent<CharacterController>().enabled = false;
-        GetComponent<MovementInput>().TakeAwayMovementControl();
-        StartCoroutine(StartAnimation());
+        GetComponent<Animator>().SetBool(PlayerBorn, true);
+        //StartCoroutine(StartAnimation());
+        //GetComponent<CharacterController>().enabled = false;
+        //GetComponent<MovementInput>().TakeAwayMovementControl();
         _weaponController = GetComponentInChildren<PlayerWeaponController>();
         _weaponController.gameObject.SetActive(false);
     }
 
     private IEnumerator StartAnimation()
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.1f);
         GetComponent<Animator>().SetBool(PlayerBorn, true);
     }
 
     public void OnClimbDownFence()
     {
         GetComponent<Animator>().SetTrigger(CycleWeapon);
-        GetComponent<CharacterController>().enabled = true;
+        //GetComponent<CharacterController>().enabled = true;
         _weaponController.gameObject.SetActive(true);
-        GetComponent<MovementInput>().GiveBackMovementControl();
+        //GetComponent<MovementInput>().GiveBackMovementControl();
         //slide in objective canvas & player canvas
     }
 
