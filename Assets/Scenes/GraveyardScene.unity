@@ -4701,7 +4701,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mySlideInDirection: 3
-  _slideOverTimeCurve:
+  slideOverTimeCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
@@ -4714,13 +4714,22 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 2
-      value: 1
-      inSlope: 0.23781021
-      outSlope: 0.23781021
+      time: 1.7181044
+      value: 0.9922122
+      inSlope: 0.056437742
+      outSlope: 0.056437742
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.10239315
+      inWeight: 0.07536545
+      outWeight: 0.48950613
+    - serializedVersion: 3
+      time: 2
+      value: 1
+      inSlope: 0.14772235
+      outSlope: 0.14772235
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.08076358
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -12512,7 +12521,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1201436985
 Transform:
   m_ObjectHideFlags: 0
@@ -13147,7 +13156,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mySlideInDirection: 0
-  _slideOverTimeCurve:
+  slideOverTimeCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
@@ -13160,13 +13169,22 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 2
-      value: 1
-      inSlope: 0.23781021
-      outSlope: 0.23781021
+      time: 1.7181044
+      value: 0.9922122
+      inSlope: 0.056437742
+      outSlope: 0.056437742
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.10239315
+      inWeight: 0.07536545
+      outWeight: 0.48950613
+    - serializedVersion: 3
+      time: 2
+      value: 1
+      inSlope: 0.14772235
+      outSlope: 0.14772235
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.08076358
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -15630,10 +15648,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   thingsToEnableWhenGameplayStarts:
   - {fileID: 1289800022}
-  - {fileID: 1201436984}
+  - {fileID: 940837276}
   - {fileID: 30900918}
   - {fileID: 1497086996}
-  - {fileID: 940837276}
   gameplayStartWaitTime: 10
 --- !u!114 &1512084988
 MonoBehaviour:
@@ -17807,7 +17824,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mySlideInDirection: 1
-  _slideOverTimeCurve:
+  slideOverTimeCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
@@ -17820,13 +17837,22 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 2
-      value: 1
-      inSlope: 0.23781021
-      outSlope: 0.23781021
+      time: 1.7181044
+      value: 0.9922122
+      inSlope: 0.056437742
+      outSlope: 0.056437742
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.10239315
+      inWeight: 0.07536545
+      outWeight: 0.48950613
+    - serializedVersion: 3
+      time: 2
+      value: 1
+      inSlope: 0.14772235
+      outSlope: 0.14772235
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.08076358
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2

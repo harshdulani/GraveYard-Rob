@@ -1,13 +1,12 @@
 ﻿using System;
-using System.Collections;
 using UnityEngine;
 
 public enum SlideInDirection
 {
-    fromLeft,
-    fromRight,
-    fromTop,
-    fromBottom
+    FromLeft,
+    FromRight,
+    FromTop,
+    FromBottom
 }
 
 public class SlideIntoScreen : MonoBehaviour
@@ -16,11 +15,10 @@ public class SlideIntoScreen : MonoBehaviour
 
     private Vector3 _initialLocalPosition, _newLocalPosition;
     private float _time, _endTime;
-    private float _multiplier, _sign;
     private bool _isSlidingIn;
 
     private RectTransform _rectTransform;
-    [SerializeField] AnimationCurve _slideOverTimeCurve;
+    [SerializeField] private AnimationCurve slideOverTimeCurve;
     
     private void OnEnable()
     {
@@ -36,23 +34,21 @@ public class SlideIntoScreen : MonoBehaviour
     {
         _rectTransform = GetComponent<RectTransform>();
         _initialLocalPosition = _rectTransform.localPosition;
-        _endTime = _slideOverTimeCurve.keys[_slideOverTimeCurve.keys.Length - 1].time;
+        _endTime = slideOverTimeCurve.keys[slideOverTimeCurve.keys.Length - 1].time;
 
         switch (mySlideInDirection)
         {
-            case SlideInDirection.fromLeft:
-            case SlideInDirection.fromRight:
+            case SlideInDirection.FromLeft:
+            case SlideInDirection.FromRight:
                 _rectTransform.localPosition = _newLocalPosition = new Vector3(_initialLocalPosition.x * 2, _initialLocalPosition.y, _initialLocalPosition.z);
                 break;
-            case SlideInDirection.fromTop:
-            case SlideInDirection.fromBottom:
+            case SlideInDirection.FromTop:
+            case SlideInDirection.FromBottom:
                 _rectTransform.localPosition = _newLocalPosition = new Vector3(_initialLocalPosition.x, _initialLocalPosition.y * 2, _initialLocalPosition.z);
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
         }
-
-        print("new pos = " + _rectTransform.localPosition);
     }
 
     private void Update()
@@ -65,17 +61,15 @@ public class SlideIntoScreen : MonoBehaviour
     {
         _time += Time.deltaTime;
 
-        _multiplier = _slideOverTimeCurve.Evaluate(_time);
-
         switch (mySlideInDirection)
         {
-            case SlideInDirection.fromLeft:
-            case SlideInDirection.fromRight:
-                _rectTransform.localPosition = new Vector3(_newLocalPosition.x - _initialLocalPosition.x * _multiplier, _newLocalPosition.y, _newLocalPosition.z);
+            case SlideInDirection.FromLeft:
+            case SlideInDirection.FromRight:
+                _rectTransform.localPosition = new Vector3(_newLocalPosition.x - _initialLocalPosition.x * slideOverTimeCurve.Evaluate(_time), _newLocalPosition.y, _newLocalPosition.z);
                 break;
-            case SlideInDirection.fromTop:
-            case SlideInDirection.fromBottom:
-                _rectTransform.localPosition = new Vector3(_newLocalPosition.x, _newLocalPosition.y + _initialLocalPosition.y * _multiplier, _newLocalPosition.z);
+            case SlideInDirection.FromTop:
+            case SlideInDirection.FromBottom:
+                _rectTransform.localPosition = new Vector3(_newLocalPosition.x, _newLocalPosition.y - _initialLocalPosition.y * slideOverTimeCurve.Evaluate(_time), _newLocalPosition.z);
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
