@@ -16,6 +16,8 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
+        _weaponController = GetComponentInChildren<PlayerWeaponController>();
+        _weaponController.gameObject.SetActive(false);
         PlayerEvents.current.InvokePlayerBirth();
         
         _playerStats = GetComponent<PlayerStats>();
@@ -39,14 +41,6 @@ public class PlayerController : MonoBehaviour
         //StartCoroutine(StartAnimation());
         //GetComponent<CharacterController>().enabled = false;
         //GetComponent<MovementInput>().TakeAwayMovementControl();
-        _weaponController = GetComponentInChildren<PlayerWeaponController>();
-        _weaponController.gameObject.SetActive(false);
-    }
-
-    private IEnumerator StartAnimation()
-    {
-        yield return new WaitForSeconds(0.1f);
-        GetComponent<Animator>().SetBool(PlayerBorn, true);
     }
 
     public void OnClimbDownFence()
