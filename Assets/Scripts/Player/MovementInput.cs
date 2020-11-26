@@ -31,6 +31,8 @@ public class MovementInput : MonoBehaviour
     public bool isGrounded;
     private bool _jumpDone = false;
 
+    private Vector3 groudingVector;
+
     [Header("Diagonal StrafeRunning")]
     [Range(0f, 1f)]
     public float rotationStrafeFactor;
@@ -84,14 +86,11 @@ public class MovementInput : MonoBehaviour
             {
                 StartJump();
             }
-            if (Input.GetKey(KeyCode.LeftShift))
-            {
-                isWalking = true;
-            }
-            else
-                isWalking = false;
+            isWalking = Input.GetKey(KeyCode.LeftShift);
             InputMagnitude();
         }
+        else if(!isGrounded)
+            GroundPlayer();
     }
 
     private void InputMagnitude()
@@ -114,7 +113,6 @@ public class MovementInput : MonoBehaviour
 
         _animator.SetFloat(SpeedHash, _speed);
 
-        
         if (_speed > allowPlayerRotationSpeed)
         {
             if(shouldFaceTowardMouse && !isJumping)
@@ -188,18 +186,19 @@ public class MovementInput : MonoBehaviour
 
         if (!desiredMovementDirection.Equals(Vector3.zero))
         {
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(desiredMovementDirection), rotationSlerpSpeed * lerpMultiplier);
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(desiredMovementDirection),
+                rotationSlerpSpeed * lerpMultiplier);
             _animator.SetBool(IsMovingHash, true);
         }
 
-        if(isJumping && !_animator.GetBool(LandingFromFence))
+        if (isJumping && !_animator.GetBool(LandingFromFence))
         {
             desiredMovementDirection *= rollSpeed;
             _jumpDone = true;
             playerHasControl = false;
         }
 
-        if(_jumpDone)
+        if (_jumpDone)
         {
             if (!isGrounded)
             {
@@ -223,6 +222,14 @@ public class MovementInput : MonoBehaviour
         _controller.Move(desiredMovementDirection * Time.deltaTime);
     }
 
+    private void GroundPlayer()
+    {
+        if (transform.position.y >= 0.15f)
+            groudingVector.y = -transform.position.y * 2f;
+        
+        _controller.Move(groudingVector * Time.deltaTime);
+    }
+    
     private void StartJump()
     {
         _animator.SetTrigger(StartJumpHash);

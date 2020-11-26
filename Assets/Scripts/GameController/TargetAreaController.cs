@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.ComponentModel.Design;
 using System.Security.Cryptography;
 using UnityEngine;
@@ -23,12 +24,20 @@ public class TargetAreaController : MonoBehaviour
     private float _delta;
 
     private PlayerCombat _playerCombat;
-    
+
+    private void OnEnable()
+    {
+        GameFlowEvents.current.gameplayStart += OnGameplayStart;
+    }
+
+    private void OnDisable()
+    {
+        GameFlowEvents.current.gameplayStart -= OnGameplayStart;
+    }
+
     private void Start()
     {
         _digHitsRemaining = digsHitsRequired;
-        var position = dirtHole.position;
-        dirtHole.position = new Vector3(position.x, dirtStartY, position.z);
         
         _delta = Mathf.Abs(dirtEndY - dirtStartY) / digsHitsRequired;
 
@@ -64,6 +73,12 @@ public class TargetAreaController : MonoBehaviour
             //TODO change to modified grave with gold inside
             print("initiate looting grave");
         }
+    }
+
+    private void OnGameplayStart()
+    {
+        var position = dirtHole.position;
+        dirtHole.position = new Vector3(position.x, dirtStartY, position.z);
     }
     
     private void UpdateHealthBar(float amount)

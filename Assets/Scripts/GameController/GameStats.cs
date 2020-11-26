@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class GameStats : MonoBehaviour
 {
-    //TODO we shall also require a GameEvents class for containing events like
-    //game start game end wave start wave end
     public static GameStats current;
     
     public List<Transform> activeEnemies;

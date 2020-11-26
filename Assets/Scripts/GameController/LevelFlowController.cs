@@ -31,6 +31,9 @@ public class LevelFlowController : MonoBehaviour
     private void Start()
     {
         _waveController = GetComponent<EnemyWaveController>();
+        
+        //TODO: add a black screen w some text/logo that clears up 1 seconds after this start is executed so that all starts are executed
+        //and players dont have to see a stutter
     }
 
     private void OnGameplayStart()
