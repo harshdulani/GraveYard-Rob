@@ -119,7 +119,7 @@ public class PlayerCombat : MonoBehaviour
         }
     }
 
-    private void SwapWeapon()
+    public void SwapWeapon()
     {
         _anim.SetTrigger(CycleWeapon);
         isAttacking = true;

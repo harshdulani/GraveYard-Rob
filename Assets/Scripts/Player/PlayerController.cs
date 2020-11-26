@@ -38,19 +38,11 @@ public class PlayerController : MonoBehaviour
     private void OnGameplayStart()
     {
         GetComponent<Animator>().SetBool(PlayerBorn, true);
-        //StartCoroutine(StartAnimation());
-        //GetComponent<CharacterController>().enabled = false;
-        //GetComponent<MovementInput>().TakeAwayMovementControl();
     }
 
     public void OnClimbDownFence()
     {
-        GetComponent<Animator>().SetTrigger(CycleWeapon);
-        //GetComponent<CharacterController>().enabled = true;
-        _weaponController.gameObject.SetActive(true);
-        //GetComponent<MovementInput>().GiveBackMovementControl();
-        //slide in objective canvas & player canvas
-
+        GetComponent<PlayerCombat>().SwapWeapon();
         //so that attacks can happen
         GameStats.current.isGamePlaying = true;
     }
