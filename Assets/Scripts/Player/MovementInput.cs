@@ -49,13 +49,13 @@ public class MovementInput : MonoBehaviour
     private static readonly int ValXHash = Animator.StringToHash("valX");
     private static readonly int ValZHash = Animator.StringToHash("valZ");
     private static readonly int IsMovingHash= Animator.StringToHash("isMoving");
-    private static readonly int StartJumpHash = Animator.StringToHash("startJump");
+    private static readonly int StartJumpHash = Animator.StringToHash("startJump");    
+    private static readonly int LandingFromFence = Animator.StringToHash("landingFromFence");
 
     //components
     private Transform _cam;
     private static Animator _animator;
     private CharacterController _controller;
-    private static readonly int LandingFromFence = Animator.StringToHash("landingFromFence");
 
     private void Awake()
     {
@@ -76,7 +76,7 @@ public class MovementInput : MonoBehaviour
     {
         isGrounded = _controller.isGrounded;
         
-        if(!GameStats.current.isPlayerAlive) return;
+        if(!GameStats.current.isGamePlaying) return;
         
         if(playerHasControl)
         {

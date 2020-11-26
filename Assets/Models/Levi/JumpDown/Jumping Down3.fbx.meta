@@ -1,11 +1,14 @@
 fileFormatVersion: 2
-guid: 5088ff207814a1747933920eb0561941
+guid: ada7fff8880ca184f86fa194b969f83e
 ModelImporter:
   serializedVersion: 20101
   internalIDToNameTable:
   - first:
       74: -203655887218126122
-    second: climbDownEnd
+    second: jump land
+  - first:
+      74: 6825458794138984765
+    second: climbDownLand
   externalObjects: {}
   materials:
     materialImportMode: 1
@@ -35,11 +38,11 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: climbDownEnd
+      name: climbDownLand
       takeName: mixamo.com
       internalID: 0
       firstFrame: 0
-      lastFrame: 39
+      lastFrame: 37
       wrapMode: 0
       orientationOffsetY: 0
       level: 0

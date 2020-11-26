@@ -35,10 +35,9 @@ public class OnClimbDownFence : StateMachineBehaviour
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if(MyJumpState == JumpState.JumpLoop) return;
-        if(!_movementInput.isGrounded) return;
-        animator.SetBool(LandingFromFence, true);
-        Debug.Log("hey");
+        if(MyJumpState != JumpState.JumpLoop) return;
+        if(_movementInput.isGrounded)
+            animator.SetBool(LandingFromFence, _movementInput.isGrounded);
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state

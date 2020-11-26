@@ -56,6 +56,9 @@ public class PlayerController : MonoBehaviour
         _weaponController.gameObject.SetActive(true);
         //GetComponent<MovementInput>().GiveBackMovementControl();
         //slide in objective canvas & player canvas
+
+        //so that attacks can happen
+        GameStats.current.isGamePlaying = true;
     }
 
     public void DecreaseHealth(int amt)

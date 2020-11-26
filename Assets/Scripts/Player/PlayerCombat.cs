@@ -56,6 +56,7 @@ public class PlayerCombat : MonoBehaviour
 
     private void Update()
     {
+        if(!GameStats.current.isGamePlaying) return;
         if (!isAttacking && !MovementInput.current.isJumping)
         {
             if (Input.GetButtonDown("Fire1"))
