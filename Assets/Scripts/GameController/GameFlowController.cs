@@ -26,11 +26,7 @@ public class GameFlowController : MonoBehaviour
 
     private void OnGameplayBegin()
     {
-        //move all these functions to a MainMenuController - X
-        //all other UI canvases will be turned off - X
-        
         //fire an event that the player will listen to
-        //objectives canvas & player canvas slides in
 
         //objective changes to "find recently dug grave" or something
         //when user finds targetGrave, turn on targetCanvas and change objective title

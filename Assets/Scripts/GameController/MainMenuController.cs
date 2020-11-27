@@ -61,6 +61,8 @@ public class MainMenuController : MonoBehaviour
     private void Start()
     {
         _totalOptionCount = Enum.GetValues(typeof(mainMenuOptions)).Length;
+        
+        if (SceneManager.GetSceneByName("GraveyardScene").isLoaded) return;
         OnLoadMainMenu();
     }
     
@@ -121,7 +123,7 @@ public class MainMenuController : MonoBehaviour
     private void OnLoadMainMenu()
     {
         var loading = SceneManager.LoadSceneAsync("GraveyardScene", LoadSceneMode.Additive);
-        
+
         loading.completed += (asyncOperation) =>
         {
             SceneManager.SetActiveScene(SceneManager.GetSceneByName("GraveyardScene"));

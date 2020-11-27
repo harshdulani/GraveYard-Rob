@@ -20664,6 +20664,10 @@ PrefabInstance:
       propertyPath: healthText
       value: 
       objectReference: {fileID: 84956522}
+    - target: {fileID: 4327995299076921473, guid: 353e9f3a759427444847ec94c42ad149, type: 3}
+      propertyPath: spawnPoint
+      value: 
+      objectReference: {fileID: 355260474}
     - target: {fileID: 4327995299076921475, guid: 353e9f3a759427444847ec94c42ad149, type: 3}
       propertyPath: m_Enabled
       value: 1

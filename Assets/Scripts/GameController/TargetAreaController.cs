@@ -77,7 +77,6 @@ public class TargetAreaController : MonoBehaviour
 
     private void OnGameplayStart()
     {
-        print("heysss");
         var position = dirtHole.position;
         dirtHole.position = new Vector3(position.x, dirtStartY, position.z);
     }

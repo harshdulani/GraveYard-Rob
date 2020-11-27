@@ -12,7 +12,6 @@ public class PlayerController : MonoBehaviour
     private PlayerWeaponController _weaponController;
 
     private static readonly int PlayerBorn = Animator.StringToHash("playerBorn");
-    private static readonly int CycleWeapon = Animator.StringToHash("cycleWeapon");
 
     private void Start()
     {
@@ -23,6 +22,9 @@ public class PlayerController : MonoBehaviour
         _playerStats = GetComponent<PlayerStats>();
         UpdateHealthBar();
         UpdateHealthText();
+
+        //so that hes not visible on main menu
+        transform.localScale = new Vector3(0, 0, transform.localScale.z);
     }
 
     private void OnEnable()
@@ -37,6 +39,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnGameplayStart()
     {
+        transform.localScale = Vector3.one;
         GetComponent<Animator>().SetBool(PlayerBorn, true);
     }
 
