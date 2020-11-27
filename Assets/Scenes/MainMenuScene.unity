@@ -806,8 +806,7 @@ GameObject:
   m_Component:
   - component: {fileID: 993300331}
   m_Layer: 0
-  m_Name: make grave be digged by default and enter "game mode" when gamestart event
-    is called etc
+  m_Name: game name should be present somewhere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1437,7 +1436,11 @@ MonoBehaviour:
   m_AnimatedTarget: {fileID: 1877174496}
   m_LayerIndex: 0
   m_ShowDebugText: 0
-  m_ChildCameras: []
+  m_ChildCameras:
+  - {fileID: 320894184}
+  - {fileID: 76977213}
+  - {fileID: 277603184}
+  - {fileID: 1056604575}
   m_Instructions:
   - m_FullHash: -675009578
     m_VirtualCamera: {fileID: 320894184}

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using Cinemachine;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,6 +9,8 @@ public class PlayerController : MonoBehaviour
 
     private PlayerStats _playerStats;
     private PlayerWeaponController _weaponController;
+    public CinemachineVirtualCamera climbDownFenceCamera;
+    public CinemachineFreeLook tpsCamera;
 
     private static readonly int PlayerBorn = Animator.StringToHash("playerBorn");
 
@@ -48,6 +49,9 @@ public class PlayerController : MonoBehaviour
         GetComponent<PlayerCombat>().SwapWeapon();
         //so that attacks can happen
         GameStats.current.isGamePlaying = true;
+
+        climbDownFenceCamera.gameObject.SetActive(false);
+        tpsCamera.gameObject.SetActive(true);
     }
 
     public void DecreaseHealth(int amt)

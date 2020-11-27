@@ -1,22 +1,18 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-
-public enum mainMenuOptions
+public enum pauseMenuOptions
 {
     Exit,
-    Settings,
-    Play,
-    About
+    Resume
 };
-
-public class MainMenuController : MonoBehaviour
+public class PauseMenuController : MonoBehaviour
 {
     #region Singleton, Awake() lies inside
 
-    private static MainMenuController main;
+    private static PauseMenuController main;
 
     private void Awake()
     {
@@ -43,33 +39,29 @@ public class MainMenuController : MonoBehaviour
             StartCoroutine(WaitForScrollingAgain());
         }
     }
-
-    private int _selectedMenuOption = 2;
+    
+    private int _selectedMenuOption = 0;
 
     private float _waitBeforeScrolling = 1f;
-    private int _totalOptionCount = 4;
-    private bool _initiated, _allowedToScroll = true, _inGame;
+    private int _totalOptionCount = 2;
+    private bool _allowedToScroll = true;
 
-    private static readonly mainMenuOptions _selection;
+    private static readonly pauseMenuOptions _selection;
     
     public Animator cameraAnim;
-    public GameObject optionTextMeshHolder;
     
     private static readonly int RightKeyPress = Animator.StringToHash("rightKeyPress");
     private static readonly int LeftKeyPress = Animator.StringToHash("leftKeyPress");
     
     private void Start()
     {
-        _totalOptionCount = Enum.GetValues(typeof(mainMenuOptions)).Length;
+        _totalOptionCount = System.Enum.GetValues(typeof(mainMenuOptions)).Length;
         
-        if (SceneManager.GetSceneByName("GraveyardScene").isLoaded) return;
-        OnLoadMainMenu();
+        OnLoadPauseMenu();
     }
-    
+
     private void Update()
     {
-        if (!_initiated) return;
-        if (_inGame) return;
         if (!_allowedToScroll) return;
         
         if (Input.GetAxisRaw("Horizontal") == 1f)
@@ -85,60 +77,47 @@ public class MainMenuController : MonoBehaviour
 
         if (Input.GetButtonDown("Submit"))
         {
-            MakeSelection((mainMenuOptions) Mathf.Abs(SelectedMenuOption));
+            MakeSelection((pauseMenuOptions) Mathf.Abs(SelectedMenuOption));
         }
     }
 
-    private void MakeSelection(mainMenuOptions option)
+    private void MakeSelection(pauseMenuOptions option)
     {
         print("selected " + option);
         switch (option)
         {
-            case mainMenuOptions.Exit:
-                Application.Quit();
+            case pauseMenuOptions.Exit:
+                RestartGame();
                 break;
-            case mainMenuOptions.Play:
-                GameFlowEvents.current.InvokeGameplayStart();
-                OnGameplayStart();
-                break;
-            case mainMenuOptions.About:
-                print("lmao later");
-                //use this space to unset _inGame when coming back from this section
-                break;
-            case mainMenuOptions.Settings:
-                print("lmao later");
-                //use this space to unset _inGame when coming back from this section
+            case pauseMenuOptions.Resume:
+                GameFlowEvents.current.InvokeGameplayPause();
+                OnGameplayPause();
                 break;
             default:
                 print("not processed properly");
                 break;
         }
-
-        _inGame = true;
     }
 
-    private void OnGameplayStart()
+    private void OnLoadPauseMenu()
     {
-        SceneManager.UnloadSceneAsync("MainMenuScene");
+        //assign player reference
     }
 
-    private void OnLoadMainMenu()
+    private void OnGameplayPause()
     {
-        var loading = SceneManager.LoadSceneAsync("GraveyardScene", LoadSceneMode.Additive);
-
-        loading.completed += OnSceneLoadingComplete;
+        //slow down time to hyper low amount
+        //camera that looks at player for resume
+        //camera that looks at exit gate for exit
     }
 
-    private void OnSceneLoadingComplete(AsyncOperation operation)
+    private void RestartGame()
     {
-        SceneManager.SetActiveScene(SceneManager.GetSceneByName("GraveyardScene"));
-
-        optionTextMeshHolder.SetActive(true);
-
-        _initiated = true;
-        operation.completed -= OnSceneLoadingComplete;
+        //unload pausemenuscene
+        //timescale back to 1.0f
+        //tps camera turned on
     }
-
+    
     private IEnumerator WaitForScrollingAgain()
     {
         var targetTime = Time.time + _waitBeforeScrolling;
