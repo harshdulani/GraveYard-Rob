@@ -8,7 +8,7 @@ public enum pauseMenuOptions
     Exit,
     Resume
 };
-public class PauseMenuController : MonoBehaviour
+public class PauseMenuController : AMenuController
 {
     #region Singleton, Awake() lies inside
 
@@ -26,33 +26,9 @@ public class PauseMenuController : MonoBehaviour
     }
 
     #endregion
-    
-    public int SelectedMenuOption //there because does setter computation, also may be used by main menu nav
-    {
-        get => _selectedMenuOption;
-        private set
-        {
-            if (value == -1)
-                value = _totalOptionCount - 1;
-            _selectedMenuOption = value % _totalOptionCount;
-            _allowedToScroll = false;
-            StartCoroutine(WaitForScrollingAgain());
-        }
-    }
-    
-    private int _selectedMenuOption = 0;
-
-    private float _waitBeforeScrolling = 1f;
-    private int _totalOptionCount = 2;
-    private bool _allowedToScroll = true;
-
+   
     private static readonly pauseMenuOptions _selection;
-    
-    public Animator cameraAnim;
-    
-    private static readonly int RightKeyPress = Animator.StringToHash("rightKeyPress");
-    private static readonly int LeftKeyPress = Animator.StringToHash("leftKeyPress");
-    
+
     private void Start()
     {
         _totalOptionCount = System.Enum.GetValues(typeof(mainMenuOptions)).Length;
@@ -77,12 +53,13 @@ public class PauseMenuController : MonoBehaviour
 
         if (Input.GetButtonDown("Submit"))
         {
-            MakeSelection((pauseMenuOptions) Mathf.Abs(SelectedMenuOption));
+            MakeSelection(SelectedMenuOption);
         }
     }
 
-    private void MakeSelection(pauseMenuOptions option)
+    protected override void MakeSelection(int selection)
     {
+        var option = (pauseMenuOptions) Mathf.Abs(selection);
         print("selected " + option);
         switch (option)
         {

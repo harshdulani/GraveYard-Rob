@@ -12,7 +12,7 @@ public enum mainMenuOptions
     About
 };
 
-public class MainMenuController : MonoBehaviour
+public class MainMenuController : AMenuController
 {
     #region Singleton, Awake() lies inside
 
@@ -30,37 +30,18 @@ public class MainMenuController : MonoBehaviour
     }
 
     #endregion
-    
-    public int SelectedMenuOption //there because does setter computation, also may be used by main menu nav
-    {
-        get => _selectedMenuOption;
-        private set
-        {
-            if (value == -1)
-                value = _totalOptionCount - 1;
-            _selectedMenuOption = value % _totalOptionCount;
-            _allowedToScroll = false;
-            StartCoroutine(WaitForScrollingAgain());
-        }
-    }
 
-    private int _selectedMenuOption = 2;
-
-    private float _waitBeforeScrolling = 1f;
-    private int _totalOptionCount = 4;
-    private bool _initiated, _allowedToScroll = true, _inGame;
+    private bool _initiated, _inGame;
 
     private static readonly mainMenuOptions _selection;
     
-    public Animator cameraAnim;
     public GameObject optionTextMeshHolder;
-    
-    private static readonly int RightKeyPress = Animator.StringToHash("rightKeyPress");
-    private static readonly int LeftKeyPress = Animator.StringToHash("leftKeyPress");
     
     private void Start()
     {
         _totalOptionCount = Enum.GetValues(typeof(mainMenuOptions)).Length;
+        
+        SelectedMenuOption = 2;
         
         if (SceneManager.GetSceneByName("GraveyardScene").isLoaded) return;
         OnLoadMainMenu();
@@ -85,12 +66,13 @@ public class MainMenuController : MonoBehaviour
 
         if (Input.GetButtonDown("Submit"))
         {
-            MakeSelection((mainMenuOptions) Mathf.Abs(SelectedMenuOption));
+            MakeSelection(SelectedMenuOption);
         }
     }
 
-    private void MakeSelection(mainMenuOptions option)
+    protected override void MakeSelection(int selection)
     {
+        var option = (mainMenuOptions) Mathf.Abs(selection);
         print("selected " + option);
         switch (option)
         {
@@ -137,15 +119,5 @@ public class MainMenuController : MonoBehaviour
 
         _initiated = true;
         operation.completed -= OnSceneLoadingComplete;
-    }
-
-    private IEnumerator WaitForScrollingAgain()
-    {
-        var targetTime = Time.time + _waitBeforeScrolling;
-        while (Time.time <= targetTime)
-        {
-            yield return new WaitForSeconds(0.2f);
-        }
-        _allowedToScroll = true;
     }
 }
