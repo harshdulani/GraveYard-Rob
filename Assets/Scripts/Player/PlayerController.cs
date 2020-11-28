@@ -8,10 +8,12 @@ public class PlayerController : MonoBehaviour
     public Text healthText;
 
     private PlayerStats _playerStats;
-    private PlayerWeaponController _weaponController;
+    
     public CinemachineVirtualCamera climbDownFenceCamera;
     public CinemachineFreeLook tpsCamera;
 
+    private PlayerWeaponController _weaponController;
+    
     private static readonly int PlayerBorn = Animator.StringToHash("playerBorn");
 
     private void Start()

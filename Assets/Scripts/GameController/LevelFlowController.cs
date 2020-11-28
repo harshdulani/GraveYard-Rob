@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using Cinemachine;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -18,6 +19,8 @@ public class LevelFlowController : MonoBehaviour
     private void OnEnable()
     {
         GameFlowEvents.current.gameplayStart += OnGameplayStart;
+        GameFlowEvents.current.gameplayPause += OnGameplayPause;
+        GameFlowEvents.current.gameplayResume += OnGameplayResume;
 
         PlayerEvents.current.playerDeath += OnPlayerDeath;
     }
@@ -25,6 +28,8 @@ public class LevelFlowController : MonoBehaviour
     private void OnDisable()
     {
         GameFlowEvents.current.gameplayStart -= OnGameplayStart;
+        GameFlowEvents.current.gameplayPause -= OnGameplayPause;
+        GameFlowEvents.current.gameplayResume -= OnGameplayResume;
         
         PlayerEvents.current.playerDeath -= OnPlayerDeath;
     }
@@ -32,21 +37,11 @@ public class LevelFlowController : MonoBehaviour
     private void Start()
     {
         _waveController = GetComponent<EnemyWaveController>();
-
+        
         //TODO: add a black screen w some text/logo that clears up 1 seconds after this start is executed so that all starts are executed
         //and players don't have to see a stutter
     }
-
-    private void Update()
-    {
-        if (Input.GetButtonDown("Cancel"))
-        {
-            GameFlowEvents.current.InvokeGameplayPause();
-            OnGameplayPause();
-        }
-        
-    }
-
+    
     private void OnGameplayStart()
     {
         _waveController.StartWaveSpawning(gameplayStartWaitTime);
@@ -59,25 +54,18 @@ public class LevelFlowController : MonoBehaviour
 
     private void OnGameplayPause()
     {
-        Time.timeScale = 0.01f;
-        
-        var loading = SceneManager.LoadSceneAsync("PauseMenuScene", LoadSceneMode.Additive);
-        loading.completed += OnPauseMenuLoading;
-    }
-
-    
-    private void OnPauseMenuLoading(AsyncOperation operation)
-    {
         tpsCamera.gameObject.SetActive(false);
         climbDownFenceCamera.gameObject.SetActive(false);
-        operation.completed -= OnPauseMenuLoading;
+        MovementInput.current.TakeAwayMovementControl();
     }
 
-    private void OnReturnFromPause()
+    private void OnGameplayResume()
     {
-        
+        tpsCamera.gameObject.SetActive(true);
+        climbDownFenceCamera.gameObject.SetActive(true);
+        MovementInput.current.GiveBackMovementControl();
     }
-    
+
     private void OnPlayerDeath()
     {
         StopAllCoroutines();

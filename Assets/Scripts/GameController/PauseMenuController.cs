@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Cinemachine;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -26,8 +27,12 @@ public class PauseMenuController : AMenuController
     }
 
     #endregion
-   
+
+    private bool _isPaused;
+    
     private static readonly pauseMenuOptions _selection;
+
+    private Transform _player;
 
     private void Start()
     {
@@ -39,21 +44,31 @@ public class PauseMenuController : AMenuController
     private void Update()
     {
         if (!_allowedToScroll) return;
-        
-        if (Input.GetAxisRaw("Horizontal") == 1f)
-        {
-            cameraAnim.SetTrigger(RightKeyPress);
-            SelectedMenuOption++;
-        }
-        else if (Input.GetAxisRaw("Horizontal") == -1f)
-        {
-            cameraAnim.SetTrigger(LeftKeyPress);
-            SelectedMenuOption--;
-        }
 
-        if (Input.GetButtonDown("Submit"))
+        if (_isPaused)
         {
-            MakeSelection(SelectedMenuOption);
+            if (Input.GetAxisRaw("Horizontal") == 1f)
+            {
+                cameraAnim.SetTrigger(RightKeyPress);
+                SelectedMenuOption++;
+            }
+            else if (Input.GetAxisRaw("Horizontal") == -1f)
+            {
+                cameraAnim.SetTrigger(LeftKeyPress);
+                SelectedMenuOption--;
+            }
+            if (Input.GetButtonDown("Submit"))
+            {
+                MakeSelection(SelectedMenuOption);
+            }
+        }
+        else
+        {
+            if (Input.GetButtonDown("Cancel"))
+            {
+                GameFlowEvents.current.InvokeGameplayPause();
+                OnGameplayPause();
+            }
         }
     }
 
@@ -64,11 +79,10 @@ public class PauseMenuController : AMenuController
         switch (option)
         {
             case pauseMenuOptions.Exit:
-                RestartGame();
+                ExitGame();
                 break;
             case pauseMenuOptions.Resume:
-                GameFlowEvents.current.InvokeGameplayPause();
-                OnGameplayPause();
+                OnResume();
                 break;
             default:
                 print("not processed properly");
@@ -79,29 +93,38 @@ public class PauseMenuController : AMenuController
     private void OnLoadPauseMenu()
     {
         //assign player reference
+        _player = GameObject.FindGameObjectWithTag("Player").transform.GetChild(8).transform;
+        print("Found player " + _player.name);
     }
 
     private void OnGameplayPause()
     {
-        //slow down time to hyper low amount
+        _isPaused = true;
+        foreach (var rootGameObject in SceneManager.GetSceneByName("PauseMenuScene").GetRootGameObjects())
+        {
+            rootGameObject.SetActive(true);
+            print(true);
+        }
+
+        Time.timeScale = 0f;
+
+        cameraAnim.transform.GetChild(1).GetComponent<CinemachineFreeLook>().m_Follow = _player;
+        cameraAnim.transform.GetChild(1).GetComponent<CinemachineFreeLook>().m_LookAt = _player;
         //camera that looks at player for resume
         //camera that looks at exit gate for exit
     }
-
-    private void RestartGame()
-    {
-        //unload pausemenuscene
-        //timescale back to 1.0f
-        //tps camera turned on
-    }
     
-    private IEnumerator WaitForScrollingAgain()
+    private void OnResume()
     {
-        var targetTime = Time.time + _waitBeforeScrolling;
-        while (Time.time <= targetTime)
+        foreach (var rootGameObject in SceneManager.GetSceneByName("PauseMenuScene").GetRootGameObjects())
         {
-            yield return new WaitForSeconds(0.2f);
+            rootGameObject.SetActive(false);
         }
-        _allowedToScroll = true;
+    }
+
+    private void ExitGame()
+    {
+        //quit the damn game for now.
+        Application.Quit();
     }
 }

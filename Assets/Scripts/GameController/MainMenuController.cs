@@ -106,18 +106,34 @@ public class MainMenuController : AMenuController
 
     private void OnLoadMainMenu()
     {
-        var loading = SceneManager.LoadSceneAsync("GraveyardScene", LoadSceneMode.Additive);
+        var loadingLevel = SceneManager.LoadSceneAsync("GraveyardScene", LoadSceneMode.Additive);
+        var loadingPauseMenu = SceneManager.LoadSceneAsync("PauseMenuScene", LoadSceneMode.Additive);
 
-        loading.completed += OnSceneLoadingComplete;
+        loadingLevel.completed += OnLevelLoadingComplete;
+        StartCoroutine(LoadPauseMenu(loadingPauseMenu));
     }
 
-    private void OnSceneLoadingComplete(AsyncOperation operation)
+    private void OnLevelLoadingComplete(AsyncOperation operation)
     {
         SceneManager.SetActiveScene(SceneManager.GetSceneByName("GraveyardScene"));
 
         optionTextMeshHolder.SetActive(true);
 
         _initiated = true;
-        operation.completed -= OnSceneLoadingComplete;
+        operation.completed -= OnLevelLoadingComplete;
+    }
+
+    private IEnumerator LoadPauseMenu(AsyncOperation operation)
+    {
+        while (!operation.isDone)
+        {
+            yield return null;
+        }
+
+        foreach (var obj in SceneManager.GetSceneByName("PauseMenuScene").GetRootGameObjects())
+        {
+            obj.SetActive(false);
+        }
+        //a notifier to "intermediary" scene/black image at the start of the game that waits for everything to load
     }
 }
