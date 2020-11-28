@@ -7,23 +7,6 @@ using UnityEngine.SceneManagement;
 
 public class GameFlowController : MonoBehaviour
 {
-    #region Singleton, Awake() lies inside
-
-    private static GameFlowController main;
-
-    private void Awake()
-    {
-        if (main == null)
-        {
-            main = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-            Destroy(this);
-    }
-
-    #endregion
-
     private void OnGameplayBegin()
     {
         //fire an event that the player will listen to

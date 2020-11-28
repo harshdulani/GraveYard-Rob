@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using Cinemachine;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -28,15 +27,17 @@ public class PauseMenuController : AMenuController
 
     #endregion
 
-    private bool _isPaused;
+    public Transform resumeText;
     
+    private bool _isPaused;
     private static readonly pauseMenuOptions _selection;
 
     private Transform _player;
 
     private void Start()
     {
-        _totalOptionCount = System.Enum.GetValues(typeof(mainMenuOptions)).Length;
+        _totalOptionCount = Enum.GetValues(typeof(pauseMenuOptions)).Length;
+        SelectedMenuOption = 1;
         
         OnLoadPauseMenu();
     }
@@ -61,9 +62,15 @@ public class PauseMenuController : AMenuController
             {
                 MakeSelection(SelectedMenuOption);
             }
+            else if (Input.GetButtonDown("Cancel"))
+            {
+                GameFlowEvents.current.InvokeGameplayResume();
+                OnGameplayResume();
+            }
         }
         else
         {
+            //can be paused
             if (Input.GetButtonDown("Cancel"))
             {
                 GameFlowEvents.current.InvokeGameplayPause();
@@ -75,14 +82,14 @@ public class PauseMenuController : AMenuController
     protected override void MakeSelection(int selection)
     {
         var option = (pauseMenuOptions) Mathf.Abs(selection);
-        print("selected " + option);
+        print("pause selected " + option);
         switch (option)
         {
             case pauseMenuOptions.Exit:
                 ExitGame();
                 break;
             case pauseMenuOptions.Resume:
-                OnResume();
+                OnGameplayResume();
                 break;
             default:
                 print("not processed properly");
@@ -92,7 +99,6 @@ public class PauseMenuController : AMenuController
 
     private void OnLoadPauseMenu()
     {
-        //assign player reference
         _player = GameObject.FindGameObjectWithTag("Player").transform.GetChild(8).transform;
         print("Found player " + _player.name);
     }
@@ -100,22 +106,23 @@ public class PauseMenuController : AMenuController
     private void OnGameplayPause()
     {
         _isPaused = true;
+        Time.timeScale = 0f;
+
         foreach (var rootGameObject in SceneManager.GetSceneByName("PauseMenuScene").GetRootGameObjects())
         {
             rootGameObject.SetActive(true);
-            print(true);
         }
 
-        Time.timeScale = 0f;
-
+        resumeText.parent = _player;
+        resumeText.localPosition = Vector3.zero + Vector3.back * 4.25f;
+        
         cameraAnim.transform.GetChild(1).GetComponent<CinemachineFreeLook>().m_Follow = _player;
         cameraAnim.transform.GetChild(1).GetComponent<CinemachineFreeLook>().m_LookAt = _player;
-        //camera that looks at player for resume
-        //camera that looks at exit gate for exit
     }
     
-    private void OnResume()
+    private void OnGameplayResume()
     {
+        Time.timeScale = 1f;
         foreach (var rootGameObject in SceneManager.GetSceneByName("PauseMenuScene").GetRootGameObjects())
         {
             rootGameObject.SetActive(false);
@@ -125,6 +132,7 @@ public class PauseMenuController : AMenuController
     private void ExitGame()
     {
         //quit the damn game for now.
+        //we'll think of restarting by only loading a partial graveyard duplicate later
         Application.Quit();
     }
 }

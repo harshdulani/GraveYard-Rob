@@ -62,7 +62,6 @@ public class LevelFlowController : MonoBehaviour
     private void OnGameplayResume()
     {
         tpsCamera.gameObject.SetActive(true);
-        climbDownFenceCamera.gameObject.SetActive(true);
         MovementInput.current.GiveBackMovementControl();
     }
 

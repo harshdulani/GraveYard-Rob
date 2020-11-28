@@ -136,11 +136,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b1e1f05b3e05ac14b99d58e2bc988698, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b1e1f05b3e05ac14b99d58e2bc988698, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.048257317
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b1e1f05b3e05ac14b99d58e2bc988698, type: 3}
       propertyPath: m_LocalRotation.x
@@ -152,11 +152,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b1e1f05b3e05ac14b99d58e2bc988698, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b1e1f05b3e05ac14b99d58e2bc988698, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.7071067
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b1e1f05b3e05ac14b99d58e2bc988698, type: 3}
       propertyPath: m_RootOrder
@@ -164,7 +164,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b1e1f05b3e05ac14b99d58e2bc988698, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b1e1f05b3e05ac14b99d58e2bc988698, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
@@ -510,6 +510,98 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac0b09e7857660247b1477e93731de29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &589724214
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 589724215}
+  - component: {fileID: 589724216}
+  m_Layer: 0
+  m_Name: Resume Spot Light
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &589724215
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 589724214}
+  m_LocalRotation: {x: -0.66035503, y: -0.3580267, z: 0.58616215, w: -0.30358216}
+  m_LocalPosition: {x: 3.43, y: 5.3500004, z: 0.75999975}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 85898662}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: -7.383, y: -145.846, z: 88.915}
+--- !u!108 &589724216
+Light:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 589724214}
+  m_Enabled: 1
+  serializedVersion: 10
+  m_Type: 0
+  m_Shape: 0
+  m_Color: {r: 0.8443396, g: 1, b: 1, a: 1}
+  m_Intensity: 2
+  m_Range: 10
+  m_SpotAngle: 30
+  m_InnerSpotAngle: 21.80208
+  m_CookieSize: 10
+  m_Shadows:
+    m_Type: 0
+    m_Resolution: -1
+    m_CustomResolution: -1
+    m_Strength: 1
+    m_Bias: 0.05
+    m_NormalBias: 0.4
+    m_NearPlane: 0.2
+    m_CullingMatrixOverride:
+      e00: 1
+      e01: 0
+      e02: 0
+      e03: 0
+      e10: 0
+      e11: 1
+      e12: 0
+      e13: 0
+      e20: 0
+      e21: 0
+      e22: 1
+      e23: 0
+      e30: 0
+      e31: 0
+      e32: 0
+      e33: 1
+    m_UseCullingMatrixOverride: 0
+  m_Cookie: {fileID: 0}
+  m_DrawHalo: 0
+  m_Flare: {fileID: 0}
+  m_RenderMode: 0
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 311
+  m_RenderingLayerMask: 1
+  m_Lightmapping: 4
+  m_LightShadowCasterMode: 0
+  m_AreaSize: {x: 1, y: 1}
+  m_BounceIntensity: 1
+  m_ColorTemperature: 6570
+  m_UseColorTemperature: 0
+  m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_UseBoundingSphereOverride: 0
+  m_ShadowRadius: 0
+  m_ShadowAngle: 0
 --- !u!1 &628424727
 GameObject:
   m_ObjectHideFlags: 3
@@ -921,40 +1013,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 894206359}
-  - component: {fileID: 894206358}
-  - component: {fileID: 894206357}
   - component: {fileID: 894206360}
   m_Layer: 0
-  m_Name: GameFlowController
+  m_Name: PauseMenuController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &894206357
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 894206356}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 44c26a5785e882045b7180471e25d13d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &894206358
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 894206356}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e203804452814a84bb2bc35d0597eb14, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &894206359
 Transform:
   m_ObjectHideFlags: 0
@@ -982,6 +1048,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraAnim: {fileID: 1877174496}
+  resumeText: {fileID: 85898662}
 --- !u!1 &919714295
 GameObject:
   m_ObjectHideFlags: 3
@@ -1289,7 +1356,7 @@ Light:
   m_RenderMode: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 311
   m_RenderingLayerMask: 1
   m_Lightmapping: 4
   m_LightShadowCasterMode: 0
@@ -1345,7 +1412,7 @@ Animator:
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 79ba9428bd6c8c24ca15b649f1ce5900, type: 2}
   m_CullingMode: 0
-  m_UpdateMode: 0
+  m_UpdateMode: 2
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_WarningMessage: 
@@ -1375,9 +1442,7 @@ MonoBehaviour:
   m_AnimatedTarget: {fileID: 1877174496}
   m_LayerIndex: 0
   m_ShowDebugText: 1
-  m_ChildCameras:
-  - {fileID: 855372816}
-  - {fileID: 673426520}
+  m_ChildCameras: []
   m_Instructions:
   - m_FullHash: 1683913685
     m_VirtualCamera: {fileID: 673426520}
@@ -1389,7 +1454,7 @@ MonoBehaviour:
     m_MinDuration: 0
   m_DefaultBlend:
     m_Style: 5
-    m_Time: 0.1
+    m_Time: 1
     m_CustomCurve:
       serializedVersion: 2
       m_Curve: []

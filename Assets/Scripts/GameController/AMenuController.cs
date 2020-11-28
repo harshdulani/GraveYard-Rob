@@ -9,17 +9,17 @@ public abstract class AMenuController : MonoBehaviour
         set
         {
             if (value == -1)
-                value = _totalOptionCount - 1;
-            _selectedMenuOption = value % _totalOptionCount;
+                value = _totalOptionCount.Value - 1;
+            _selectedMenuOption = value % _totalOptionCount.Value;
             _allowedToScroll = false;
             StartCoroutine(WaitForScrollingAgain());
         }
     }
-    
+
     private int _selectedMenuOption = 0;
 
     protected float _waitBeforeScrolling = 1f;
-    protected int _totalOptionCount;
+    protected int? _totalOptionCount = null;
     protected bool _allowedToScroll = true;
 
     public Animator cameraAnim;
@@ -29,13 +29,10 @@ public abstract class AMenuController : MonoBehaviour
 
     protected abstract void MakeSelection(int selection);
 
-    protected IEnumerator WaitForScrollingAgain()
+    private IEnumerator WaitForScrollingAgain()
     {
-        var targetTime = Time.time + _waitBeforeScrolling;
-        while (Time.time <= targetTime)
-        {
-            yield return new WaitForSeconds(0.2f);
-        }
+        //because pause menus make timescale 0
+        yield return new WaitForSecondsRealtime(_waitBeforeScrolling);
         _allowedToScroll = true;
     }
 }
