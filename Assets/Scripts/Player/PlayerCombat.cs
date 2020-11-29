@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.Remoting.Messaging;
-using UnityEditor;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PlayerCombat : MonoBehaviour
 {
@@ -57,6 +52,7 @@ public class PlayerCombat : MonoBehaviour
     private void Update()
     {
         if(!GameStats.current.isGamePlaying) return;
+        if(!MovementInput.current.playerHasControl) return;
         if (!isAttacking && !MovementInput.current.isJumping)
         {
             if (Input.GetButtonDown("Fire1"))

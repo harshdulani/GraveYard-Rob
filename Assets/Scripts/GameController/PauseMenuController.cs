@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using Cinemachine;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -28,17 +29,17 @@ public class PauseMenuController : AMenuController
     #endregion
 
     public Transform resumeText;
-    
-    private bool _isPaused;
+
+    public bool _isPaused;
     private static readonly pauseMenuOptions _selection;
 
-    private Transform _player;
+    private Transform _player, _mainCam;
 
     private void Start()
     {
         _totalOptionCount = Enum.GetValues(typeof(pauseMenuOptions)).Length;
         SelectedMenuOption = 1;
-        
+        _mainCam = Camera.main.transform;
         OnLoadPauseMenu();
     }
 
@@ -48,6 +49,9 @@ public class PauseMenuController : AMenuController
 
         if (_isPaused)
         {
+            if(SelectedMenuOption == 1)
+                resumeText.transform.rotation = Quaternion.LookRotation(-_mainCam.transform.forward);
+            
             if (Input.GetAxisRaw("Horizontal") == 1f)
             {
                 cameraAnim.SetTrigger(RightKeyPress);
@@ -70,7 +74,7 @@ public class PauseMenuController : AMenuController
         }
         else
         {
-            //can be paused
+            if (!GameStats.current.isGamePlaying) return;
             if (Input.GetButtonDown("Cancel"))
             {
                 GameFlowEvents.current.InvokeGameplayPause();
@@ -89,6 +93,7 @@ public class PauseMenuController : AMenuController
                 ExitGame();
                 break;
             case pauseMenuOptions.Resume:
+                GameFlowEvents.current.InvokeGameplayResume();
                 OnGameplayResume();
                 break;
             default:
@@ -105,6 +110,7 @@ public class PauseMenuController : AMenuController
 
     private void OnGameplayPause()
     {
+        GameStats.current.isGamePlaying = false;
         _isPaused = true;
         Time.timeScale = 0f;
 
@@ -112,20 +118,27 @@ public class PauseMenuController : AMenuController
         {
             rootGameObject.SetActive(true);
         }
-
-        resumeText.parent = _player;
-        resumeText.localPosition = Vector3.zero + Vector3.back * 4.25f;
         
         cameraAnim.transform.GetChild(1).GetComponent<CinemachineFreeLook>().m_Follow = _player;
         cameraAnim.transform.GetChild(1).GetComponent<CinemachineFreeLook>().m_LookAt = _player;
+
+        resumeText.gameObject.SetActive(true);
+        resumeText.parent = _player;
+        resumeText.localPosition = Vector3.zero + Vector3.back * 4.25f;
     }
     
     private void OnGameplayResume()
     {
+        GameStats.current.isGamePlaying = true;
+        _isPaused = false;
         Time.timeScale = 1f;
+
+        resumeText.gameObject.SetActive(false);
+        
         foreach (var rootGameObject in SceneManager.GetSceneByName("PauseMenuScene").GetRootGameObjects())
         {
-            rootGameObject.SetActive(false);
+            if(!rootGameObject.name.Equals("PauseMenuController"))
+                rootGameObject.SetActive(false);
         }
     }
 

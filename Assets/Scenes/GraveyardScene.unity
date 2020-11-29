@@ -186,6 +186,10 @@ PrefabInstance:
       propertyPath: m_NavMeshLayer
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: d15c55429cd922e4499fa354efc1f93c, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d15c55429cd922e4499fa354efc1f93c, type: 3}
 --- !u!4 &7369356 stripped
@@ -320,6 +324,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
       propertyPath: m_NavMeshLayer
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
@@ -493,6 +501,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
       propertyPath: m_NavMeshLayer
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
@@ -686,6 +698,10 @@ PrefabInstance:
       propertyPath: m_NavMeshLayer
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
 --- !u!1 &84956520
@@ -867,7 +883,7 @@ GameObject:
   m_Component:
   - component: {fileID: 96745765}
   - component: {fileID: 96745766}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: fence_piece_l
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -995,6 +1011,10 @@ PrefabInstance:
       propertyPath: m_NavMeshLayer
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
 --- !u!1 &113641898
@@ -1101,6 +1121,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
       propertyPath: m_NavMeshLayer
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
@@ -1242,6 +1266,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
       propertyPath: m_NavMeshLayer
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
@@ -1916,6 +1944,10 @@ PrefabInstance:
       propertyPath: m_NavMeshLayer
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
 --- !u!1001 &234237349
@@ -1993,6 +2025,10 @@ PrefabInstance:
       propertyPath: m_NavMeshLayer
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
 --- !u!1001 &248887771
@@ -2069,6 +2105,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
       propertyPath: m_NavMeshLayer
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
@@ -2370,6 +2410,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
       propertyPath: m_NavMeshLayer
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
@@ -2681,6 +2725,10 @@ PrefabInstance:
       propertyPath: m_NavMeshLayer
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
 --- !u!1 &368750201
@@ -2775,7 +2823,7 @@ GameObject:
   m_Component:
   - component: {fileID: 369379628}
   - component: {fileID: 369379629}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: fence_piece_l (7)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2884,6 +2932,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
       propertyPath: m_NavMeshLayer
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
@@ -3205,6 +3257,10 @@ PrefabInstance:
       propertyPath: m_NavMeshLayer
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
 --- !u!1 &410729993
@@ -3311,6 +3367,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
       propertyPath: m_NavMeshLayer
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
@@ -3549,6 +3609,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
       propertyPath: m_NavMeshLayer
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
@@ -3805,6 +3869,10 @@ PrefabInstance:
       propertyPath: m_NavMeshLayer
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: d15c55429cd922e4499fa354efc1f93c, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d15c55429cd922e4499fa354efc1f93c, type: 3}
 --- !u!4 &492611567 stripped
@@ -3840,7 +3908,7 @@ GameObject:
   m_Component:
   - component: {fileID: 494048424}
   - component: {fileID: 494048425}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: fence_piece_l (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3949,6 +4017,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
       propertyPath: m_NavMeshLayer
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
@@ -4429,6 +4501,10 @@ PrefabInstance:
       propertyPath: m_NavMeshLayer
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: d15c55429cd922e4499fa354efc1f93c, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d15c55429cd922e4499fa354efc1f93c, type: 3}
 --- !u!4 &595981739 stripped
@@ -4679,6 +4755,10 @@ PrefabInstance:
       propertyPath: m_NavMeshLayer
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: d15c55429cd922e4499fa354efc1f93c, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d15c55429cd922e4499fa354efc1f93c, type: 3}
 --- !u!4 &641544847 stripped
@@ -4778,6 +4858,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
       propertyPath: m_NavMeshLayer
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
@@ -5418,6 +5502,10 @@ PrefabInstance:
       propertyPath: m_NavMeshLayer
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
 --- !u!1001 &790011883
@@ -5569,6 +5657,10 @@ PrefabInstance:
       propertyPath: m_NavMeshLayer
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
 --- !u!1001 &803433634
@@ -5646,6 +5738,10 @@ PrefabInstance:
       propertyPath: m_NavMeshLayer
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
 --- !u!1001 &809632801
@@ -5722,6 +5818,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
       propertyPath: m_NavMeshLayer
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
@@ -5899,6 +5999,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: d15c55429cd922e4499fa354efc1f93c, type: 3}
       propertyPath: m_NavMeshLayer
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: d15c55429cd922e4499fa354efc1f93c, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d15c55429cd922e4499fa354efc1f93c, type: 3}
@@ -6370,7 +6474,7 @@ GameObject:
   m_Component:
   - component: {fileID: 868395514}
   - component: {fileID: 868395515}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: fence_piece_l (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6499,6 +6603,10 @@ PrefabInstance:
       propertyPath: m_NavMeshLayer
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
 --- !u!1 &882710678
@@ -6511,7 +6619,7 @@ GameObject:
   m_Component:
   - component: {fileID: 882710679}
   - component: {fileID: 882710680}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: fence_piece_r (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6748,6 +6856,10 @@ PrefabInstance:
       propertyPath: m_NavMeshLayer
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
 --- !u!4 &893221793 stripped
@@ -6829,6 +6941,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
       propertyPath: m_NavMeshLayer
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
@@ -10390,6 +10506,10 @@ PrefabInstance:
       propertyPath: m_NavMeshLayer
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
 --- !u!1001 &940679835
@@ -10587,7 +10707,7 @@ GameObject:
   m_Component:
   - component: {fileID: 946309828}
   - component: {fileID: 946309829}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: fence_piece_r (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10798,7 +10918,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 972970014}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 37.34, y: 21, z: -12.940002}
+  m_LocalPosition: {x: 40.16, y: 21, z: -4.83}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1924662037}
@@ -10866,6 +10986,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: d15c55429cd922e4499fa354efc1f93c, type: 3}
       propertyPath: m_NavMeshLayer
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: d15c55429cd922e4499fa354efc1f93c, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d15c55429cd922e4499fa354efc1f93c, type: 3}
@@ -11251,6 +11375,10 @@ PrefabInstance:
       propertyPath: m_NavMeshLayer
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: d15c55429cd922e4499fa354efc1f93c, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d15c55429cd922e4499fa354efc1f93c, type: 3}
 --- !u!4 &1033755176 stripped
@@ -11286,7 +11414,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1034595381}
   - component: {fileID: 1034595382}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: fence_piece_r (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11396,6 +11524,10 @@ PrefabInstance:
       propertyPath: m_NavMeshLayer
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
 --- !u!1001 &1063514074
@@ -11472,6 +11604,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
       propertyPath: m_NavMeshLayer
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
@@ -11663,6 +11799,10 @@ PrefabInstance:
       propertyPath: m_NavMeshLayer
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
 --- !u!1001 &1100644859
@@ -11839,6 +11979,10 @@ PrefabInstance:
       propertyPath: m_NavMeshLayer
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
 --- !u!1001 &1113000124
@@ -11960,7 +12104,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1117884731}
   - component: {fileID: 1117884732}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: fence_piece_l (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12406,7 +12550,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: fcd787e2b64490c408b8a25d7afaa2c7, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 37.91
+      value: 40.730003
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: fcd787e2b64490c408b8a25d7afaa2c7, type: 3}
       propertyPath: m_LocalPosition.y
@@ -12414,7 +12558,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: fcd787e2b64490c408b8a25d7afaa2c7, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -15.5
+      value: -7.3899994
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: fcd787e2b64490c408b8a25d7afaa2c7, type: 3}
       propertyPath: m_LocalRotation.x
@@ -12788,6 +12932,10 @@ PrefabInstance:
       propertyPath: m_NavMeshLayer
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
 --- !u!1001 &1240757761
@@ -12852,6 +13000,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: d15c55429cd922e4499fa354efc1f93c, type: 3}
       propertyPath: m_NavMeshLayer
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: d15c55429cd922e4499fa354efc1f93c, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d15c55429cd922e4499fa354efc1f93c, type: 3}
@@ -12952,6 +13104,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
       propertyPath: m_NavMeshLayer
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
@@ -13126,6 +13282,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
       propertyPath: m_NavMeshLayer
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
@@ -13392,6 +13552,10 @@ PrefabInstance:
       propertyPath: m_NavMeshLayer
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
 --- !u!1001 &1280315261
@@ -13456,6 +13620,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: d15c55429cd922e4499fa354efc1f93c, type: 3}
       propertyPath: m_NavMeshLayer
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: d15c55429cd922e4499fa354efc1f93c, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d15c55429cd922e4499fa354efc1f93c, type: 3}
@@ -13663,7 +13831,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1297063250}
   - component: {fileID: 1297063251}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: fence_piece_l (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13945,6 +14113,10 @@ PrefabInstance:
       propertyPath: m_NavMeshLayer
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: d15c55429cd922e4499fa354efc1f93c, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d15c55429cd922e4499fa354efc1f93c, type: 3}
 --- !u!4 &1331824545 stripped
@@ -14127,6 +14299,10 @@ PrefabInstance:
       propertyPath: m_NavMeshLayer
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
 --- !u!1001 &1362532682
@@ -14191,6 +14367,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: d15c55429cd922e4499fa354efc1f93c, type: 3}
       propertyPath: m_NavMeshLayer
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: d15c55429cd922e4499fa354efc1f93c, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d15c55429cd922e4499fa354efc1f93c, type: 3}
@@ -14296,6 +14476,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
       propertyPath: m_NavMeshLayer
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
@@ -14550,7 +14734,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1417655877}
   - component: {fileID: 1417655878}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: fence_piece_r (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14659,6 +14843,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
       propertyPath: m_NavMeshLayer
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
@@ -14943,6 +15131,10 @@ PrefabInstance:
       propertyPath: m_NavMeshLayer
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
 --- !u!1 &1469269181
@@ -15175,6 +15367,10 @@ PrefabInstance:
       propertyPath: m_NavMeshLayer
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
 --- !u!1 &1485876021
@@ -15281,6 +15477,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
       propertyPath: m_NavMeshLayer
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
@@ -15402,6 +15602,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
       propertyPath: m_NavMeshLayer
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
@@ -15583,6 +15787,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
       propertyPath: m_NavMeshLayer
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
@@ -15940,6 +16148,10 @@ PrefabInstance:
       propertyPath: m_NavMeshLayer
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
 --- !u!1 &1535706266
@@ -15952,7 +16164,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1535706267}
   - component: {fileID: 1535706268}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: fence_piece_r (6)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -16080,6 +16292,10 @@ PrefabInstance:
       propertyPath: m_NavMeshLayer
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: d15c55429cd922e4499fa354efc1f93c, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d15c55429cd922e4499fa354efc1f93c, type: 3}
 --- !u!4 &1568472608 stripped
@@ -16179,6 +16395,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
       propertyPath: m_NavMeshLayer
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
@@ -16394,6 +16614,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
       propertyPath: m_NavMeshLayer
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
@@ -16892,6 +17116,10 @@ PrefabInstance:
       propertyPath: m_NavMeshLayer
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
 --- !u!1 &1660298828
@@ -17169,6 +17397,10 @@ PrefabInstance:
       propertyPath: m_NavMeshLayer
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: d15c55429cd922e4499fa354efc1f93c, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d15c55429cd922e4499fa354efc1f93c, type: 3}
 --- !u!4 &1664204813 stripped
@@ -17323,7 +17555,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1685686695}
   - component: {fileID: 1685686696}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: fence_piece_r
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -17432,6 +17664,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
       propertyPath: m_NavMeshLayer
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
@@ -18010,6 +18246,10 @@ PrefabInstance:
       propertyPath: m_NavMeshLayer
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
 --- !u!1 &1766739008
@@ -18022,7 +18262,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1766739009}
   - component: {fileID: 1766739010}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: fence_piece_r (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -18268,6 +18508,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
       propertyPath: m_NavMeshLayer
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
@@ -18543,6 +18787,10 @@ PrefabInstance:
       propertyPath: m_NavMeshLayer
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: d15c55429cd922e4499fa354efc1f93c, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d15c55429cd922e4499fa354efc1f93c, type: 3}
 --- !u!1001 &1867910256
@@ -18620,6 +18868,10 @@ PrefabInstance:
       propertyPath: m_NavMeshLayer
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
 --- !u!1001 &1887392681
@@ -18684,6 +18936,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: d15c55429cd922e4499fa354efc1f93c, type: 3}
       propertyPath: m_NavMeshLayer
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: d15c55429cd922e4499fa354efc1f93c, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d15c55429cd922e4499fa354efc1f93c, type: 3}
@@ -18872,6 +19128,10 @@ PrefabInstance:
       propertyPath: m_NavMeshLayer
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: d15c55429cd922e4499fa354efc1f93c, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d15c55429cd922e4499fa354efc1f93c, type: 3}
 --- !u!4 &1922759007 stripped
@@ -19017,6 +19277,10 @@ PrefabInstance:
       propertyPath: m_NavMeshLayer
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
 --- !u!1 &1933508150
@@ -19125,6 +19389,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
       propertyPath: m_NavMeshLayer
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
@@ -19279,6 +19547,10 @@ PrefabInstance:
       propertyPath: m_NavMeshLayer
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
 --- !u!1001 &1958516794
@@ -19356,6 +19628,10 @@ PrefabInstance:
       propertyPath: m_NavMeshLayer
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
 --- !u!1 &1969291612
@@ -19368,7 +19644,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1969291613}
   - component: {fileID: 1969291614}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: fence_piece_l (6)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19669,6 +19945,10 @@ PrefabInstance:
       propertyPath: m_NavMeshLayer
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
 --- !u!4 &1992895722 stripped
@@ -19816,6 +20096,10 @@ PrefabInstance:
       propertyPath: m_NavMeshLayer
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
 --- !u!1 &2021879028 stripped
@@ -19912,6 +20196,10 @@ PrefabInstance:
       propertyPath: m_NavMeshLayer
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
 --- !u!4 &2049314361 stripped
@@ -19929,7 +20217,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2055348900}
   - component: {fileID: 2055348901}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: fence_piece_l (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -20038,6 +20326,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
       propertyPath: m_NavMeshLayer
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
@@ -20151,6 +20443,10 @@ PrefabInstance:
       propertyPath: m_NavMeshLayer
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
 --- !u!1001 &2077486856
@@ -20227,6 +20523,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
       propertyPath: m_NavMeshLayer
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
@@ -20524,6 +20824,10 @@ PrefabInstance:
       propertyPath: m_NavMeshLayer
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e98bc96375c189e4ba07b3b27eb63e20, type: 3}
 --- !u!1 &2103818216
@@ -20814,7 +21118,7 @@ GameObject:
   - component: {fileID: 5025360862923380543}
   - component: {fileID: 6083805015216755101}
   - component: {fileID: 6891385316730399975}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: gate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
