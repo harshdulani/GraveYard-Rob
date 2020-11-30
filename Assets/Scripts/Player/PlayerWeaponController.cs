@@ -19,7 +19,7 @@ public class PlayerWeaponController : MonoBehaviour
             shouldGiveHit = false;
             
             if(PlayerCombat.currentAttackType == AttackType.LightAttack)
-                other.gameObject.GetComponent<EnemyController>().DecreaseHealth(PlayerStats.lightAttackDamage);
+                other.gameObject.GetComponent<EnemyController>().DecreaseHealth(PlayerStats.LightAttackDamage);
             else if(PlayerCombat.currentAttackType == AttackType.HeavyAttack)
                 other.gameObject.GetComponent<EnemyController>().DecreaseHealth(PlayerStats.HeavyAttackDamage);
         }

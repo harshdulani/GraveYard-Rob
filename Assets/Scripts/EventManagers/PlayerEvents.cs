@@ -9,6 +9,8 @@ public class PlayerEvents : MonoBehaviour
     public Action playerDeath, playerBirth;
     public Action startCombatStrike, endCombatStrike;
 
+    public Action updateHealth, updateStamina;
+
     private void Awake()
     {
         if (current == null)
@@ -35,5 +37,15 @@ public class PlayerEvents : MonoBehaviour
     public void InvokePlayerCombatStrikeEnd()
     {
         endCombatStrike?.Invoke();
+    }
+    
+    public void InvokeHealthChange()
+    {
+        updateHealth?.Invoke();
+    }
+    
+    public void InvokeStaminaChange()
+    {
+        updateStamina?.Invoke();
     }
 }

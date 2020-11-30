@@ -1,14 +1,8 @@
 ﻿using Cinemachine;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
-    public Image healthBar;
-    public Text healthText;
-
-    private PlayerStats _playerStats;
-    
     public CinemachineVirtualCamera climbDownFenceCamera;
     public CinemachineFreeLook tpsCamera;
 
@@ -22,9 +16,7 @@ public class PlayerController : MonoBehaviour
         _weaponController.gameObject.SetActive(false);
         PlayerEvents.current.InvokePlayerBirth();
         
-        _playerStats = GetComponent<PlayerStats>();
-        UpdateHealthBar();
-        UpdateHealthText();
+        PlayerEvents.current.InvokeHealthChange();
 
         //so that hes not visible on main menu
         transform.localScale = new Vector3(0, 0, transform.localScale.z);
@@ -58,29 +50,18 @@ public class PlayerController : MonoBehaviour
 
     public void DecreaseHealth(int amt)
     {
-        if (_playerStats.TakeHit(amt))
+        if (PlayerStats.main.TakeHit(amt))
         {
             //die
             print("YOU DIED.");
             PlayerEvents.current.InvokePlayerDeath();
             Destroy(gameObject);
         }
-
-        UpdateHealthBar();
-        UpdateHealthText();
+        
+        PlayerEvents.current.InvokeHealthChange();
     }
 
-    private void UpdateHealthBar()
-    {
-        //this needs to move out
-        healthBar.fillAmount = (float)(_playerStats.playerHealth) / (float)(_playerStats.maxHealth);
-    }
-
-    private void UpdateHealthText()
-    {
-        //this needs to move out
-        healthText.text = _playerStats.playerHealth.ToString();
-    }
+    
 
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
