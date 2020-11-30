@@ -72,6 +72,7 @@ public class TargetAreaController : MonoBehaviour
             Destroy(healthBarLeft.transform.parent.parent.gameObject);
             //TODO change to modified grave with gold inside
             print("initiate looting grave");
+            GameFlowEvents.current.InvokeUpdateObjective();
         }
     }
 

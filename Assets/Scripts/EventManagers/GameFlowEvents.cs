@@ -7,6 +7,8 @@ public class GameFlowEvents : MonoBehaviour
     public static GameFlowEvents current;
 
     public Action gameplayStart, gameplayPause, gameplayResume, gameplayEnd;
+
+    public Action updateObjective;
     
     private void Awake()
     {
@@ -34,5 +36,10 @@ public class GameFlowEvents : MonoBehaviour
     public void InvokeGameplayResume()
     {
         gameplayResume?.Invoke();
+    }
+
+    public void InvokeUpdateObjective()
+    {
+        updateObjective?.Invoke();
     }
 }
