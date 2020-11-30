@@ -4,16 +4,17 @@ public class PlayerCombat : MonoBehaviour
 {
     [Header("Melee Combat")] [SerializeField]
     private GameObject weapon;
-    public bool isAttacking = false;
+    public bool isAttacking;
+    public static AttackType currentAttackType;
 
     private Ray _ray;
     private Vector3 _position;
-    private bool _rotatingToPosition = false;
+    private bool _rotatingToPosition;
     private Vector3 _desiredMovementDirection;
     private bool _shouldRotateToRaycastHit;
 
-    [Header("Digging Grave")] [SerializeField]
-    private GameObject shovel;
+    [Header("Digging Grave")] 
+    public GameObject shovel;
     public bool isDiggingComplete;
     public TargetAreaController _targetAreaController;
 
@@ -30,6 +31,7 @@ public class PlayerCombat : MonoBehaviour
     }
 
     private static readonly int Attack1Hash = Animator.StringToHash("attack1");
+    private static readonly int Attack2Hash = Animator.StringToHash("attack2");
     private static readonly int ShouldDig = Animator.StringToHash("shouldDig");
     private static readonly int CycleWeapon = Animator.StringToHash("cycleWeapon");
 
@@ -75,8 +77,23 @@ public class PlayerCombat : MonoBehaviour
                             _position = hit.point;
                     }
 
-                    StartAttack();
+                    currentAttackType = AttackType.LightAttack;
+                    StartAttack(currentAttackType);
                 }
+            }
+            else if (Input.GetButtonDown("Fire2"))
+            {
+                if (_shouldRotateToRaycastHit)
+                {
+                    // Reset ray with new mouse position
+                    _ray = _cam.ScreenPointToRay(Input.mousePosition);
+
+                    foreach (var hit in Physics.RaycastAll(_ray))
+                        _position = hit.point;
+                }
+
+                currentAttackType = AttackType.HeavyAttack;
+                StartAttack(currentAttackType);
             }
         }
         
@@ -86,11 +103,14 @@ public class PlayerCombat : MonoBehaviour
         }
     }
 
-    private void StartAttack()
+    private void StartAttack(AttackType type)
     {
         PlayerEvents.current.InvokePlayerCombatStrikeStart();
         
-        _anim.SetTrigger(Attack1Hash);
+        if(type == AttackType.LightAttack)
+            _anim.SetTrigger(Attack1Hash);
+        else if(type == AttackType.HeavyAttack)
+            _anim.SetTrigger(Attack2Hash);
 
         isAttacking = true;
         _playerWeaponController.shouldGiveHit = true;

@@ -1,17 +1,15 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+
+public enum AttackType
+{
+    LightAttack,
+    HeavyAttack,
+    Digging
+};
 
 public class Attack : StateMachineBehaviour
 {
     public AttackType attackType;
-
-    public enum AttackType
-    {
-        Attack1, 
-        Digging
-    };
 
     private PlayerCombat _playerCombat;
     
@@ -33,10 +31,12 @@ public class Attack : StateMachineBehaviour
         if (!_playerCombat)
             _playerCombat = animator.GetComponent<PlayerCombat>();
         
-        if(attackType == AttackType.Attack1)
+        if(attackType == AttackType.LightAttack || attackType == AttackType.HeavyAttack)
             _playerCombat.CompleteAttack();
         if(attackType == AttackType.Digging)
             _playerCombat.CompleteDigging();
+        
+        Debug.Log(stateInfo.IsName("HeavyAttack"));
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()

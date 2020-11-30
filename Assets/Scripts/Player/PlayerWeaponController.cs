@@ -1,31 +1,27 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PlayerWeaponController : MonoBehaviour
 {
-    public int damagePoints = 100;
-    
-    public bool shouldGiveHit = false;
-    
+    public bool shouldGiveHit;
+
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Enemy"))
-        {
-            if (shouldGiveHit)
-            {
-                Vector3 playerForward = FindObjectOfType<MovementInput>().transform.TransformDirection(Vector3.forward);
-                Vector3 toOther = other.transform.position - FindObjectOfType<MovementInput>().transform.position;
+        if (!other.gameObject.CompareTag("Enemy")) return;
+
+        if (!shouldGiveHit) return;
+        
+        Vector3 playerForward = MovementInput.current.transform.TransformDirection(Vector3.forward);
+        Vector3 toOther = other.transform.position - MovementInput.current.transform.position;
                 
-                if (Vector3.Dot(playerForward.normalized, toOther.normalized) > 0)
-                {
-                    //making this false because hit already given
-                    shouldGiveHit = false;
-                    //add wait time before they can get hit to enemy & player scripts 
-                    other.gameObject.GetComponent<EnemyController>().DecreaseHealth(damagePoints);
-                }
-            }
+        if (Vector3.Dot(playerForward.normalized, toOther.normalized) > 0)
+        {
+            //making this false because hit already given
+            shouldGiveHit = false;
+            
+            if(PlayerCombat.currentAttackType == AttackType.LightAttack)
+                other.gameObject.GetComponent<EnemyController>().DecreaseHealth(PlayerStats.lightAttackDamage);
+            else if(PlayerCombat.currentAttackType == AttackType.HeavyAttack)
+                other.gameObject.GetComponent<EnemyController>().DecreaseHealth(PlayerStats.HeavyAttackDamage);
         }
     }
 }
