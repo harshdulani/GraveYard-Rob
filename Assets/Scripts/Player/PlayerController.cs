@@ -7,7 +7,7 @@ public class PlayerController : MonoBehaviour
 {
     [Header("Stamina")] 
     public int autoHealStaminaPerSecond = 5;
-    public float timeBeforeStaminaHeal = 2f;
+    public float timeBeforeStaminaHeal = 3.5f;
     private float _elapsedTimeBeforeStaminaHeal = 0f;
     
     [Header("Cameras")]
@@ -32,12 +32,16 @@ public class PlayerController : MonoBehaviour
     {
         GameFlowEvents.current.gameplayStart += OnGameplayStart;
         PlayerEvents.current.playerDeath += OnPlayerDeath;
+
+        PlayerEvents.current.endCombatStrike += OnStaminaUse;
     }
 
     private void OnDisable()
     {
         GameFlowEvents.current.gameplayStart -= OnGameplayStart;
         PlayerEvents.current.playerDeath -= OnPlayerDeath;
+        
+        PlayerEvents.current.endCombatStrike -= OnStaminaUse;
     }
 
     private void OnGameplayStart()
@@ -63,17 +67,25 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        //TODO: auto heal stamina
-        /*if (PlayerStats.main.playerStamina >= PlayerStats.main.maxStamina) return;
-        
-        if(_elapsedTimeBeforeStaminaHeal <= timeBeforeStaminaHeal) 
+        if (PlayerStats.main.playerStamina >= PlayerStats.main.maxStamina) return;
+
+        if (_elapsedTimeBeforeStaminaHeal <= timeBeforeStaminaHeal)
             _elapsedTimeBeforeStaminaHeal += Time.fixedDeltaTime;
         else
         {
-            PlayerStats.main.OnStaminaChange(autoHealStaminaPerSecond / 50f);
-        }*/
+            PlayerStats.main.OnStaminaChange(-(autoHealStaminaPerSecond / 5));
+        }
     }
 
+    public void OnStaminaUse()
+    {
+        //i know i'm doing something wrong because i send bogus return and discard the amount
+        //this is a bogus call, because (at least) sometimes, PlayerStats.OnStaminaChange gets called before this
+        //so this Method subtracts the jump cost minus an already subtracted amount, making a jump impossible at lower staminas
+        
+        _elapsedTimeBeforeStaminaHeal = 0f;
+    }
+    
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
         if(hit.gameObject.CompareTag("Projectile"))
