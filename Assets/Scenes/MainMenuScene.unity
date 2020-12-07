@@ -705,7 +705,6 @@ GameObject:
   - component: {fileID: 894206359}
   - component: {fileID: 894206358}
   - component: {fileID: 894206360}
-  - component: {fileID: 894206357}
   m_Layer: 0
   m_Name: MainMenuController
   m_TagString: Untagged
@@ -713,18 +712,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &894206357
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 894206356}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 44c26a5785e882045b7180471e25d13d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &894206358
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -734,7 +721,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 894206356}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e203804452814a84bb2bc35d0597eb14, type: 3}
+  m_Script: {fileID: 11500000, guid: 44c26a5785e882045b7180471e25d13d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!4 &894206359

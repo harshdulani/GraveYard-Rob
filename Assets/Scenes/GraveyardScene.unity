@@ -21587,26 +21587,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 3930175419456129564, guid: 353e9f3a759427444847ec94c42ad149, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3930175419456129564, guid: 353e9f3a759427444847ec94c42ad149, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3930175419456129564, guid: 353e9f3a759427444847ec94c42ad149, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3930175419456129564, guid: 353e9f3a759427444847ec94c42ad149, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3930175419456129564, guid: 353e9f3a759427444847ec94c42ad149, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 3989046223053652518, guid: 353e9f3a759427444847ec94c42ad149, type: 3}
       propertyPath: m_LocalPosition.x
       value: 25.279263
@@ -21652,18 +21632,6 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4327995299076921473, guid: 353e9f3a759427444847ec94c42ad149, type: 3}
-      propertyPath: healthBar
-      value: 
-      objectReference: {fileID: 1469269183}
-    - target: {fileID: 4327995299076921473, guid: 353e9f3a759427444847ec94c42ad149, type: 3}
-      propertyPath: healthText
-      value: 
-      objectReference: {fileID: 84956522}
-    - target: {fileID: 4327995299076921473, guid: 353e9f3a759427444847ec94c42ad149, type: 3}
-      propertyPath: spawnPoint
-      value: 
-      objectReference: {fileID: 355260474}
-    - target: {fileID: 4327995299076921473, guid: 353e9f3a759427444847ec94c42ad149, type: 3}
       propertyPath: climbDownFenceCamera
       value: 
       objectReference: {fileID: 1355202482}
@@ -21671,25 +21639,9 @@ PrefabInstance:
       propertyPath: tpsCamera
       value: 
       objectReference: {fileID: 1289800024}
-    - target: {fileID: 4327995299076921473, guid: 353e9f3a759427444847ec94c42ad149, type: 3}
-      propertyPath: autoHealStaminaPerSecond
-      value: 50
-      objectReference: {fileID: 0}
-    - target: {fileID: 4327995299076921473, guid: 353e9f3a759427444847ec94c42ad149, type: 3}
-      propertyPath: timeBeforeStaminaHeal
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 4327995299076921475, guid: 353e9f3a759427444847ec94c42ad149, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 4327995299076921500, guid: 353e9f3a759427444847ec94c42ad149, type: 3}
       propertyPath: m_Name
       value: Levi_Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 4327995299076921500, guid: 353e9f3a759427444847ec94c42ad149, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4327995299076921503, guid: 353e9f3a759427444847ec94c42ad149, type: 3}
       propertyPath: _targetAreaController

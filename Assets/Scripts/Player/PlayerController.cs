@@ -1,26 +1,33 @@
-﻿using System;
-using Cinemachine;
+﻿using Cinemachine;
 using UnityEngine;
-using UnityEngine.PlayerLoop;
 
 public class PlayerController : MonoBehaviour
 {
-    [Header("Stamina")] 
+    [Header("Stamina Healing")] 
     public int autoHealStaminaPerSecond = 5;
-    public float timeBeforeStaminaHeal = 3.5f;
+    public float timeBeforeHealing = 3.5f;
     private float _elapsedTimeBeforeStaminaHeal = 0f;
+
+    [Header("Health Healing")] 
+    public int autoHealHealthPerSecond = 5;
+    private float _elapsedTimeBeforeHealthHeal = 0f;
     
     [Header("Cameras")]
     public CinemachineVirtualCamera climbDownFenceCamera;
     public CinemachineFreeLook tpsCamera;
 
     private PlayerWeaponController _weaponController;
+    private Animator _animator;
     
     private static readonly int PlayerBorn = Animator.StringToHash("playerBorn");
+    private static readonly int PlayerDeath = Animator.StringToHash("playerDeath");
+    private static readonly int PlayerTakeHit = Animator.StringToHash("playerTakeHit");
 
     private void Start()
     {
         _weaponController = GetComponentInChildren<PlayerWeaponController>();
+        _animator = GetComponent<Animator>();
+        
         _weaponController.gameObject.SetActive(false);
         PlayerEvents.current.InvokePlayerBirth();
 
@@ -33,7 +40,8 @@ public class PlayerController : MonoBehaviour
         GameFlowEvents.current.gameplayStart += OnGameplayStart;
         PlayerEvents.current.playerDeath += OnPlayerDeath;
 
-        PlayerEvents.current.endCombatStrike += OnStaminaUse;
+        PlayerEvents.current.endCombatStrike += ResetStaminaHealTimer;
+        PlayerEvents.current.startCombatStrike += ResetHealthHealTimer;
     }
 
     private void OnDisable()
@@ -41,13 +49,14 @@ public class PlayerController : MonoBehaviour
         GameFlowEvents.current.gameplayStart -= OnGameplayStart;
         PlayerEvents.current.playerDeath -= OnPlayerDeath;
         
-        PlayerEvents.current.endCombatStrike -= OnStaminaUse;
+        PlayerEvents.current.endCombatStrike -= ResetStaminaHealTimer;
+        PlayerEvents.current.startCombatStrike -= ResetHealthHealTimer;
     }
 
     private void OnGameplayStart()
     {
         transform.localScale = Vector3.one;
-        GetComponent<Animator>().SetBool(PlayerBorn, true);
+        _animator.SetBool(PlayerBorn, true);
     }
 
     public void OnClimbDownFence()
@@ -60,26 +69,56 @@ public class PlayerController : MonoBehaviour
         tpsCamera.gameObject.SetActive(true);
     }
 
+    public void OnPlayerTakeHit()
+    {
+        ResetHealthHealTimer();
+        _animator.SetTrigger(PlayerTakeHit);
+    }
+    
     private void OnPlayerDeath()
     {
-        Destroy(gameObject);
+        _animator.SetTrigger(PlayerDeath);
+        MovementInput.current.TakeAwayMovementControl();
+        //Destroy(gameObject);
     }
 
     private void FixedUpdate()
     {
-        if (PlayerStats.main.playerStamina >= PlayerStats.main.maxStamina) return;
-
-        if (_elapsedTimeBeforeStaminaHeal <= timeBeforeStaminaHeal)
-            _elapsedTimeBeforeStaminaHeal += Time.fixedDeltaTime;
-        else
+        //stamina regen
+        if (PlayerStats.main.playerStamina < PlayerStats.main.maxStamina)
         {
-            PlayerStats.main.OnStaminaChange(-(autoHealStaminaPerSecond / 50));
+            if (_elapsedTimeBeforeStaminaHeal <= timeBeforeHealing)
+                _elapsedTimeBeforeStaminaHeal += Time.fixedDeltaTime;
+            else
+            {
+                PlayerStats.main.OnStaminaChange(-(autoHealStaminaPerSecond / 50));
+            }
+        }
+
+        //health regen
+        if (PlayerStats.main.playerHealth < PlayerStats.main.maxHealth)
+        {
+            if (_elapsedTimeBeforeHealthHeal <= timeBeforeHealing)
+                _elapsedTimeBeforeHealthHeal += Time.fixedDeltaTime;
+            else
+            {
+                PlayerStats.main.OnHealthChange(-(autoHealHealthPerSecond / 50));
+            }
         }
     }
 
-    public void OnStaminaUse()
+    public void ResetStaminaHealTimer()
     {
+        //the stamina regen timer is reset every time you use stamina
         _elapsedTimeBeforeStaminaHeal = 0f;
+    }
+
+    private void ResetHealthHealTimer()
+    {
+        //the health regen timer is to be reset every time you enter combat
+            //every time you attack someone
+            //every time someone attacks you
+        _elapsedTimeBeforeHealthHeal = 0f;
     }
     
     private void OnControllerColliderHit(ControllerColliderHit hit)

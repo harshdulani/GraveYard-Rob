@@ -20,7 +20,7 @@ public class Roll : StateMachineBehaviour
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         animator.GetComponent<MovementInput>().EndJump();
-        animator.GetComponent<PlayerController>().OnStaminaUse();
+        animator.GetComponent<PlayerController>().ResetStaminaHealTimer();
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()

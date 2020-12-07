@@ -46,9 +46,12 @@ public class PlayerStats : MonoBehaviour
         _ = OnStaminaChange(0);
     }
 
-    private bool OnHealthChange(float amount)
+    public bool OnHealthChange(float amount)
     {
         if (playerHealth - Mathf.CeilToInt(amount) < 0) return false;
+
+        if (amount > 0)
+            GetComponent<PlayerController>().OnPlayerTakeHit();
         
         playerHealth -= Mathf.CeilToInt(amount);
         playerHealth = Mathf.Clamp(playerHealth, 0, maxHealth);

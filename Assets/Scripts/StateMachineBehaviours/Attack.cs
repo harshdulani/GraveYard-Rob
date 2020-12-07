@@ -41,8 +41,6 @@ public class Attack : StateMachineBehaviour
                 _playerCombat.CompleteDigging();
                 break;
         }
-
-        Debug.Log(stateInfo.IsName("HeavyAttack"));
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()

@@ -70,7 +70,7 @@ public class EnemyController : MonoBehaviour
             EnemyDeath();
         }
         else
-            StartCoroutine(nameof(HitRecieved));
+            StartCoroutine(nameof(HitReceived));
         UpdateHealthBar();
     }
 
@@ -112,6 +112,8 @@ public class EnemyController : MonoBehaviour
 
     private IEnumerator OnAttackMelee()
     {
+        //TODO: remove wait time and add animation events
+        //TODO: add bite animation event function 
         yield return new WaitForSeconds(_enemyStats.waitBeforeAttackTime / 1.5f);
         while (true)
         {
@@ -133,7 +135,7 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-    private IEnumerator HitRecieved()
+    private IEnumerator HitReceived()
     {
         _anim.SetTrigger(HitReceivedHash);
         yield return new WaitForSeconds(waitBeforeRecievingAttackTime);
