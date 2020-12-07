@@ -73,7 +73,7 @@ public class PlayerController : MonoBehaviour
             _elapsedTimeBeforeStaminaHeal += Time.fixedDeltaTime;
         else
         {
-            PlayerStats.main.OnStaminaChange(-(autoHealStaminaPerSecond / 5));
+            PlayerStats.main.OnStaminaChange(-(autoHealStaminaPerSecond / 50));
         }
     }
 
