@@ -6,7 +6,7 @@ public class GameFlowController : MonoBehaviour
     {
         //objective changes to "find recently dug grave" or something
         //when user finds targetGrave, turn on targetCanvas and change objective title
-        //Show ui splash text in bottom gamcenter of screen saying
+        //Show ui splash text in bottom center of screen saying
         //enemies/ghosts approaching or something doesn't feel right (and subsequent where did these ghosts come from?)
         //enemy wave controller starts its job
     }

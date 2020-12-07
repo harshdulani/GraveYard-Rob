@@ -79,10 +79,6 @@ public class PlayerController : MonoBehaviour
 
     public void OnStaminaUse()
     {
-        //i know i'm doing something wrong because i send bogus return and discard the amount
-        //this is a bogus call, because (at least) sometimes, PlayerStats.OnStaminaChange gets called before this
-        //so this Method subtracts the jump cost minus an already subtracted amount, making a jump impossible at lower staminas
-        
         _elapsedTimeBeforeStaminaHeal = 0f;
     }
     
