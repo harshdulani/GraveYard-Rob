@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections;
-using System.ComponentModel.Design;
-using System.Security.Cryptography;
+﻿using System.Collections;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class TargetAreaController : MonoBehaviour

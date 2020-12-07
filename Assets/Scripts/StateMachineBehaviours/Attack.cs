@@ -31,11 +31,17 @@ public class Attack : StateMachineBehaviour
         if (!_playerCombat)
             _playerCombat = animator.GetComponent<PlayerCombat>();
         
-        if(attackType == AttackType.LightAttack || attackType == AttackType.HeavyAttack)
-            _playerCombat.CompleteAttack();
-        if(attackType == AttackType.Digging)
-            _playerCombat.CompleteDigging();
-        
+        switch (attackType)
+        {
+            case AttackType.LightAttack:
+            case AttackType.HeavyAttack:
+                _playerCombat.CompleteAttack();
+                break;
+            case AttackType.Digging:
+                _playerCombat.CompleteDigging();
+                break;
+        }
+
         Debug.Log(stateInfo.IsName("HeavyAttack"));
     }
 
