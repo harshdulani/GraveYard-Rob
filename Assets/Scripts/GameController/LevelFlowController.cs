@@ -42,7 +42,7 @@ public class LevelFlowController : MonoBehaviour
     
     private void OnGameplayStart()
     {
-        _waveController.StartWaveSpawning(gameplayStartWaitTime);
+        //_waveController.StartWaveSpawning(gameplayStartWaitTime);
 
         foreach (var thing in thingsToEnableWhenGameplayStarts)
         {

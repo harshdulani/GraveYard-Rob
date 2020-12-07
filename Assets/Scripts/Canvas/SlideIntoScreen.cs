@@ -19,16 +19,6 @@ public class SlideIntoScreen : MonoBehaviour
 
     private RectTransform _rectTransform;
     [SerializeField] private AnimationCurve slideOverTimeCurve;
-    
-    private void OnEnable()
-    {
-        GameFlowEvents.current.gameplayStart += StartSliding;
-    }
-
-    private void OnDisable()
-    {
-        GameFlowEvents.current.gameplayStart -= StartSliding;
-    }
 
     private void Start()
     {
@@ -79,7 +69,7 @@ public class SlideIntoScreen : MonoBehaviour
             _isSlidingIn = false;
     }
 
-    private void StartSliding()
+    public void StartSliding()
     {
         _isSlidingIn = true;
         _time = 0f;

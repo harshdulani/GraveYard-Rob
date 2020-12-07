@@ -86,6 +86,7 @@ public class TargetAreaController : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (!other.gameObject.CompareTag("Player")) return;
+        
         if(_digHitsRemaining >= 0)
             _playerCombat.IsAllowedToDig = true;
     }
