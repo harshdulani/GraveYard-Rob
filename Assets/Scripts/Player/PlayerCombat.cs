@@ -105,12 +105,20 @@ public class PlayerCombat : MonoBehaviour
 
     private void StartAttack(AttackType type)
     {
-        PlayerEvents.current.InvokePlayerCombatStrikeStart();
+        if (type == AttackType.LightAttack)
+        {
+            if(PlayerEvents.current.staminaChange(PlayerStats.main.lightAttackStaminaCost))
+                _anim.SetTrigger(Attack1Hash);
+            else return;
+        }
+        else if (type == AttackType.HeavyAttack)
+        {
+            if(PlayerEvents.current.staminaChange(PlayerStats.main.heavyAttackStaminaCost))
+                _anim.SetTrigger(Attack2Hash);
+            else return;
+        }
         
-        if(type == AttackType.LightAttack)
-            _anim.SetTrigger(Attack1Hash);
-        else if(type == AttackType.HeavyAttack)
-            _anim.SetTrigger(Attack2Hash);
+        PlayerEvents.current.InvokePlayerCombatStrikeStart();
 
         isAttacking = true;
         _playerWeaponController.shouldGiveHit = true;

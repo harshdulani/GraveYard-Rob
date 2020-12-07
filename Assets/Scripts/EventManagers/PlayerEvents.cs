@@ -9,7 +9,7 @@ public class PlayerEvents : MonoBehaviour
     public Action playerDeath, playerBirth;
     public Action startCombatStrike, endCombatStrike;
 
-    public Action updateHealth, updateStamina;
+    public Func<float, bool> healthChange, staminaChange;
 
     private void Awake()
     {
@@ -39,13 +39,21 @@ public class PlayerEvents : MonoBehaviour
         endCombatStrike?.Invoke();
     }
     
-    public void InvokeHealthChange()
+    public bool InvokeHealthChange(float amount)
     {
-        updateHealth?.Invoke();
+        if (healthChange != null)
+            return healthChange.Invoke(amount);
+        
+        //return false if health is not 0
+        return false;
     }
     
-    public void InvokeStaminaChange()
+    public bool InvokeStaminaChange(float amount)
     {
-        updateStamina?.Invoke();
+        if(staminaChange != null)
+            return staminaChange.Invoke(amount);
+        
+        //return false if stamina is not 0
+        return false;
     }
 }

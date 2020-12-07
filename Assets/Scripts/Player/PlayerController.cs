@@ -1,8 +1,16 @@
-﻿using Cinemachine;
+﻿using System;
+using Cinemachine;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 
 public class PlayerController : MonoBehaviour
 {
+    [Header("Stamina")] 
+    public int autoHealStaminaPerSecond = 5;
+    public float timeBeforeStaminaHeal = 2f;
+    private float _elapsedTimeBeforeStaminaHeal = 0f;
+    
+    [Header("Cameras")]
     public CinemachineVirtualCamera climbDownFenceCamera;
     public CinemachineFreeLook tpsCamera;
 
@@ -15,8 +23,6 @@ public class PlayerController : MonoBehaviour
         _weaponController = GetComponentInChildren<PlayerWeaponController>();
         _weaponController.gameObject.SetActive(false);
         PlayerEvents.current.InvokePlayerBirth();
-        
-        PlayerEvents.current.InvokeHealthChange();
 
         //so that hes not visible on main menu
         transform.localScale = new Vector3(0, 0, transform.localScale.z);
@@ -25,11 +31,13 @@ public class PlayerController : MonoBehaviour
     private void OnEnable()
     {
         GameFlowEvents.current.gameplayStart += OnGameplayStart;
+        PlayerEvents.current.playerDeath += OnPlayerDeath;
     }
 
     private void OnDisable()
     {
         GameFlowEvents.current.gameplayStart -= OnGameplayStart;
+        PlayerEvents.current.playerDeath -= OnPlayerDeath;
     }
 
     private void OnGameplayStart()
@@ -48,26 +56,29 @@ public class PlayerController : MonoBehaviour
         tpsCamera.gameObject.SetActive(true);
     }
 
-    public void DecreaseHealth(int amt)
+    private void OnPlayerDeath()
     {
-        if (PlayerStats.main.TakeHit(amt))
-        {
-            //die
-            print("YOU DIED.");
-            PlayerEvents.current.InvokePlayerDeath();
-            Destroy(gameObject);
-        }
-        
-        PlayerEvents.current.InvokeHealthChange();
+        Destroy(gameObject);
     }
 
-    
+    private void FixedUpdate()
+    {
+        //TODO: auto heal stamina
+        /*if (PlayerStats.main.playerStamina >= PlayerStats.main.maxStamina) return;
+        
+        if(_elapsedTimeBeforeStaminaHeal <= timeBeforeStaminaHeal) 
+            _elapsedTimeBeforeStaminaHeal += Time.fixedDeltaTime;
+        else
+        {
+            PlayerStats.main.OnStaminaChange(autoHealStaminaPerSecond / 50f);
+        }*/
+    }
 
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
         if(hit.gameObject.CompareTag("Projectile"))
         {
-            DecreaseHealth(hit.gameObject.GetComponent<ProjectileController>().projectileDamage);
+            PlayerEvents.current.healthChange(-hit.gameObject.GetComponent<ProjectileController>().projectileDamage);
             print("projectile hit w " + hit.gameObject.name);
             Destroy(hit.gameObject);
         }

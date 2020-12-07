@@ -123,7 +123,12 @@ public class EnemyController : MonoBehaviour
             }
             //TODO bump damage/ bump mechanic
             //_playerController.DecreaseHealth(_enemyStats.bumpDamage);
-            _playerController.DecreaseHealth(_enemyStats.meleeDamage);
+            //_playerController.DecreaseHealth(_enemyStats.meleeDamage);
+            
+            if(!PlayerEvents.current.InvokeHealthChange(_enemyStats.meleeDamage))
+                PlayerEvents.current.InvokePlayerDeath();
+            //if there isn't enough health after a hit, invoke death
+            
             yield return new WaitForSeconds(_enemyStats.waitBeforeAttackTime);
         }
     }

@@ -1,30 +1,34 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class PlayerCanvasController : MonoBehaviour
 {
+    public static PlayerCanvasController main;
+    
     public Image healthBar;
     public Text healthText;
 
-    private void OnEnable()
+    public Image staminaBar;
+    public Text staminaText;
+
+    private void Awake()
     {
-        PlayerEvents.current.updateHealth += UpdateHealthBar;
-        PlayerEvents.current.updateHealth += UpdateHealthText;
+        if (main == null)
+            main = this;
+        else
+            Destroy(this);
     }
 
-    private void OnDisable()
-    {
-        PlayerEvents.current.updateHealth -= UpdateHealthBar;
-        PlayerEvents.current.updateHealth -= UpdateHealthText;
-    }
-
-    private void UpdateHealthBar()
+    public void UpdateHealth()
     {
         healthBar.fillAmount = (float)(PlayerStats.main.playerHealth) / (float)(PlayerStats.main.maxHealth);
-    }
-
-    private void UpdateHealthText()
-    {
         healthText.text = PlayerStats.main.playerHealth.ToString();
+    }
+    
+    public void UpdateStamina()
+    {
+        staminaBar.fillAmount = (float)(PlayerStats.main.playerStamina) / (float)(PlayerStats.main.maxStamina);
+        staminaText.text = PlayerStats.main.playerStamina.ToString();
     }
 }

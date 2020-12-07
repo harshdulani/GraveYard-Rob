@@ -232,6 +232,9 @@ public class MovementInput : MonoBehaviour
     
     private void StartJump()
     {
+        if(!PlayerEvents.current.InvokeStaminaChange(PlayerStats.main.jumpStaminaCost)) return;
+        //go ahead with execution (jump) if there is enough stamina
+        
         _animator.SetTrigger(StartJumpHash);
         isJumping = true;
         _jumpDone = false;

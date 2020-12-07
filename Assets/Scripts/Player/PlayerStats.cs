@@ -10,8 +10,13 @@ public class PlayerStats : MonoBehaviour
     public int playerStamina;
     public int maxStamina = 750;
 
-    public const int LightAttackDamage = 100;
-    public const int HeavyAttackDamage = 250;
+    public int lightAttackDamage = 100;
+    public int heavyAttackDamage = 250;
+
+    public int jumpStaminaCost = 150;
+
+    public int lightAttackStaminaCost = 50;
+    public int heavyAttackStaminaCost = 150;
 
     private void Awake()
     {
@@ -21,29 +26,51 @@ public class PlayerStats : MonoBehaviour
             Destroy(gameObject);
     }
 
+    private void OnEnable()
+    {
+        PlayerEvents.current.healthChange += OnHealthChange;
+        PlayerEvents.current.staminaChange += OnStaminaChange;
+    }
+
+    private void OnDisable()
+    {
+        PlayerEvents.current.healthChange -= OnHealthChange;
+        PlayerEvents.current.staminaChange -= OnStaminaChange;
+    }
+
     private void Start()
     {
         playerHealth = maxHealth;
+        playerStamina = maxStamina;
+        _ = OnHealthChange(0);
+        _ = OnStaminaChange(0);
     }
 
-    public bool TakeHit(int damage)
+    private bool OnHealthChange(float amount)
     {
-        playerHealth -= damage;
-        return playerHealth <= 0;
+        if (playerHealth - Mathf.CeilToInt(amount) < 0) return false;
+        
+        playerHealth -= Mathf.CeilToInt(amount);
+        playerHealth = Mathf.Clamp(playerHealth, 0, maxHealth);
+        
+        PlayerCanvasController.main.UpdateHealth();
+        
+        return true;
+    
+        //return true if there is enough health/player is still alive after the move
     }
 
-    public void GetHealed(int healed)
+    public bool OnStaminaChange(float amount)
     {
-        playerHealth += healed;
-    }
+        if (playerStamina - Mathf.CeilToInt(amount) < 0) return false;
+        
+        playerStamina -= Mathf.CeilToInt(amount);
+        playerStamina = Mathf.Clamp(playerStamina, 0, maxStamina);
 
-    public void UseStamina(int amount)
-    {
-        playerStamina -= amount;
-    }
-
-    public void ReplenishStamina(int amount)
-    {
-        playerStamina += amount;
+        PlayerCanvasController.main.UpdateStamina();
+        
+        return true;
+        
+        //return true if there is enough stamina for requested move
     }
 }
