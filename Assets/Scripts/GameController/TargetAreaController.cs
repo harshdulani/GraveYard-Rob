@@ -16,6 +16,10 @@ public class TargetAreaController : MonoBehaviour
     private Image healthBarLeft, healthBarRight;
     public int digsHitsRequired;
 
+    [Header("Slide In Grave Canvas")]
+    public SlideIntoScreen graveCanvas;
+    private bool _hasFoundGrave;
+    
     private int _digHitsRemaining;
     private float _delta;
 
@@ -86,6 +90,12 @@ public class TargetAreaController : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (!other.gameObject.CompareTag("Player")) return;
+        
+        if (!_hasFoundGrave)
+        {
+            _hasFoundGrave = true;
+            graveCanvas.StartSliding();
+        }
         
         if(_digHitsRemaining >= 0)
             _playerCombat.IsAllowedToDig = true;

@@ -13196,6 +13196,7 @@ MonoBehaviour:
   healthBarLeft: {fileID: 1934357380}
   healthBarRight: {fileID: 1030634759}
   digsHitsRequired: 7
+  graveCanvas: {fileID: 611941383}
 --- !u!136 &1201436987
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -16286,7 +16287,6 @@ MonoBehaviour:
   objectiveTitle: {fileID: 480148059}
   objectiveCanvas: {fileID: 1723199005}
   playerCanvas: {fileID: 1399247064}
-  graveCanvas: {fileID: 611941383}
 --- !u!4 &1506834339 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 8ce01b95f6e934a4e8adff13bceaadc8, type: 3}

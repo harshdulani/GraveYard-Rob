@@ -89,7 +89,7 @@ ModelImporter:
       - time: 0.60493827
         functionName: BiteMaxFront
         data: 
-        objectReferenceParameter: {instanceID: 0}
+        objectReferenceParameter: {fileID: 11500000, guid: e542182a1550f0b41bbb96c4f8247521, type: 3}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0

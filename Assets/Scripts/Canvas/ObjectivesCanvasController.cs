@@ -8,7 +8,7 @@ public class ObjectivesCanvasController : MonoBehaviour
 
     [Header("UI elements")] public Text objectiveTitle;
 
-    public SlideIntoScreen objectiveCanvas, playerCanvas, graveCanvas;
+    public SlideIntoScreen objectiveCanvas, playerCanvas;
     
     private int _currentObjective;
     private bool _hasSlidIn;
@@ -51,7 +51,6 @@ public class ObjectivesCanvasController : MonoBehaviour
                 transform.GetChild(0).GetChild(2).gameObject.SetActive(true);
                 transform.GetChild(0).GetChild(3).gameObject.SetActive(true);
                 playerCanvas.StartSliding();
-                graveCanvas.StartSliding();
                 break;
         }
     }

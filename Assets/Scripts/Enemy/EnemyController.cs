@@ -110,6 +110,16 @@ public class EnemyController : MonoBehaviour
         }
     }
 
+    public void BiteMaxFront()
+    {
+        //called by animation event (with reference to this script instead of any object)
+        
+        if(!PlayerEvents.current.InvokeHealthChange(_enemyStats.meleeDamage))
+            PlayerEvents.current.InvokePlayerDeath();
+        //if there isn't enough health after a hit, invoke death
+
+    }
+
     private IEnumerator OnAttackMelee()
     {
         //TODO: remove wait time and add animation events
@@ -118,18 +128,12 @@ public class EnemyController : MonoBehaviour
         while (true)
         {
             _anim.SetTrigger(ShouldMeleeHash);
-            if (!_playerController)
-            {
-                yield return null;
-                yield break;
-            }
             //TODO bump damage/ bump mechanic
-            //_playerController.DecreaseHealth(_enemyStats.bumpDamage);
-            //_playerController.DecreaseHealth(_enemyStats.meleeDamage);
             
-            if(!PlayerEvents.current.InvokeHealthChange(_enemyStats.meleeDamage))
+            /*if(!PlayerEvents.current.InvokeHealthChange(_enemyStats.meleeDamage))
                 PlayerEvents.current.InvokePlayerDeath();
             //if there isn't enough health after a hit, invoke death
+            */
             
             yield return new WaitForSeconds(_enemyStats.waitBeforeAttackTime);
         }
