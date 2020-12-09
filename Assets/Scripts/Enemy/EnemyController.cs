@@ -122,8 +122,6 @@ public class EnemyController : MonoBehaviour
 
     private IEnumerator OnAttackMelee()
     {
-        //TODO: remove wait time and add animation events
-        //TODO: add bite animation event function 
         yield return new WaitForSeconds(_enemyStats.waitBeforeAttackTime / 1.5f);
         while (true)
         {
