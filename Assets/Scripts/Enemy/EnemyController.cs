@@ -8,7 +8,7 @@ public class EnemyController : MonoBehaviour
 {
     public Image healthBar;
     
-    public float waitBeforeRecievingAttackTime = 0.5f;
+    public float waitBeforeReceivingAttackTime = 0.5f;
 
     private static readonly int ShouldMeleeHash = Animator.StringToHash("shouldMelee");
     private static readonly int DeathHash = Animator.StringToHash("death");
@@ -17,20 +17,6 @@ public class EnemyController : MonoBehaviour
 
     private Animator _anim;
     private EnemyStats _enemyStats;
-    private Canvas _canvas;
-    private Transform _mainCam;
-    
-    private Quaternion _originalCanvasRotation;
-
-    private PlayerController _playerController;
-
-    private void Awake()
-    {
-        _canvas = healthBar.GetComponentInParent<Canvas>();
-        _canvas.worldCamera = Camera.main;
-        _mainCam = Camera.main.transform;
-        _originalCanvasRotation = _canvas.transform.rotation;
-    }
 
     private void OnEnable()
     {
@@ -46,18 +32,9 @@ public class EnemyController : MonoBehaviour
     {
         _enemyStats = GetComponent<EnemyStats>();
         _anim = GetComponent<Animator>();
-        _playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
         
         EnemyEvents.current.InvokeEnemyBirth(transform);
         UpdateHealthBar();
-    }
-
-    private void LateUpdate()
-    {
-        //so that health bar canvas always looks at camera in DotaCam
-        //_canvas.transform.rotation = _originalCanvasRotation;
-
-        _canvas.transform.rotation = Quaternion.LookRotation(_mainCam.forward, _mainCam.up);
     }
 
     public void DecreaseHealth(int amt)
@@ -140,12 +117,11 @@ public class EnemyController : MonoBehaviour
     private IEnumerator HitReceived()
     {
         _anim.SetTrigger(HitReceivedHash);
-        yield return new WaitForSeconds(waitBeforeRecievingAttackTime);
+        yield return new WaitForSeconds(waitBeforeReceivingAttackTime);
     }
 
     private void OnPlayerDeath()
     {
-        _playerController = null;
         StopAllCoroutines();
     }
 }

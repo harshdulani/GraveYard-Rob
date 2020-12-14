@@ -13,6 +13,8 @@ public class GameStats : MonoBehaviour
     //might be useful for a respawn ability, game start checks, game end checks  
     public bool isPlayerAlive, isGamePlaying;
 
+    public int currentObjective;
+
     private void Awake()
     {
         if (current == null)

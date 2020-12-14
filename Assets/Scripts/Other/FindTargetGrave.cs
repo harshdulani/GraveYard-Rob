@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class FindTargetGrave : MonoBehaviour
 {
@@ -7,7 +6,7 @@ public class FindTargetGrave : MonoBehaviour
     {
         if(!other.gameObject.CompareTag("Player")) return;
         
-        GameFlowEvents.current.updateObjective();
+        GameFlowEvents.current.InvokeUpdateObjective();
         Destroy(gameObject);
     }
 }

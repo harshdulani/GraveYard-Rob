@@ -6,11 +6,11 @@ public class ObjectivesCanvasController : MonoBehaviour
 {
     public List<string> objectiveTexts;
 
-    [Header("UI elements")] public Text objectiveTitle;
+    [Header("UI elements")] 
+    public Text objectiveTitle;
 
     public SlideIntoScreen objectiveCanvas, playerCanvas;
     
-    private int _currentObjective;
     private bool _hasSlidIn;
 
     private void OnEnable()
@@ -25,7 +25,7 @@ public class ObjectivesCanvasController : MonoBehaviour
 
     private void Start()
     {
-        objectiveTitle.text = objectiveTexts[_currentObjective];
+        objectiveTitle.text = objectiveTexts[GameStats.current.currentObjective];
         
         transform.GetChild(0).GetChild(2).gameObject.SetActive(false);
         transform.GetChild(0).GetChild(3).gameObject.SetActive(false);
@@ -42,10 +42,10 @@ public class ObjectivesCanvasController : MonoBehaviour
     
     private void UpdateObjective()
     {
-        if(_currentObjective < objectiveTexts.Count)
-            objectiveTitle.text = objectiveTexts[++_currentObjective];
+        if(GameStats.current.currentObjective < objectiveTexts.Count)
+            objectiveTitle.text = objectiveTexts[++GameStats.current.currentObjective];
 
-        switch (_currentObjective)
+        switch (GameStats.current.currentObjective)
         {
             case 1:
                 transform.GetChild(0).GetChild(2).gameObject.SetActive(true);

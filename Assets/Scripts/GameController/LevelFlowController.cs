@@ -1,6 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using Cinemachine;
 using UnityEngine;
+using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public class LevelFlowController : MonoBehaviour
 {
@@ -12,6 +15,12 @@ public class LevelFlowController : MonoBehaviour
     [Header("Enemy Spawning")]
     public float gameplayStartWaitTime;
 
+    [Header("Dialogues")] 
+    public List<string> enemySpawnStartDialogues;
+    public Text dialogueText;
+    public CinemachineVirtualCamera stareAtEnemy;
+    public CinemachineTargetGroup targetGroup;
+
     private EnemyWaveController _waveController; 
     
     private void OnEnable()
@@ -19,6 +28,7 @@ public class LevelFlowController : MonoBehaviour
         GameFlowEvents.current.gameplayStart += OnGameplayStart;
         GameFlowEvents.current.gameplayPause += OnGameplayPause;
         GameFlowEvents.current.gameplayResume += OnGameplayResume;
+        GameFlowEvents.current.updateObjective += OnEnemySpawningStart;
 
         PlayerEvents.current.playerDeath += OnPlayerDeath;
     }
@@ -28,6 +38,7 @@ public class LevelFlowController : MonoBehaviour
         GameFlowEvents.current.gameplayStart -= OnGameplayStart;
         GameFlowEvents.current.gameplayPause -= OnGameplayPause;
         GameFlowEvents.current.gameplayResume -= OnGameplayResume;
+        GameFlowEvents.current.updateObjective -= OnEnemySpawningStart;
         
         PlayerEvents.current.playerDeath -= OnPlayerDeath;
     }
@@ -63,6 +74,52 @@ public class LevelFlowController : MonoBehaviour
         MovementInput.current.GiveBackMovementControl();
     }
 
+    private void OnEnemySpawningStart()
+    {
+        ShowDialogue();
+
+        Time.timeScale = 0.01f;
+        
+        StartCoroutine(LookAtEnemy());
+    }
+
+    private void ShowDialogue()
+    {
+        dialogueText.transform.parent.parent.gameObject.SetActive(true);
+        if (GameStats.current.currentObjective == 1)
+            dialogueText.text = enemySpawnStartDialogues[Random.Range(0, enemySpawnStartDialogues.Count - 1)];
+        
+        Destroy(dialogueText.transform.parent.parent.gameObject, 3f);
+    }
+
+    private IEnumerator LookAtEnemy()
+    {
+        MovementInput.current.TakeAwayMovementControl();
+
+        while (GameStats.current.activeEnemies.Count == 0)
+        {
+            yield return null;
+        }
+        
+        stareAtEnemy.gameObject.SetActive(true);
+        
+        targetGroup.AddMember(GameStats.current.activeEnemies[0], 1f, 1.5f);
+
+        yield return new WaitForSecondsRealtime(2f);
+        
+        while (Time.timeScale <= 1f)
+        {
+            Time.timeScale += 0.05f;
+            yield return new WaitForSecondsRealtime(0.1f);
+        }
+        
+        Destroy(stareAtEnemy.gameObject);
+        
+        targetGroup.RemoveMember(GameStats.current.activeEnemies[0]);
+        
+        MovementInput.current.GiveBackMovementControl();
+    }
+    
     private void OnPlayerDeath()
     {
         StopAllCoroutines();
