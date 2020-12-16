@@ -85,6 +85,8 @@ public class LevelFlowController : MonoBehaviour
 
     private void ShowDialogue()
     {
+        if(!dialogueText) return;
+        
         dialogueText.transform.parent.parent.gameObject.SetActive(true);
         if (GameStats.current.currentObjective == 1)
             dialogueText.text = enemySpawnStartDialogues[Random.Range(0, enemySpawnStartDialogues.Count - 1)];

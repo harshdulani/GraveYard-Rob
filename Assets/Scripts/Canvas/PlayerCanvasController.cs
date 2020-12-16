@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class PlayerCanvasController : MonoBehaviour
@@ -8,9 +7,11 @@ public class PlayerCanvasController : MonoBehaviour
     
     public Image healthBar;
     public Text healthText;
+    private FlashRepeatedly _healthFlasher;
 
     public Image staminaBar;
     public Text staminaText;
+    private FlashRepeatedly _staminaFlasher;
 
     private void Awake()
     {
@@ -18,6 +19,12 @@ public class PlayerCanvasController : MonoBehaviour
             main = this;
         else
             Destroy(this);
+    }
+
+    private void Start()
+    {
+        _healthFlasher = healthBar.transform.parent.GetChild(3).GetComponent<FlashRepeatedly>();
+        _staminaFlasher = staminaBar.transform.parent.GetChild(3).GetComponent<FlashRepeatedly>();
     }
 
     public void UpdateHealth()
@@ -30,5 +37,15 @@ public class PlayerCanvasController : MonoBehaviour
     {
         staminaBar.fillAmount = (float)(PlayerStats.main.playerStamina) / (float)(PlayerStats.main.maxStamina);
         staminaText.text = PlayerStats.main.playerStamina.ToString();
+    }
+
+    public void HealthAlarm()
+    {
+        _healthFlasher.StartFlashing();
+    }
+
+    public void StaminaAlarm()
+    {
+        _staminaFlasher.StartFlashing();
     }
 }

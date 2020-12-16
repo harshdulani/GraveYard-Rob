@@ -84,6 +84,8 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if(!GameStats.current.isPlayerAlive) return;
+        
         //stamina regen
         if (PlayerStats.main.playerStamina < PlayerStats.main.maxStamina)
         {
