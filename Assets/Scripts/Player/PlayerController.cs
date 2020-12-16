@@ -74,6 +74,11 @@ public class PlayerController : MonoBehaviour
         ResetHealthHealTimer();
         _animator.SetTrigger(PlayerTakeHit);
     }
+
+    public void OnPlayerTakeBump()
+    {
+        ResetHealthHealTimer();
+    }
     
     private void OnPlayerDeath()
     {

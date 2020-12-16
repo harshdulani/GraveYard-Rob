@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,6 +8,12 @@ public class EnemyController : MonoBehaviour
     public Image healthBar;
     
     public float waitBeforeReceivingAttackTime = 0.5f;
+    public float timeBeforeInflictingBumpDamage = 2f;
+
+    private bool _isPlayerInContact;
+    private bool _canBump = true;
+    private float _myBumpDamageTimer;
+
 
     private static readonly int ShouldMeleeHash = Animator.StringToHash("shouldMelee");
     private static readonly int DeathHash = Animator.StringToHash("death");
@@ -35,6 +40,18 @@ public class EnemyController : MonoBehaviour
         
         EnemyEvents.current.InvokeEnemyBirth(transform);
         UpdateHealthBar();
+    }
+
+    private void Update()
+    {
+        if(_canBump) return;
+        if (!(_myBumpDamageTimer > 0)) return;
+        
+        _myBumpDamageTimer -= Time.deltaTime;
+
+        if (_myBumpDamageTimer <= 0)
+            //time's up
+            _canBump = true;
     }
 
     public void DecreaseHealth(int amt)
@@ -72,29 +89,56 @@ public class EnemyController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Player"))
-        {
-            _anim.SetBool(IsMovingHash, false);
-            StartCoroutine("OnAttackMelee");            
-        }
+        if (!other.gameObject.CompareTag("Player")) return;
+        
+        _anim.SetBool(IsMovingHash, false);
+        _isPlayerInContact = true;
+        StartCoroutine("OnAttackMelee");
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.CompareTag("Player"))
-        {
-            StopCoroutine("OnAttackMelee");
-        }
+        if (!other.gameObject.CompareTag("Player")) return;
+
+        _isPlayerInContact = false;
+        StopCoroutine("OnAttackMelee");
+    }
+
+    private void OnCollisionEnter(Collision other)
+    {
+        if (!other.gameObject.CompareTag("Player")) return;
+        
+        //if we give bump damage when they're attacking then there is health loss at every player attack too
+        if(other.gameObject.GetComponent<PlayerCombat>().isAttacking) return;
+        
+        //bump damage
+        if(!PlayerEvents.current.InvokeHealthChange(_enemyStats.bumpDamage))
+            PlayerEvents.current.InvokePlayerDeath();
+        //if there isn't enough health after a hit, invoke death
+            
+            
+        //reset timer
+        _myBumpDamageTimer = timeBeforeInflictingBumpDamage;
     }
 
     public void BiteMaxFront()
     {
         //called by animation event (with reference to this script instead of any object)
         
+        if(!_isPlayerInContact) return;
+        
+        //now check whether the player is still in front of the enemy when it delivers its attack,
+        //to see if an attack should actually be delivered
+        Vector3 enemyForward = transform.TransformDirection(Vector3.forward);
+        Vector3 toPlayer = MovementInput.current.transform.position - transform.position;
+                
+        //if
+        if (Vector3.Dot(enemyForward.normalized, toPlayer.normalized) <= 0)
+            return;
+        
         if(!PlayerEvents.current.InvokeHealthChange(_enemyStats.meleeDamage))
             PlayerEvents.current.InvokePlayerDeath();
         //if there isn't enough health after a hit, invoke death
-
     }
 
     private IEnumerator OnAttackMelee()
@@ -102,13 +146,8 @@ public class EnemyController : MonoBehaviour
         yield return new WaitForSeconds(_enemyStats.waitBeforeAttackTime / 1.5f);
         while (true)
         {
+            //attack animation begins here and then when bite is at maximum front, attack is placed
             _anim.SetTrigger(ShouldMeleeHash);
-            //TODO bump damage/ bump mechanic
-            
-            /*if(!PlayerEvents.current.InvokeHealthChange(_enemyStats.meleeDamage))
-                PlayerEvents.current.InvokePlayerDeath();
-            //if there isn't enough health after a hit, invoke death
-            */
             
             yield return new WaitForSeconds(_enemyStats.waitBeforeAttackTime);
         }

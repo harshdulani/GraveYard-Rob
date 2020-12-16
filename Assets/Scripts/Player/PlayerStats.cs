@@ -18,6 +18,9 @@ public class PlayerStats : MonoBehaviour
     public int lightAttackStaminaCost = 50;
     public int heavyAttackStaminaCost = 150;
 
+    private PlayerController _playerController;
+    private int _sampleEnemyBumpDamage, _sampleEnemyMeleeDamage;
+    
     private void Awake()
     {
         if (main == null)
@@ -40,6 +43,8 @@ public class PlayerStats : MonoBehaviour
 
     private void Start()
     {
+        _playerController = GetComponent<PlayerController>();
+        
         playerHealth = maxHealth;
         playerStamina = maxStamina;
         _ = OnHealthChange(0);
@@ -50,8 +55,14 @@ public class PlayerStats : MonoBehaviour
     {
         if (playerHealth - Mathf.CeilToInt(amount) < 0) return false;
 
-        if (amount > 0)
-            GetComponent<PlayerController>().OnPlayerTakeHit();
+        if (_sampleEnemyBumpDamage == default)
+            SetDemoEnemyValues();
+        
+        if (amount == _sampleEnemyMeleeDamage)
+            _playerController.OnPlayerTakeHit();
+        else
+            _playerController.OnPlayerTakeBump();
+            
         
         if(playerHealth <= 0.3f * maxHealth)
             PlayerCanvasController.main.HealthAlarm();
@@ -82,5 +93,11 @@ public class PlayerStats : MonoBehaviour
         return true;
         
         //return true if there is enough stamina for requested move
+    }
+
+    private void SetDemoEnemyValues()
+    {
+        _sampleEnemyBumpDamage = FindObjectOfType<EnemyStats>().bumpDamage;
+        _sampleEnemyMeleeDamage = FindObjectOfType<EnemyStats>().meleeDamage;
     }
 }
