@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 // Helper functions for working with points and angles on spheres.
 public abstract class SphereUtility : System.Object {

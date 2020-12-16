@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 // If you need to move/animate the moon at runtime... you need to use this class
 // since it calculates some precomputed data for the shader to keep rendering fast.

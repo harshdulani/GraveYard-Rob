@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics;
-using UnityEditor;
+﻿using System.Collections;
 using UnityEngine;
-using UnityEngine.Serialization;
-using Debug = System.Diagnostics.Debug;
 
 public class MovementInput : MonoBehaviour
 {

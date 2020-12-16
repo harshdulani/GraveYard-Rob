@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
-using UnityEngine.SceneManagement;
 
 // Custom editor for starry sky to compile in/out features and prepare data files.
 public class StarrySkyShaderEditor : ShaderGUI {
@@ -367,7 +363,6 @@ public class StarrySkyShaderEditor : ShaderGUI {
 
   private BaseStarDataRenderer GetBestRendererForPlatform()
   {
-    // TODO - Implement a compute shader version that runs faster.
     BaseStarDataRenderer r = new CPUStarDataRenderer();
     r.progressCallback += OnStarRenderingProgress;
     r.completionCallback += OnStarRenderingComplete;

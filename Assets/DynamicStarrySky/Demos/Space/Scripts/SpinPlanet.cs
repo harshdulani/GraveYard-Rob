@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 // Rotate planet around y-axis with speed.
 public class SpinPlanet : MonoBehaviour {
