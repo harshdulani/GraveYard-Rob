@@ -6,13 +6,11 @@ public class EnemyController : MonoBehaviour
 {
     public Image healthBar;
     
-    public float waitBeforeReceivingAttackTime = 0.5f;
     public float timeBeforeInflictingBumpDamage = 2f;
 
     private bool _isPlayerInContact;
     private bool _canBump = true;
     private float _myBumpDamageTimer;
-
 
     private static readonly int ShouldMeleeHash = Animator.StringToHash("shouldMelee");
     private static readonly int DeathHash = Animator.StringToHash("death");
@@ -21,6 +19,7 @@ public class EnemyController : MonoBehaviour
 
     private Animator _anim;
     private EnemyStats _enemyStats;
+    private EnemyScreenShakes _shakes;
 
     private void OnEnable()
     {
@@ -36,6 +35,7 @@ public class EnemyController : MonoBehaviour
     {
         _enemyStats = GetComponent<EnemyStats>();
         _anim = GetComponent<Animator>();
+        _shakes = GetComponent<EnemyScreenShakes>();
         
         EnemyEvents.current.InvokeEnemyBirth(transform);
         UpdateHealthBar();
@@ -55,6 +55,12 @@ public class EnemyController : MonoBehaviour
 
     public void DecreaseHealth(int amt)
     {
+        
+        if(amt == PlayerStats.main.lightAttackDamage)
+            _shakes.Light();
+        else if(amt == PlayerStats.main.heavyAttackDamage)
+            _shakes.Heavy();
+        
         if (_enemyStats.TakeHit(amt))
         {
             //die
@@ -63,7 +69,9 @@ public class EnemyController : MonoBehaviour
             EnemyDeath();
         }
         else
-            StartCoroutine(nameof(HitReceived));
+        {
+            _anim.SetTrigger(HitReceivedHash);
+        }
         UpdateHealthBar();
     }
 
@@ -150,12 +158,6 @@ public class EnemyController : MonoBehaviour
             
             yield return new WaitForSeconds(_enemyStats.waitBeforeAttackTime);
         }
-    }
-
-    private IEnumerator HitReceived()
-    {
-        _anim.SetTrigger(HitReceivedHash);
-        yield return new WaitForSeconds(waitBeforeReceivingAttackTime);
     }
 
     private void OnPlayerDeath()

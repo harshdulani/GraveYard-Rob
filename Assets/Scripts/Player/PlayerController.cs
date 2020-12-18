@@ -109,7 +109,7 @@ public class PlayerController : MonoBehaviour
                 _elapsedTimeBeforeHealthHeal += Time.fixedDeltaTime;
             else
             {
-                PlayerStats.main.OnHealthChange(-(autoHealHealthPerSecond / 50));
+                PlayerEvents.current.InvokeHealthChange(-(autoHealHealthPerSecond / 50));
             }
         }
     }
@@ -125,6 +125,7 @@ public class PlayerController : MonoBehaviour
         //the health regen timer is to be reset every time you enter combat
             //every time you attack someone
             //every time someone attacks you
+            
         _elapsedTimeBeforeHealthHeal = 0f;
     }
     

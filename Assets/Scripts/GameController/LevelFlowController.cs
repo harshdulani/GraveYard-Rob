@@ -76,6 +76,8 @@ public class LevelFlowController : MonoBehaviour
 
     private void OnEnemySpawningStart()
     {
+        if(GameStats.current.currentObjective != 1) return;
+        
         ShowDialogue();
 
         Time.timeScale = 0.01f;

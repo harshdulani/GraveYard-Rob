@@ -56,12 +56,13 @@ public class PlayerStats : MonoBehaviour
         if (playerHealth - Mathf.CeilToInt(amount) < 0) return false;
 
         if (_sampleEnemyBumpDamage == default)
-            SetDemoEnemyValues();
-        
-        if (amount == _sampleEnemyMeleeDamage)
-            _playerController.OnPlayerTakeHit();
-        else
-            _playerController.OnPlayerTakeBump();
+            if(SetDemoEnemyValues())
+            {
+                if (amount == _sampleEnemyMeleeDamage)
+                    _playerController.OnPlayerTakeHit();
+                else
+                    _playerController.OnPlayerTakeBump();
+            }
             
         
         if(playerHealth <= 0.3f * maxHealth)
@@ -95,9 +96,18 @@ public class PlayerStats : MonoBehaviour
         //return true if there is enough stamina for requested move
     }
 
-    private void SetDemoEnemyValues()
+    private bool SetDemoEnemyValues()
     {
-        _sampleEnemyBumpDamage = FindObjectOfType<EnemyStats>().bumpDamage;
-        _sampleEnemyMeleeDamage = FindObjectOfType<EnemyStats>().meleeDamage;
+        EnemyStats x;
+        
+        //try to find an EnemyStats and assign it to x, and then test that value
+        if ((x = FindObjectOfType<EnemyStats>()))
+        {
+            _sampleEnemyBumpDamage = x.bumpDamage;
+            _sampleEnemyMeleeDamage = x.meleeDamage;
+            return true;
+        }
+        else
+            return false;
     }
 }
