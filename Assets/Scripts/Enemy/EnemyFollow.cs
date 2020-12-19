@@ -54,6 +54,11 @@ public class EnemyFollow : MonoBehaviour
                     (PathUpdateMoveThreshold * PathUpdateMoveThreshold))
                 {
                     _agent.SetDestination(_target.position);
+
+                    foreach (var corner in _agent.path.corners)
+                    {
+                        Debug.DrawLine(corner, corner + 10f * corner.y * Vector3.up, Color.red, 2f);
+                    }
                     _anim.SetBool(IsMoving, true);
                 }
             }
