@@ -1,9 +1,11 @@
 ﻿using UnityEngine;
+using UnityEngine.PlayerLoop;
 
 public class PlayerCombat : MonoBehaviour
 {
-    [Header("Melee Combat")] [SerializeField]
-    private GameObject weapon;
+    [Header("Melee Combat")] 
+    public GameObject weapon;
+    public GameObject weaponOnBack;
     public bool isAttacking;
     public static AttackType currentAttackType;
 
@@ -15,6 +17,7 @@ public class PlayerCombat : MonoBehaviour
 
     [Header("Digging Grave")] 
     public GameObject shovel;
+    public GameObject shovelOnBack;
     public bool isDiggingComplete;
     public TargetAreaController _targetAreaController;
 
@@ -49,6 +52,12 @@ public class PlayerCombat : MonoBehaviour
         _cam = Camera.main;
 
         _shouldRotateToRaycastHit = !_movementInput.shouldFaceTowardMouse;
+
+        //didnt wanna set this value and execute the setter of the property
+        _allowedToDig = shovel.activeSelf; 
+        
+        shovelOnBack.SetActive(!IsAllowedToDig);
+        weaponOnBack.SetActive(IsAllowedToDig);
     }
 
     private void Update()
@@ -59,7 +68,7 @@ public class PlayerCombat : MonoBehaviour
         {
             if (Input.GetButtonDown("Fire1"))
             {
-                if (_allowedToDig)
+                if (IsAllowedToDig)
                 {
                     if (!isDiggingComplete)
                     {
@@ -107,13 +116,13 @@ public class PlayerCombat : MonoBehaviour
     {
         if (type == AttackType.LightAttack)
         {
-            if(PlayerEvents.current.staminaChange(PlayerStats.main.lightAttackStaminaCost))
+            if(PlayerEvents.current.InvokeStaminaChange(PlayerStats.main.lightAttackStaminaCost))
                 _anim.SetTrigger(Attack1Hash);
             else return;
         }
         else if (type == AttackType.HeavyAttack)
         {
-            if(PlayerEvents.current.staminaChange(PlayerStats.main.heavyAttackStaminaCost))
+            if(PlayerEvents.current.InvokeStaminaChange(PlayerStats.main.heavyAttackStaminaCost))
                 _anim.SetTrigger(Attack2Hash);
             else return;
         }
@@ -151,8 +160,10 @@ public class PlayerCombat : MonoBehaviour
 
     public void CompleteWeaponSwap()
     {
-        shovel.SetActive(_allowedToDig);
-        weapon.SetActive(!_allowedToDig);
+        shovel.SetActive(IsAllowedToDig);
+        weapon.SetActive(!IsAllowedToDig);
+        shovelOnBack.SetActive(!IsAllowedToDig);
+        weaponOnBack.SetActive(IsAllowedToDig);
         isAttacking = false;
     }
     

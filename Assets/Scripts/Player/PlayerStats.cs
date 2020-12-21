@@ -104,7 +104,7 @@ public class PlayerStats : MonoBehaviour
         if ((x = FindObjectOfType<EnemyStats>()))
         {
             _sampleEnemyBumpDamage = x.bumpDamage;
-            _sampleEnemyMeleeDamage = x.meleeDamage;
+            _sampleEnemyMeleeDamage = x.attackDamage;
             return true;
         }
         else

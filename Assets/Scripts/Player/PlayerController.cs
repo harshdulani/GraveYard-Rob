@@ -22,19 +22,7 @@ public class PlayerController : MonoBehaviour
     private static readonly int PlayerBorn = Animator.StringToHash("playerBorn");
     private static readonly int PlayerDeath = Animator.StringToHash("playerDeath");
     private static readonly int PlayerTakeHit = Animator.StringToHash("playerTakeHit");
-
-    private void Start()
-    {
-        _weaponController = GetComponentInChildren<PlayerWeaponController>();
-        _animator = GetComponent<Animator>();
-        
-        _weaponController.gameObject.SetActive(false);
-        PlayerEvents.current.InvokePlayerBirth();
-
-        //so that hes not visible on main menu
-        transform.localScale = new Vector3(0, 0, transform.localScale.z);
-    }
-
+    
     private void OnEnable()
     {
         GameFlowEvents.current.gameplayStart += OnGameplayStart;
@@ -52,6 +40,18 @@ public class PlayerController : MonoBehaviour
         PlayerEvents.current.endCombatStrike -= ResetStaminaHealTimer;
         PlayerEvents.current.startCombatStrike -= ResetHealthHealTimer;
     }
+    
+    private void Start()
+    {
+        _animator = GetComponent<Animator>();
+        
+        GetComponentInChildren<PlayerWeaponController>().gameObject.SetActive(false);
+
+        PlayerEvents.current.InvokePlayerBirth();
+
+        //so that hes not visible on main menu
+        transform.localScale = new Vector3(0, 0, transform.localScale.z);
+    }
 
     private void OnGameplayStart()
     {
@@ -62,7 +62,7 @@ public class PlayerController : MonoBehaviour
     public void OnClimbDownFence()
     {
         GetComponent<PlayerCombat>().SwapWeapon();
-        //so that attacks can happen
+        //so that all the linked things can start happening
         GameStats.current.isGamePlaying = true;
 
         climbDownFenceCamera.gameObject.SetActive(false);
@@ -98,7 +98,7 @@ public class PlayerController : MonoBehaviour
                 _elapsedTimeBeforeStaminaHeal += Time.fixedDeltaTime;
             else
             {
-                PlayerStats.main.OnStaminaChange(-(autoHealStaminaPerSecond / 50));
+                PlayerEvents.current.InvokeStaminaChange(-(autoHealStaminaPerSecond / 50));
             }
         }
 

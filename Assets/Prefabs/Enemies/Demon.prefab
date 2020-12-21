@@ -926,6 +926,7 @@ GameObject:
   - component: {fileID: 309110116287129535}
   - component: {fileID: 4283828473376571718}
   - component: {fileID: 1717729714754090234}
+  - component: {fileID: 2026460537876886299}
   - component: {fileID: 583780848638140961}
   - component: {fileID: 8359831133010222766}
   - component: {fileID: 8136034163175344469}
@@ -1020,6 +1021,24 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 3.25
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &2026460537876886299
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8241805542354631109}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df253655c3720a24caba0ab2577c52ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 1
+  maxHealth: 550
+  bumpDamage: 75
+  attackDamage: 75
+  waitBeforeAttackTime: 0.5
+  enemyHealth: 0
 --- !u!114 &583780848638140961
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1032,11 +1051,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f745cf3abb9db5a4aaee79cfe5df88f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationLerpSpeed: 0.1
-  forwardForce: 10
-  upwardForce: 10
+  jumpsInOneMovement: 4
+  jumpVariability: 1
+  forwardForce: 500
+  upwardForce: 600
+  jumpForceMultiplierMin: 0.6
+  jumpForceMultiplierMax: 1.5
   fallMultiplier: 2.5
   jumpMultiplier: 2
+  rotationLerpSpeed: 0.1
+  timeBetweenJumps: 1
   availableAngles: 2d00000087000000e10000003b010000
 --- !u!114 &8359831133010222766
 MonoBehaviour:
@@ -1050,7 +1074,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e542182a1550f0b41bbb96c4f8247521, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthBar: {fileID: 177689023, guid: 8d2572a78b2feaf48ad32138b489407e, type: 3}
+  healthBar: {fileID: 5377818195554305570}
   timeBeforeInflictingBumpDamage: 2
 --- !u!114 &8136034163175344469
 MonoBehaviour:

@@ -22,7 +22,7 @@ public class EnemySpawner : MonoBehaviour
 
     public void SpawnNewEnemy()
     {
-        var enemyInstance = Instantiate(enemyPrefabs[Random.Range(0, enemyPrefabs.Length - 1)],
+        var enemyInstance = Instantiate(enemyPrefabs[Random.Range(0, enemyPrefabs.Length)],
             spawnPoints[Random.Range(0, spawnPoints.Length)]).transform;
         //if you don't parent it to null, it gets parented to this game obj
         enemyInstance.SetParent(null);

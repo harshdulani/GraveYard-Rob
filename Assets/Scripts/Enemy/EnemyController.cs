@@ -1,17 +1,9 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-public enum EnemyType
-{
-    Ghost,
-    Demon
-}
-
 public class EnemyController : MonoBehaviour
 {
-    public EnemyType enemyType;
     public Image healthBar;
     
     public float timeBeforeInflictingBumpDamage = 2f;
@@ -92,10 +84,12 @@ public class EnemyController : MonoBehaviour
     {
         //so that no more collisions are detected
         GetComponent<CapsuleCollider>().enabled = false;
+        //so that non NavMesh Agents don't fall through the ground
+        GetComponent<Rigidbody>().useGravity = false;
 
         StopAllCoroutines();
 
-        switch (enemyType)
+        switch (_enemyStats.type)
         {
             case EnemyType.Ghost:
                 _anim.ResetTrigger(ShouldMeleeHash);
@@ -115,35 +109,23 @@ public class EnemyController : MonoBehaviour
     {
         if (!other.gameObject.CompareTag("Player")) return;
         
+        if(_enemyStats.type != EnemyType.Ghost) return;
+        
         _anim.SetBool(IsMovingHash, false);
         _isPlayerInContact = true;
         
-        switch (enemyType)
-        {
-            case EnemyType.Ghost:
-                StartCoroutine(OnAttackMelee());
-                break;
-            case EnemyType.Demon:
-                StartCoroutine(OnAttackRanged());
-                break;
-        }
+        StartCoroutine(OnAttackMelee());
+        
     }
 
     private void OnTriggerExit(Collider other)
     {
         if (!other.gameObject.CompareTag("Player")) return;
 
-        _isPlayerInContact = false;
-        switch (enemyType)
-        {
-            case EnemyType.Ghost:
-                StopCoroutine("OnAttackMelee");
-                break;
-            case EnemyType.Demon:
-                StopCoroutine(OnAttackRanged());
-                break;
-        }
+        if(_enemyStats.type != EnemyType.Ghost) return;
         
+        _isPlayerInContact = false;
+        StopCoroutine("OnAttackMelee");
     }
 
     private void OnCollisionEnter(Collision other)
@@ -157,8 +139,7 @@ public class EnemyController : MonoBehaviour
         if(!PlayerEvents.current.InvokeHealthChange(_enemyStats.bumpDamage))
             PlayerEvents.current.InvokePlayerDeath();
         //if there isn't enough health after a hit, invoke death
-            
-            
+
         //reset timer
         _myBumpDamageTimer = timeBeforeInflictingBumpDamage;
     }
@@ -178,7 +159,7 @@ public class EnemyController : MonoBehaviour
         if (Vector3.Dot(enemyForward.normalized, toPlayer.normalized) <= 0)
             return;
         
-        if(!PlayerEvents.current.InvokeHealthChange(_enemyStats.meleeDamage))
+        if(!PlayerEvents.current.InvokeHealthChange(_enemyStats.attackDamage))
             PlayerEvents.current.InvokePlayerDeath();
         //if there isn't enough health after a hit, invoke death
     }
@@ -210,6 +191,8 @@ public class EnemyController : MonoBehaviour
         
         //vfx disappears from ground
         //vfx disappears from demon
+        
+        //tell diagonal class to move again
         
         yield break;
     }
