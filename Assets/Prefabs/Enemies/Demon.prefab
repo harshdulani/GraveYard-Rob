@@ -987,7 +987,7 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 2
+  m_Radius: 1.5
   m_Height: 6
   m_Direction: 1
   m_Center: {x: 0, y: 2.5, z: 0}
@@ -1035,6 +1035,9 @@ MonoBehaviour:
   rotationLerpSpeed: 0.1
   forwardForce: 10
   upwardForce: 10
+  fallMultiplier: 2.5
+  jumpMultiplier: 2
+  availableAngles: 2d00000087000000e10000003b010000
 --- !u!114 &8359831133010222766
 MonoBehaviour:
   m_ObjectHideFlags: 0

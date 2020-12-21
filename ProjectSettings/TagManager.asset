@@ -9,6 +9,7 @@ TagManager:
   - Wall
   - PlayerWeapon
   - Target
+  - Ground
   layers:
   - Default
   - TransparentFX

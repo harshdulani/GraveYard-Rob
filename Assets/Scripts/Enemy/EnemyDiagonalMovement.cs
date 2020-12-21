@@ -1,17 +1,28 @@
-﻿using System;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 public class EnemyDiagonalMovement : MonoBehaviour
 {
+    public int jumpsInOneMovement = 3, jumpVariability = 1;
+    
+    public float forwardForce = 500f, upwardForce = 550f;
+    public float jumpForceMultiplierMin = 0.6f, jumpForceMultiplierMax = 1.5f; 
+    public float fallMultiplier = 2.5f, jumpMultiplier = 2f; //better jumping
+
     public float rotationLerpSpeed = 0.1f;
 
-    public float forwardForce = 10f, upwardForce = 10f;
+    public float timeBetweenJumps = 0.5f;
     
-    private readonly float[] _availableAngles = new float[] {45, 135, 225, 315};
+    //[HideInInspector]
+    public List<int> availableAngles = new List<int> {45, 135, 225, 315};
 
-    private float _targetAngle, _currentAngle;
-    private bool _shouldRotate, _shouldJump;
+    private float _forceMultiplier;
+    
+    private int _targetAngle = 0;
+    private float _currentAngle;
+    private bool _shouldRotate, _shouldJump, _hasLanded = true, _shouldStartMoving = true;
 
     private Rigidbody _rigidbody;
 
@@ -22,24 +33,71 @@ public class EnemyDiagonalMovement : MonoBehaviour
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.K))
-            CalculateAndMove();
+        if (_shouldStartMoving)
+            StartCoroutine(Movement(Random.Range(jumpsInOneMovement - jumpVariability, jumpsInOneMovement + jumpVariability)));
         
         if(_shouldRotate)
             Rotate();
+        
         if (_shouldJump)
         {
-            //try adding better jumping from floor is lava
-            _rigidbody.AddForce(transform.forward * forwardForce + transform.up * upwardForce);
+            _rigidbody.AddForce((transform.forward * forwardForce + transform.up * upwardForce) * _forceMultiplier);
             _shouldJump = false;
+            _hasLanded = false;
+        }
+        //for better jumping
+        if (_rigidbody.velocity.y < -1f) //falling
+        {
+            _rigidbody.velocity += Vector3.up * (Physics.gravity.y * (fallMultiplier - 1) * Time.deltaTime);
+        }
+        else if (_rigidbody.velocity.y > 1f) //"rising"
+        {
+            _rigidbody.velocity += Vector3.up * (Physics.gravity.y * (jumpMultiplier - 1) * Time.deltaTime);
         }
     }
 
-    private void CalculateAndMove()
+    private void CalculateRotation()
     {
         //calculate
-        _targetAngle = _availableAngles[Random.Range(0, 3)];
+        var keepCalculating = true;
+        var lastUsedAngle = _targetAngle;
+        while (keepCalculating)
+        {
+            if (availableAngles.Count > 1)
+            {
+                _targetAngle = availableAngles[Random.Range(0, availableAngles.Count)];
+                keepCalculating = (lastUsedAngle == _targetAngle);
+            }
+            else
+            {
+                _targetAngle = availableAngles[0];
+                keepCalculating = false;
+            }
+        }
         _shouldRotate = true;
+    }
+
+    private IEnumerator Movement(int times)
+    {
+        _forceMultiplier = Random.Range(jumpForceMultiplierMin, jumpForceMultiplierMax);
+        
+        _shouldStartMoving = false;
+        //this will ideally be reactivated by the attack mechanism
+        
+        while (0 <= times)
+        {
+            if (_hasLanded && !_shouldRotate)
+            {
+                yield return new WaitForSeconds(timeBetweenJumps);
+                CalculateRotation();
+            }
+            else
+            {
+                while(!_hasLanded || _shouldRotate)
+                    yield return new WaitForEndOfFrame();
+            }
+            times--;
+        }
     }
     
     private void Rotate()
@@ -55,5 +113,17 @@ public class EnemyDiagonalMovement : MonoBehaviour
             _shouldRotate = false;
             _shouldJump = true;
         }
+    }
+
+    private void OnCollisionEnter(Collision other)
+    {
+        if(!other.gameObject.CompareTag("Ground")) return;
+
+        _hasLanded = true;
+    }
+
+    public void StartMoving()
+    {
+        _shouldStartMoving = true;
     }
 }

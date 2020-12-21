@@ -1,9 +1,17 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
+public enum EnemyType
+{
+    Ghost,
+    Demon
+}
+
 public class EnemyController : MonoBehaviour
 {
+    public EnemyType enemyType;
     public Image healthBar;
     
     public float timeBeforeInflictingBumpDamage = 2f;
@@ -20,6 +28,7 @@ public class EnemyController : MonoBehaviour
     private Animator _anim;
     private EnemyStats _enemyStats;
     private EnemyScreenShakes _shakes;
+    private static readonly int ShouldRanged = Animator.StringToHash("shouldRanged");
 
     private void OnEnable()
     {
@@ -55,7 +64,6 @@ public class EnemyController : MonoBehaviour
 
     public void DecreaseHealth(int amt)
     {
-        
         if(amt == PlayerStats.main.lightAttackDamage)
             _shakes.Light();
         else if(amt == PlayerStats.main.heavyAttackDamage)
@@ -86,7 +94,16 @@ public class EnemyController : MonoBehaviour
         GetComponent<CapsuleCollider>().enabled = false;
 
         StopAllCoroutines();
-        _anim.ResetTrigger(ShouldMeleeHash);
+
+        switch (enemyType)
+        {
+            case EnemyType.Ghost:
+                _anim.ResetTrigger(ShouldMeleeHash);
+                break;
+            case EnemyType.Demon:
+                _anim.ResetTrigger(ShouldRanged);
+                break;
+        }
 
         _anim.SetTrigger(DeathHash);
 
@@ -100,7 +117,16 @@ public class EnemyController : MonoBehaviour
         
         _anim.SetBool(IsMovingHash, false);
         _isPlayerInContact = true;
-        StartCoroutine("OnAttackMelee");
+        
+        switch (enemyType)
+        {
+            case EnemyType.Ghost:
+                StartCoroutine(OnAttackMelee());
+                break;
+            case EnemyType.Demon:
+                StartCoroutine(OnAttackRanged());
+                break;
+        }
     }
 
     private void OnTriggerExit(Collider other)
@@ -108,7 +134,16 @@ public class EnemyController : MonoBehaviour
         if (!other.gameObject.CompareTag("Player")) return;
 
         _isPlayerInContact = false;
-        StopCoroutine("OnAttackMelee");
+        switch (enemyType)
+        {
+            case EnemyType.Ghost:
+                StopCoroutine("OnAttackMelee");
+                break;
+            case EnemyType.Demon:
+                StopCoroutine(OnAttackRanged());
+                break;
+        }
+        
     }
 
     private void OnCollisionEnter(Collision other)
@@ -158,6 +193,25 @@ public class EnemyController : MonoBehaviour
             
             yield return new WaitForSeconds(_enemyStats.waitBeforeAttackTime);
         }
+    }
+
+    private IEnumerator OnAttackRanged()
+    {
+        //demons attack is infernal strike, circular aoe attack from the ground
+        
+        //vfx appears on demon who's casting this attack
+        
+        //collider is created at player position
+        
+        //initial stage to warn that an attack is coming - no damage
+
+        //walking inside is slowed and takes small damage per second
+        //if player is still in aoe at the end, takes big singular hit
+        
+        //vfx disappears from ground
+        //vfx disappears from demon
+        
+        yield break;
     }
 
     private void OnPlayerDeath()
