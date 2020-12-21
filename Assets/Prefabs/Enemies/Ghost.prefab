@@ -933,9 +933,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df253655c3720a24caba0ab2577c52ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  type: 0
   maxHealth: 400
   bumpDamage: 60
-  meleeDamage: 75
+  attackDamage: 75
   waitBeforeAttackTime: 1
   enemyHealth: 0
 --- !u!114 &919132147837541352
@@ -950,7 +951,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e542182a1550f0b41bbb96c4f8247521, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyType: 0
   healthBar: {fileID: 177689023}
   timeBeforeInflictingBumpDamage: 2
 --- !u!114 &919132147837541354
@@ -1071,7 +1071,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5fff8a109494294687be2a01e738a02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lightShake: 10
+  lightShake: 15
   heavyShake: 25
 --- !u!1 &4874268804338708762
 GameObject:

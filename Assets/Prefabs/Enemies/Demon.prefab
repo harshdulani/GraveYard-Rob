@@ -1054,7 +1054,7 @@ MonoBehaviour:
   jumpsInOneMovement: 4
   jumpVariability: 1
   forwardForce: 500
-  upwardForce: 600
+  upwardForce: 500
   jumpForceMultiplierMin: 0.6
   jumpForceMultiplierMax: 1.5
   fallMultiplier: 2.5
@@ -1181,7 +1181,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5fff8a109494294687be2a01e738a02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lightShake: 10
+  lightShake: 15
   heavyShake: 25
 --- !u!1 &8698641814744011286
 GameObject:
