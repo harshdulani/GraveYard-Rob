@@ -9,7 +9,8 @@ public class PlayerEvents : MonoBehaviour
     public Action playerDeath, playerBirth;
     public Action startCombatStrike, endCombatStrike;
 
-    public Func<float, bool> healthChange, staminaChange;
+    public Func<int, AttackType, bool> healthChange;
+    public Func<int, bool> staminaChange;
 
     private void Awake()
     {
@@ -39,16 +40,16 @@ public class PlayerEvents : MonoBehaviour
         endCombatStrike?.Invoke();
     }
     
-    public bool InvokeHealthChange(float amount)
+    public bool InvokeHealthChange(int amount, AttackType type)
     {
         if (healthChange != null)
-            return healthChange.Invoke(amount);
+            return healthChange.Invoke(amount, type);
         
         //return false if health is not 0
         return false;
     }
     
-    public bool InvokeStaminaChange(float amount)
+    public bool InvokeStaminaChange(int amount)
     {
         if(staminaChange != null)
             return staminaChange.Invoke(amount);

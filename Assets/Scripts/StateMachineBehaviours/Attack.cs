@@ -4,7 +4,8 @@ public enum AttackType
 {
     LightAttack,
     HeavyAttack,
-    Digging
+    Digging,
+    Heal //used for things that arent actually attacks
 };
 
 public class Attack : StateMachineBehaviour

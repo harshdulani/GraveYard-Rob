@@ -1526,7 +1526,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b8eb6fa816aa21c4d8f95b937d2afd28, type: 3}
       propertyPath: m_LocalScale.y
-      value: -1
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -7511558181221131132, guid: b8eb6fa816aa21c4d8f95b937d2afd28, type: 3}
       propertyPath: m_CastShadows
@@ -5694,7 +5694,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -14.999878, y: -5}
+  m_AnchoredPosition: {x: -14.999756, y: -5}
   m_SizeDelta: {x: -10, y: 30}
   m_Pivot: {x: 1, y: 0}
 --- !u!114 &749875157
@@ -6651,7 +6651,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -14.999878, y: 30}
+  m_AnchoredPosition: {x: -14.999756, y: 30}
   m_SizeDelta: {x: -15, y: 30}
   m_Pivot: {x: 1, y: 0}
 --- !u!114 &840780909
@@ -17185,7 +17185,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyPrefabs:
   - {fileID: 4600489302177683349, guid: 8d2572a78b2feaf48ad32138b489407e, type: 3}
-  - {fileID: 8241805542354631109, guid: 345ff6c2b6f877d4cbde59211864e389, type: 3}
   spawnPoints:
   - {fileID: 410729994}
   - {fileID: 221344954}
@@ -18981,6 +18980,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 309110116287129535, guid: 345ff6c2b6f877d4cbde59211864e389, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 583780848638140961, guid: 345ff6c2b6f877d4cbde59211864e389, type: 3}
       propertyPath: jumpsInOneMovement
       value: 99

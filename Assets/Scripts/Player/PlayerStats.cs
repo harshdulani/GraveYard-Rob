@@ -19,7 +19,6 @@ public class PlayerStats : MonoBehaviour
     public int heavyAttackStaminaCost = 150;
 
     private PlayerController _playerController;
-    private int _sampleEnemyBumpDamage, _sampleEnemyMeleeDamage;
     
     private void Awake()
     {
@@ -47,24 +46,19 @@ public class PlayerStats : MonoBehaviour
         
         playerHealth = maxHealth;
         playerStamina = maxStamina;
-        _ = OnHealthChange(0);
+        _ = OnHealthChange(0, AttackType.Heal);
         _ = OnStaminaChange(0);
     }
 
-    public bool OnHealthChange(float amount)
+    private bool OnHealthChange(int amount, AttackType type)
     {
         if (playerHealth - Mathf.CeilToInt(amount) < 0) return false;
-
-        if (_sampleEnemyBumpDamage == default)
-            if(SetDemoEnemyValues())
-            {
-                if (amount == _sampleEnemyMeleeDamage)
-                    _playerController.OnPlayerTakeHit();
-                else
-                    _playerController.OnPlayerTakeBump();
-            }
-            
         
+        if (type == AttackType.HeavyAttack)
+            _playerController.OnPlayerTakeHit();
+        else if (type == AttackType.LightAttack)
+            _playerController.OnPlayerTakeBump();
+
         if(playerHealth <= 0.3f * maxHealth)
             PlayerCanvasController.main.HealthAlarm();
         
@@ -74,11 +68,10 @@ public class PlayerStats : MonoBehaviour
         PlayerCanvasController.main.UpdateHealth();
         
         return true;
-    
         //return true if there is enough health/player is still alive after the move
     }
 
-    public bool OnStaminaChange(float amount)
+    private bool OnStaminaChange(int amount)
     {
         if (playerStamina - Mathf.CeilToInt(amount) < 0)
         {
@@ -94,20 +87,5 @@ public class PlayerStats : MonoBehaviour
         return true;
         
         //return true if there is enough stamina for requested move
-    }
-
-    private bool SetDemoEnemyValues()
-    {
-        EnemyStats x;
-        
-        //try to find an EnemyStats and assign it to x, and then test that value
-        if ((x = FindObjectOfType<EnemyStats>()))
-        {
-            _sampleEnemyBumpDamage = x.bumpDamage;
-            _sampleEnemyMeleeDamage = x.attackDamage;
-            return true;
-        }
-        else
-            return false;
     }
 }

@@ -16,11 +16,12 @@ public class EnemyController : MonoBehaviour
     private static readonly int DeathHash = Animator.StringToHash("death");
     private static readonly int IsMovingHash = Animator.StringToHash("isMoving");
     private static readonly int HitReceivedHash = Animator.StringToHash("hitReceived");
-
+    private static readonly int ShouldRanged = Animator.StringToHash("shouldRanged");
+    
     private Animator _anim;
     private EnemyStats _enemyStats;
     private EnemyScreenShakes _shakes;
-    private static readonly int ShouldRanged = Animator.StringToHash("shouldRanged");
+    private Rigidbody _rigidbody;
 
     private void OnEnable()
     {
@@ -36,6 +37,7 @@ public class EnemyController : MonoBehaviour
     {
         _enemyStats = GetComponent<EnemyStats>();
         _anim = GetComponent<Animator>();
+        _rigidbody = GetComponent<Rigidbody>();
         _shakes = GetComponent<EnemyScreenShakes>();
         
         EnemyEvents.current.InvokeEnemyBirth(transform);
@@ -46,6 +48,8 @@ public class EnemyController : MonoBehaviour
     {
         if(_canBump) return;
         if (!(_myBumpDamageTimer > 0)) return;
+        
+        if(GameStats.current.isPlayerAlive && _rigidbody.IsSleeping()) _rigidbody.WakeUp();
         
         _myBumpDamageTimer -= Time.deltaTime;
 
@@ -136,7 +140,7 @@ public class EnemyController : MonoBehaviour
         if(other.gameObject.GetComponent<PlayerCombat>().isAttacking) return;
         
         //bump damage
-        if(!PlayerEvents.current.InvokeHealthChange(_enemyStats.bumpDamage))
+        if(!PlayerEvents.current.InvokeHealthChange(_enemyStats.bumpDamage, AttackType.LightAttack))
             PlayerEvents.current.InvokePlayerDeath();
         //if there isn't enough health after a hit, invoke death
 
@@ -159,7 +163,7 @@ public class EnemyController : MonoBehaviour
         if (Vector3.Dot(enemyForward.normalized, toPlayer.normalized) <= 0)
             return;
         
-        if(!PlayerEvents.current.InvokeHealthChange(_enemyStats.attackDamage))
+        if(!PlayerEvents.current.InvokeHealthChange(_enemyStats.attackDamage, AttackType.HeavyAttack))
             PlayerEvents.current.InvokePlayerDeath();
         //if there isn't enough health after a hit, invoke death
     }

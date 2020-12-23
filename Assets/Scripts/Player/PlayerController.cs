@@ -10,7 +10,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("Health Healing")] 
     public int autoHealHealthPerSecond = 5;
-    private float _elapsedTimeBeforeHealthHeal = 0f;
+    public float _elapsedTimeBeforeHealthHeal = 0f;
     
     [Header("Cameras")]
     public CinemachineVirtualCamera climbDownFenceCamera;
@@ -22,7 +22,7 @@ public class PlayerController : MonoBehaviour
     private static readonly int PlayerBorn = Animator.StringToHash("playerBorn");
     private static readonly int PlayerDeath = Animator.StringToHash("playerDeath");
     private static readonly int PlayerTakeHit = Animator.StringToHash("playerTakeHit");
-    
+
     private void OnEnable()
     {
         GameFlowEvents.current.gameplayStart += OnGameplayStart;
@@ -44,7 +44,6 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         _animator = GetComponent<Animator>();
-        
         GetComponentInChildren<PlayerWeaponController>().gameObject.SetActive(false);
 
         PlayerEvents.current.InvokePlayerBirth();
@@ -109,7 +108,8 @@ public class PlayerController : MonoBehaviour
                 _elapsedTimeBeforeHealthHeal += Time.fixedDeltaTime;
             else
             {
-                PlayerEvents.current.InvokeHealthChange(-(autoHealHealthPerSecond / 50));
+                print(_elapsedTimeBeforeHealthHeal);
+                PlayerEvents.current.InvokeHealthChange(-(autoHealHealthPerSecond / 50), AttackType.Heal);
             }
         }
     }
@@ -127,9 +127,10 @@ public class PlayerController : MonoBehaviour
             //every time someone attacks you
             
         _elapsedTimeBeforeHealthHeal = 0f;
+        print(_elapsedTimeBeforeHealthHeal);
     }
     
-    private void OnControllerColliderHit(ControllerColliderHit hit)
+    /*private void OnControllerColliderHit(ControllerColliderHit hit)
     {
         if(hit.gameObject.CompareTag("Projectile"))
         {
@@ -137,5 +138,5 @@ public class PlayerController : MonoBehaviour
             print("projectile hit w " + hit.gameObject.name);
             Destroy(hit.gameObject);
         }
-    }
+    }*/
 }

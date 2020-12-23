@@ -1119,7 +1119,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   autoHealStaminaPerSecond: 50
   timeBeforeHealing: 3.5
-  autoHealHealthPerSecond: 50
+  autoHealHealthPerSecond: 35
+  _elapsedTimeBeforeHealthHeal: 0
   climbDownFenceCamera: {fileID: 0}
   tpsCamera: {fileID: 0}
 --- !u!114 &4327995299076921502
