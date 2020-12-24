@@ -7,13 +7,13 @@ public class EnemyFollow : MonoBehaviour
     const float PathUpdateMoveThreshold = 0.5f;
 
     public float minPathUpdateTime = 0.2f;
+    public IEnumerator followMechanic;
 
     private Transform _target;
     private NavMeshAgent _agent;
     private Vector3 _targetPosOld;
     private Animator _anim;
     private TargetingThePlayer _targetingEnemy;
-    private IEnumerator _followMechanic;
 
     private static readonly int IsMoving = Animator.StringToHash("isMoving");
 
@@ -39,8 +39,8 @@ public class EnemyFollow : MonoBehaviour
 
         _target = GameObject.FindGameObjectWithTag("Player").transform;
 
-        _followMechanic = FollowMechanic();
-        StartCoroutine(_followMechanic);
+        followMechanic = FollowMechanic();
+        StartCoroutine(followMechanic);
     }
 
     private IEnumerator FollowMechanic()

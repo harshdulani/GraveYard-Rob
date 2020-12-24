@@ -4,11 +4,7 @@ public class EnemySpawner : MonoBehaviour
 {
     [SerializeField]
     private GameObject[] enemyPrefabs;
-
-    //you may write a dynamic "get all spawnpoints at runtime" function in Start or Awake
-    //but that would slow down stuff
-    //or you could not think about slowdown by getting them in a coroutine somehow
-    //so for now, i'm just holding all spawn points in a heirarchy
+    //i'm just holding all spawn points in a heirarchy
     //and dragging all of those to the editor drop point but without opening the array details
     [SerializeField]
     private Transform[] spawnPoints;
