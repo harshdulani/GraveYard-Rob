@@ -108,7 +108,6 @@ public class PlayerController : MonoBehaviour
                 _elapsedTimeBeforeHealthHeal += Time.fixedDeltaTime;
             else
             {
-                print(_elapsedTimeBeforeHealthHeal);
                 PlayerEvents.current.InvokeHealthChange(-(autoHealHealthPerSecond / 50), AttackType.Heal);
             }
         }
@@ -127,7 +126,6 @@ public class PlayerController : MonoBehaviour
             //every time someone attacks you
             
         _elapsedTimeBeforeHealthHeal = 0f;
-        print(_elapsedTimeBeforeHealthHeal);
     }
     
     /*private void OnControllerColliderHit(ControllerColliderHit hit)
