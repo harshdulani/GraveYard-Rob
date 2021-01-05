@@ -23,8 +23,11 @@ public class SpawnWithVFX : MonoBehaviour
 
     private IEnumerator SpawnWithDelays()
     {
+        var instance = Instantiate(vfx, transform.position, Quaternion.identity);
 
-        _waitBeforeStartFollowing = Instantiate(vfx, transform.position, Quaternion.identity).transform.GetChild(0).GetComponent<ParticleSystem>().main.duration * startFollowingAfterVFXDurationMultiplier;
+        instance.transform.position = new Vector3(transform.position.x, vfx.transform.position.y, transform.position.z);
+
+        _waitBeforeStartFollowing = instance.transform.GetChild(0).GetComponent<ParticleSystem>().main.duration * startFollowingAfterVFXDurationMultiplier;
 
         yield return new WaitForSeconds(waitBeforeRender);
         

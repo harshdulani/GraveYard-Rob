@@ -6,7 +6,8 @@ using UnityEngine;
 public class InfernalAttackController : MonoBehaviour
 {
     public int damagePerSecond = 150;
-    
+
+    public float slowDownMovementMultiplier = 0.5f;
     public float followPlayerBeforeAttackTime = 2f;
 
     public GameObject attackIndicator;
@@ -21,7 +22,7 @@ public class InfernalAttackController : MonoBehaviour
     private void Start()
     {
         _vfx = transform.GetChild(0).gameObject;
-        _particles = _vfx.transform.GetChild(0).GetComponent<ParticleSystem>();
+        _particles = _vfx.transform.GetChild(9).GetComponent<ParticleSystem>();
         _player = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
@@ -82,15 +83,16 @@ public class InfernalAttackController : MonoBehaviour
     {
         //start attacking
         //slow movement
+        MovementInput.current.SlowDownMovement(slowDownMovementMultiplier);
     }
 
     private void OnTriggerStay(Collider other)
     {
         if(!other.gameObject.CompareTag("Player")) return;
+        
+        if(!_particles.isPlaying) return;
+        
         //give dps like you heal
-        
-        print("staying in infernal attack");
-        
         PlayerEvents.current.InvokeHealthChange((damagePerSecond / 50), AttackType.LightAttack);
     }
 
@@ -98,5 +100,6 @@ public class InfernalAttackController : MonoBehaviour
     {
         //stop attacking
         //increase movement speed
+        MovementInput.current.RestoreMovement();
     }
 }

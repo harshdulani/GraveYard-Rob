@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 625098785496768716}
   - component: {fileID: 625098785496768715}
   m_Layer: 0
-  m_Name: Cylinder
+  m_Name: Placeholder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -126,7 +126,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 5.25
+  m_Radius: 5
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &625098787270546999
 MonoBehaviour:
@@ -140,7 +140,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb384d0390be478488aeb869ebf402e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damagePerSecond: 150
+  damagePerSecond: 100
+  slowDownMovementMultiplier: 0.5
   followPlayerBeforeAttackTime: 2
   attackIndicator: {fileID: 625098785496768713}
 --- !u!1001 &3246666597966814328

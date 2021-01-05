@@ -806,11 +806,11 @@ GameObject:
   - component: {fileID: 919132147837541353}
   - component: {fileID: 9128662508567185194}
   - component: {fileID: 919132147837541352}
+  - component: {fileID: 773945334}
   - component: {fileID: 919132147837541354}
   - component: {fileID: 919132147837541357}
   - component: {fileID: 2581473997085610831}
   - component: {fileID: 8380368090572024354}
-  - component: {fileID: 773945334}
   m_Layer: 0
   m_Name: Ghost
   m_TagString: Enemy
@@ -954,6 +954,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healthBar: {fileID: 177689023}
   timeBeforeInflictingBumpDamage: 2
+--- !u!114 &773945334
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4600489302177683349}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ecb9004d1664f23419ac80700af92ccd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  vfx: {fileID: 3107778121435067526, guid: 10e296ed883393b43b38ffdb6e070379, type: 3}
+  toDisable:
+  - {fileID: 2727196571536390217}
+  - {fileID: 1654558354}
+  waitBeforeRender: 2
+  startFollowingAfterVFXDurationMultiplier: 0.35
 --- !u!114 &919132147837541354
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1074,25 +1092,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lightShake: 15
   heavyShake: 25
---- !u!114 &773945334
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4600489302177683349}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ecb9004d1664f23419ac80700af92ccd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  vfx: {fileID: 3107778121435067526, guid: 10e296ed883393b43b38ffdb6e070379, type: 3}
-  toDisable:
-  - {fileID: 2727196571536390217}
-  - {fileID: 1654558354}
-  waitBeforeShowVFX: 0
-  waitBeforeRender: 2
-  startFollowingAfterVFXDurationMultiplier: 0.35
+  firstEnemyShake: 35
 --- !u!1 &4874268804338708762
 GameObject:
   m_ObjectHideFlags: 0

@@ -15,6 +15,8 @@ public class MovementInput : MonoBehaviour
     public bool isWalking = true;
     public Vector3 desiredMovementDirection;
 
+    private float _originalMovementSpeed;
+    
     [Header("Rotation")]
     public float rotationSlerpSpeed;
     public float allowPlayerRotationSpeed;
@@ -66,6 +68,8 @@ public class MovementInput : MonoBehaviour
         _controller = GetComponent<CharacterController>();
         _cam = Camera.main.transform;
         _animator = GetComponent<Animator>();
+
+        _originalMovementSpeed = movementSpeed;
     }
 
     private void Update()
@@ -258,6 +262,16 @@ public class MovementInput : MonoBehaviour
     public void GiveBackMovementControl()
     {
         playerHasControl = true;
+    }
+
+    public void SlowDownMovement(float multiplier)
+    {
+        movementSpeed = _originalMovementSpeed * multiplier;
+    }
+
+    public void RestoreMovement()
+    {
+        movementSpeed = _originalMovementSpeed;
     }
     
     #region  legacy coroutine code for taking away movement control

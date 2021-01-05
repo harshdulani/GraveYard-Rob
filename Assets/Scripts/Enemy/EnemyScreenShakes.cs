@@ -23,4 +23,14 @@ public class EnemyScreenShakes : MonoBehaviour
     {
         _impulse.GenerateImpulse(heavyShake);
     }
+
+    public void FirstEnemy(int impulseStrength, float impulseSustainTime)
+    {
+        var oldTime = _impulse.m_ImpulseDefinition.m_TimeEnvelope.m_SustainTime;
+        _impulse.m_ImpulseDefinition.m_TimeEnvelope.m_SustainTime = impulseSustainTime;
+        
+        _impulse.GenerateImpulse(impulseStrength);
+        
+        _impulse.m_ImpulseDefinition.m_TimeEnvelope.m_SustainTime = oldTime;
+    }
 }

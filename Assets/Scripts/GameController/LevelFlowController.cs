@@ -18,6 +18,11 @@ public class LevelFlowController : MonoBehaviour
     [Header("Dialogues")] 
     public List<string> enemySpawnStartDialogues;
     public Text dialogueText;
+    
+    [Header("Screenshake at first enemy birth")] 
+    public int screenShakeIntensity = 30;
+    public float screenShakeSustainTime = 1.5f;
+    
     public CinemachineVirtualCamera stareAtEnemy;
     public CinemachineTargetGroup targetGroup;
 
@@ -79,10 +84,23 @@ public class LevelFlowController : MonoBehaviour
         if(GameStats.current.currentObjective != 1) return;
         
         ShowDialogue();
-
-        Time.timeScale = 0.01f;
+        StartCoroutine(WaitTillYouFindEnemy());
         
+        /*        
         StartCoroutine(LookAtEnemy());
+        */
+    }
+
+    private IEnumerator WaitTillYouFindEnemy()
+    {
+        Time.timeScale = 0.75f;
+        while (GameStats.current.activeEnemies.Count == 0)
+            yield return new WaitForEndOfFrame();
+        
+        GameStats.current.activeEnemies[0].GetComponent<EnemyScreenShakes>().FirstEnemy(screenShakeIntensity, screenShakeSustainTime);
+        
+        yield return new WaitForSeconds(screenShakeSustainTime);
+        Time.timeScale = 1f;
     }
 
     private void ShowDialogue()

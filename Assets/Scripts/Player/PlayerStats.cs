@@ -52,7 +52,11 @@ public class PlayerStats : MonoBehaviour
 
     private bool OnHealthChange(int amount, AttackType type)
     {
-        if (playerHealth - Mathf.CeilToInt(amount) < 0) return false;
+        if (playerHealth - amount < 0)
+        {
+            playerHealth -= amount;
+            return false;
+        }
         
         if (type == AttackType.HeavyAttack)
             _playerController.OnPlayerTakeHit();
@@ -62,7 +66,7 @@ public class PlayerStats : MonoBehaviour
         if(playerHealth <= 0.3f * maxHealth)
             PlayerCanvasController.main.HealthAlarm();
         
-        playerHealth -= Mathf.CeilToInt(amount);
+        playerHealth -= amount;
         playerHealth = Mathf.Clamp(playerHealth, 0, maxHealth);
         
         PlayerCanvasController.main.UpdateHealth();
