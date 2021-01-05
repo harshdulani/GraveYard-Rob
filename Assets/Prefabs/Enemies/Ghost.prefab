@@ -1092,7 +1092,7 @@ MonoBehaviour:
   - {fileID: 1654558354}
   waitBeforeShowVFX: 0
   waitBeforeRender: 2
-  waitBeforeStartFollowing: 4
+  startFollowingAfterVFXDurationMultiplier: 0.35
 --- !u!1 &4874268804338708762
 GameObject:
   m_ObjectHideFlags: 0

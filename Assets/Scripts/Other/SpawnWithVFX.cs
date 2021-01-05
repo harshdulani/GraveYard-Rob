@@ -7,8 +7,10 @@ public class SpawnWithVFX : MonoBehaviour
     public GameObject vfx;
 
     public List<GameObject> toDisable;
+
+    public float waitBeforeRender, startFollowingAfterVFXDurationMultiplier = 0.35f;
     
-    public float waitBeforeShowVFX, waitBeforeRender, waitBeforeStartFollowing;
+    private float _waitBeforeStartFollowing;
 
     private void Start()
     {
@@ -16,14 +18,13 @@ public class SpawnWithVFX : MonoBehaviour
         {
             renderer.SetActive(false);
         }
-        StartCoroutine(SpawnWithDelay());
+        StartCoroutine(SpawnWithDelays());
     }
 
-    private IEnumerator SpawnWithDelay()
+    private IEnumerator SpawnWithDelays()
     {
-        yield return new WaitForSeconds(waitBeforeShowVFX);
 
-        Instantiate(vfx, transform.position, Quaternion.identity);
+        _waitBeforeStartFollowing = Instantiate(vfx, transform.position, Quaternion.identity).transform.GetChild(0).GetComponent<ParticleSystem>().main.duration * startFollowingAfterVFXDurationMultiplier;
 
         yield return new WaitForSeconds(waitBeforeRender);
         
@@ -31,9 +32,9 @@ public class SpawnWithVFX : MonoBehaviour
         {
             renderer.SetActive(true);
         }
-        
-        yield return new WaitForSeconds(waitBeforeStartFollowing);
 
+        yield return new WaitForSeconds(_waitBeforeStartFollowing);
+        
         StartCoroutine(GetComponent<EnemyFollow>().followMechanic);
     }
 }
