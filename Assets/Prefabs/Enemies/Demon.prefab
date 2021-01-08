@@ -1062,6 +1062,7 @@ MonoBehaviour:
   rotationLerpSpeed: 0.1
   timeBetweenJumps: 1
   availableAngles: 2d00000087000000e10000003b010000
+  inferno: {fileID: 625098787270546996, guid: 0202aa781c71a164085dd7d50fb61bf9, type: 3}
 --- !u!114 &8359831133010222766
 MonoBehaviour:
   m_ObjectHideFlags: 0

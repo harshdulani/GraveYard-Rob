@@ -24,13 +24,12 @@ public class InfernalAttackController : MonoBehaviour
         _vfx = transform.GetChild(0).gameObject;
         _particles = _vfx.transform.GetChild(9).GetComponent<ParticleSystem>();
         _player = GameObject.FindGameObjectWithTag("Player").transform;
+        
+        StartAttack();
     }
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.K))
-            StartFollowingPlayer();
-        
         if(!_isAttacking) return;
         
         if(_waitingToDie)
@@ -54,8 +53,9 @@ public class InfernalAttackController : MonoBehaviour
         }
     }
 
-    public void StartFollowingPlayer()
+    public void StartAttack()
     {
+        //Start following Player
         _isAttacking = true;
         _isFollowingPlayer = true;
         _followTimeRemaining = followPlayerBeforeAttackTime;

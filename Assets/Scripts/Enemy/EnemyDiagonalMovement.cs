@@ -18,6 +18,9 @@ public class EnemyDiagonalMovement : MonoBehaviour
     //[HideInInspector]
     public List<int> availableAngles = new List<int> {45, 135, 225, 315};
 
+    [Header("Infernal Attack")] 
+    public GameObject inferno;
+    
     private float _forceMultiplier;
     
     private int _targetAngle = 0;
@@ -98,6 +101,17 @@ public class EnemyDiagonalMovement : MonoBehaviour
             }
             times--;
         }
+
+        //start infernal attack
+        StartCoroutine(WaitAndBeginAgain(Instantiate(inferno, parent: null)));
+    }
+
+    private IEnumerator WaitAndBeginAgain(GameObject instance)
+    {
+        while (instance)
+            yield return new WaitForSeconds(1f);
+
+        _shouldStartMoving = true;
     }
     
     private void Rotate()

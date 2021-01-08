@@ -10,7 +10,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("Health Healing")] 
     public int autoHealHealthPerSecond = 5;
-    public float _elapsedTimeBeforeHealthHeal = 0f;
+    private float _elapsedTimeBeforeHealthHeal = 0f;
     
     [Header("Cameras")]
     public CinemachineVirtualCamera climbDownFenceCamera;
@@ -109,7 +109,8 @@ public class PlayerController : MonoBehaviour
                 _elapsedTimeBeforeHealthHeal += Time.fixedDeltaTime;
             else
             {
-                PlayerEvents.current.InvokeHealthChange(-(autoHealHealthPerSecond / 50), AttackType.Heal);
+                print(autoHealHealthPerSecond / 50f);
+                PlayerEvents.current.InvokeHealthChange(-Mathf.CeilToInt(autoHealHealthPerSecond / 50f), AttackType.Heal);
             }
         }
     }
