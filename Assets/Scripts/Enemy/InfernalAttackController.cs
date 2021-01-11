@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class InfernalAttackController : MonoBehaviour
 {
@@ -29,6 +26,7 @@ public class InfernalAttackController : MonoBehaviour
         {
             var main = system.main; 
             main.duration = followPlayerBeforeAttackTime;
+            system.Play();
         }
         
         StartAttack();
@@ -59,7 +57,7 @@ public class InfernalAttackController : MonoBehaviour
         }
     }
 
-    public void StartAttack()
+    private void StartAttack()
     {
         //Start following Player
         _isAttacking = true;
@@ -97,10 +95,13 @@ public class InfernalAttackController : MonoBehaviour
     {
         if(!other.gameObject.CompareTag("Player")) return;
         
+        if(!GameStats.current.isPlayerAlive) return;
+
         if(!_particles.isPlaying) return;
         
         //give dps like you heal
-        PlayerEvents.current.InvokeHealthChange((damagePerSecond / 50), AttackType.LightAttack);
+        if(!PlayerEvents.current.InvokeHealthChange((damagePerSecond / 50), AttackType.LightAttack))
+            PlayerEvents.current.InvokePlayerDeath();
     }
 
     private void OnTriggerExit(Collider other)

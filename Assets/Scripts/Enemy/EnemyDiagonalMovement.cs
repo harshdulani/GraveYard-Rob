@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -26,8 +27,19 @@ public class EnemyDiagonalMovement : MonoBehaviour
     private int _targetAngle = 0;
     private float _currentAngle;
     private bool _shouldRotate, _shouldJump, _hasLanded = true, _shouldStartMoving = true;
+    private Coroutine _movementCoroutine;
 
     private Rigidbody _rigidbody;
+
+    private void OnEnable()
+    {
+        PlayerEvents.current.playerDeath += OnPlayerDeath;
+    }
+    
+    private void OnDisable()
+    {
+        PlayerEvents.current.playerDeath -= OnPlayerDeath;
+    }
 
     private void Start()
     {
@@ -37,7 +49,7 @@ public class EnemyDiagonalMovement : MonoBehaviour
     private void Update()
     {
         if (_shouldStartMoving)
-            StartCoroutine(Movement(Random.Range(jumpsInOneMovement - jumpVariability, jumpsInOneMovement + jumpVariability)));
+            _movementCoroutine = StartCoroutine(Movement(Random.Range(jumpsInOneMovement - jumpVariability, jumpsInOneMovement + jumpVariability)));
         
         if(_shouldRotate)
             Rotate();
@@ -139,5 +151,10 @@ public class EnemyDiagonalMovement : MonoBehaviour
     public void StartMoving()
     {
         _shouldStartMoving = true;
+    }
+    
+    private void OnPlayerDeath()
+    {
+        StopAllCoroutines();
     }
 }

@@ -23,20 +23,20 @@ public class PlayerCanvasController : MonoBehaviour
 
     private void Start()
     {
-        _healthFlasher = healthBar.transform.parent.GetChild(3).GetComponent<FlashRepeatedly>();
-        _staminaFlasher = staminaBar.transform.parent.GetChild(3).GetComponent<FlashRepeatedly>();
+        _healthFlasher = healthBar.transform.parent.GetChild(4).GetComponent<FlashRepeatedly>();
+        _staminaFlasher = staminaBar.transform.parent.GetChild(4).GetComponent<FlashRepeatedly>();
     }
 
     public void UpdateHealth()
     {
         healthBar.fillAmount = (float)(PlayerStats.main.playerHealth) / (float)(PlayerStats.main.maxHealth);
-        healthText.text = PlayerStats.main.playerHealth.ToString();
+        healthText.text = PlayerStats.main.playerHealth + " / " + PlayerStats.main.maxHealth;;
     }
     
     public void UpdateStamina()
     {
         staminaBar.fillAmount = (float)(PlayerStats.main.playerStamina) / (float)(PlayerStats.main.maxStamina);
-        staminaText.text = PlayerStats.main.playerStamina.ToString();
+        staminaText.text = PlayerStats.main.playerStamina + " / " + PlayerStats.main.maxStamina;
     }
 
     public void HealthAlarm()
