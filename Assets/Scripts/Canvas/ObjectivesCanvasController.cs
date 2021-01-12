@@ -42,6 +42,8 @@ public class ObjectivesCanvasController : MonoBehaviour
     
     private void UpdateObjective()
     {
+        if(!GameStats.current.isPlayerAlive) return;
+        
         if(GameStats.current.currentObjective < objectiveTexts.Count)
             objectiveTitle.text = objectiveTexts[++GameStats.current.currentObjective];
 

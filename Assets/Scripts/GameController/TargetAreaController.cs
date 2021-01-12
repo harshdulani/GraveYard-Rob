@@ -94,6 +94,7 @@ public class TargetAreaController : MonoBehaviour
         if (!_hasFoundGrave)
         {
             _hasFoundGrave = true;
+            GameFlowEvents.current.InvokeUpdateObjective();
             graveCanvas.StartSliding();
         }
         

@@ -108,7 +108,9 @@ public class PauseMenuController : AMenuController
     }
 
     private void OnGameplayPause()
-    {
+    { 
+        if(!GameStats.current.isPlayerAlive) return;
+        
         GameStats.current.isGamePlaying = false;
         _isPaused = true;
         Time.timeScale = 0f;
