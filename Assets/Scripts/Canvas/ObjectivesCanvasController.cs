@@ -8,6 +8,7 @@ public class ObjectivesCanvasController : MonoBehaviour
 
     [Header("UI elements")] 
     public Text objectiveTitle;
+    public Animation bgFlasher;
 
     public SlideIntoScreen objectiveCanvas, playerCanvas;
     
@@ -27,8 +28,8 @@ public class ObjectivesCanvasController : MonoBehaviour
     {
         objectiveTitle.text = objectiveTexts[GameStats.current.currentObjective];
         
-        transform.GetChild(0).GetChild(2).gameObject.SetActive(false);
         transform.GetChild(0).GetChild(3).gameObject.SetActive(false);
+        transform.GetChild(0).GetChild(4).gameObject.SetActive(false);
     }
 
     private void Update()
@@ -47,6 +48,8 @@ public class ObjectivesCanvasController : MonoBehaviour
         if(GameStats.current.currentObjective < objectiveTexts.Count)
             objectiveTitle.text = objectiveTexts[++GameStats.current.currentObjective];
 
+        bgFlasher.Play();
+        
         switch (GameStats.current.currentObjective)
         {
             case 1:

@@ -74,6 +74,7 @@ public class PauseMenuController : AMenuController
         else
         {
             if (!GameStats.current.isGamePlaying) return;
+            if (!GameStats.current.isPlayerAlive) return;
             if (Input.GetButtonDown("Cancel"))
             {
                 GameFlowEvents.current.InvokeGameplayPause();
