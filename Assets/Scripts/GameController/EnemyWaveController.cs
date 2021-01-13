@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 using UnityEngine.UI;
 
 public class EnemyWaveController : MonoBehaviour
@@ -17,10 +18,13 @@ public class EnemyWaveController : MonoBehaviour
     public int currentEnemiesSpawnedCount;
     public int enemiesInThisWave, enemiesKilledInThisWave;
 
-    [Header("Waves")] 
+    [Header("Waves")]
     public Text waveCountText;    
     public string waveCountPrefix;
-    
+
+    public bool shouldSpawnWaveAtOnce;
+    public int[] minimumEnemyCountByType;
+
     public float idealBreakTimeBetweenWaves;
     public float deviationBreakTimeBetweenWaves;
     public int idealWaveCount, deviationWaveCount;
@@ -62,23 +66,42 @@ public class EnemyWaveController : MonoBehaviour
             {
                 UpdateWaveCount(wavesInThisGame);
                 
-                //calculate enemies in current wave
-                enemiesInThisWave = Random.Range(idealEnemyCount - deviationEnemyCount,
-                    idealEnemyCount + deviationEnemyCount);
                 
-                UpdateEnemyCount();
-
-                for (currentEnemiesSpawnedCount = 0; currentEnemiesSpawnedCount < enemiesInThisWave; currentEnemiesSpawnedCount++)
+                if (shouldSpawnWaveAtOnce)
                 {
-                    //spawn these enemies
-                    _spawner.SpawnNewEnemy();
+                    var ghosts = Random.Range(minimumEnemyCountByType[0],
+                        minimumEnemyCountByType[0] + deviationEnemyCount);
+
+                    var demons = Random.Range(minimumEnemyCountByType[1],
+                            minimumEnemyCountByType[1] + deviationEnemyCount);
+
+                    enemiesInThisWave = ghosts + demons;
+                    
+                    _spawner.SpawnNewWave(ghosts, demons);
+                    UpdateEnemyCount();
+                }
+                else
+                {
+                    //calculate enemies in current wave
+                    enemiesInThisWave = Random.Range(idealEnemyCount - deviationEnemyCount,
+                        idealEnemyCount + deviationEnemyCount);
+                
                     UpdateEnemyCount();
 
-                    yield return new WaitForSeconds(
-                        Random.Range(idealWaitBeforeSpawning - deviationWaitBeforeSpawning,
-                            idealWaitBeforeSpawning + deviationWaitBeforeSpawning));
+                    for (currentEnemiesSpawnedCount = 0;
+                        currentEnemiesSpawnedCount < enemiesInThisWave;
+                        currentEnemiesSpawnedCount++)
+                    {
+                        //spawn these enemies
+                        _spawner.SpawnNewEnemy();
+                        UpdateEnemyCount();
+
+                        yield return new WaitForSeconds(
+                            Random.Range(idealWaitBeforeSpawning - deviationWaitBeforeSpawning,
+                                idealWaitBeforeSpawning + deviationWaitBeforeSpawning));
+                    }
                 }
-                
+
                 while(enemiesKilledInThisWave != enemiesInThisWave)
                     yield return new WaitForSeconds(1f);
                 

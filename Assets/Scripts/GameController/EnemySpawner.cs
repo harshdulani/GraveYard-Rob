@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
@@ -24,5 +26,33 @@ public class EnemySpawner : MonoBehaviour
         enemyInstance.SetParent(null);
         
         EnemyEvents.current.InvokeEnemyBirth(enemyInstance.transform);
+    }
+
+    private int SpawnEnemyCustom(int enemyType, List<Transform> newSpawnPointsList)
+    {
+        var spawnPointIndex = Random.Range(0, newSpawnPointsList.Count);
+        
+        var enemyInstance = Instantiate(enemyPrefabs[enemyType], newSpawnPointsList[spawnPointIndex]).transform;
+        
+        enemyInstance.SetParent(null);
+        
+        EnemyEvents.current.InvokeEnemyBirth(enemyInstance.transform);
+        
+        return spawnPointIndex;
+    }
+
+    public void SpawnNewWave(int ghosts, int demons)
+    {
+        var tempList = spawnPoints.ToList();
+        
+        for (int i = 0; i < ghosts; i++)
+        {
+            tempList.RemoveAt(SpawnEnemyCustom(0, tempList));
+        }
+
+        for (int i = 0; i < demons; i++)
+        {
+            tempList.RemoveAt(SpawnEnemyCustom(1, tempList));
+        }
     }
 }

@@ -109,7 +109,6 @@ public class PlayerController : MonoBehaviour
                 _elapsedTimeBeforeHealthHeal += Time.fixedDeltaTime;
             else
             {
-                print(autoHealHealthPerSecond / 50f);
                 PlayerEvents.current.InvokeHealthChange(-Mathf.CeilToInt(autoHealHealthPerSecond / 50f), AttackType.Heal);
             }
         }
