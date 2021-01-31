@@ -101,6 +101,7 @@ public class MainMenuController : AMenuController
 
     private void OnGameplayStart()
     {
+        GameObject.Destroy(GameObject.Find("MainMenuController"));
         SceneManager.UnloadSceneAsync("MainMenuScene");
     }
 
@@ -108,9 +109,11 @@ public class MainMenuController : AMenuController
     {
         var loadingLevel = SceneManager.LoadSceneAsync("GraveyardScene", LoadSceneMode.Additive);
         var loadingPauseMenu = SceneManager.LoadSceneAsync("PauseMenuScene", LoadSceneMode.Additive);
+        var loadingGameOver = SceneManager.LoadSceneAsync("GameOverScene", LoadSceneMode.Additive);
 
         loadingLevel.completed += OnLevelLoadingComplete;
-        StartCoroutine(LoadPauseMenu(loadingPauseMenu));
+        StartCoroutine(LoadSceneCoroutine(loadingPauseMenu, "PauseMenuScene"));
+        StartCoroutine(LoadSceneCoroutine(loadingGameOver, "GameOverScene"));
     }
 
     private void OnLevelLoadingComplete(AsyncOperation operation)
@@ -123,14 +126,14 @@ public class MainMenuController : AMenuController
         operation.completed -= OnLevelLoadingComplete;
     }
 
-    private IEnumerator LoadPauseMenu(AsyncOperation operation)
+    private IEnumerator LoadSceneCoroutine(AsyncOperation operation, string sceneName)
     {
         while (!operation.isDone)
         {
             yield return null;
         }
 
-        foreach (var obj in SceneManager.GetSceneByName("PauseMenuScene").GetRootGameObjects())
+        foreach (var obj in SceneManager.GetSceneByName(sceneName).GetRootGameObjects())
         {
             obj.SetActive(false);
         }

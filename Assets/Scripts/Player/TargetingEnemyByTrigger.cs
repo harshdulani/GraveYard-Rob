@@ -5,7 +5,7 @@ using UnityEngine;
 public class TargetingEnemyByTrigger : MonoBehaviour
 {
     public List<Transform> enemies;
-    public bool DEBUG_ENEMY_FIND_STATUS, DEBUG_ENEMY_FIND_NAMES;
+    public bool DEBUG_ENEMY_FIND_STATUS, DEBUG_ENEMY_FIND_NAMES, DEBUG_ENEMY_TRIGGERING;
     
     private Transform _target, _player;
     private Vector3 _desiredMovementDirection;
@@ -53,8 +53,9 @@ public class TargetingEnemyByTrigger : MonoBehaviour
         //there are 2 colliders - 1 capsule and 1 trigger on each enemy, hence contains
         if (!enemies.Contains(other.transform))
         {
-            //print("adding same for some reason, maybe destroy doesn't call ontriggerexit");
-            print(other.gameObject.name + " entered");
+            if(DEBUG_ENEMY_TRIGGERING)
+                print(other.gameObject.name + " entered");
+            
             enemies.Add(other.transform);
         }
     }
@@ -66,7 +67,8 @@ public class TargetingEnemyByTrigger : MonoBehaviour
         if (enemies.Contains(other.transform))
         {
             enemies.Remove(other.transform);
-            print(other.gameObject.name + " exit");
+            if(DEBUG_ENEMY_TRIGGERING)
+                print(other.gameObject.name + " exit");
         }
     }
 
@@ -76,7 +78,7 @@ public class TargetingEnemyByTrigger : MonoBehaviour
 
         if (noOfTargets == 1)
         {
-            _target = GameStats.current.activeEnemies[0];
+            _target = enemies[0];
             if (DEBUG_ENEMY_FIND_STATUS)
                 print("found 1 target named " + _target.name);
         }

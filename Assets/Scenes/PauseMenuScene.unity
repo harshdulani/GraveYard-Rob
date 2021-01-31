@@ -893,7 +893,7 @@ GameObject:
   - component: {fileID: 894206360}
   m_Layer: 0
   m_Name: PauseMenuController
-  m_TagString: Untagged
+  m_TagString: GameController
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -927,7 +927,6 @@ MonoBehaviour:
   cameraAnim: {fileID: 1877174496}
   resumeText: {fileID: 8546906395773262028}
   _isPaused: 0
-  _canBePaused: 0
 --- !u!1 &919714295
 GameObject:
   m_ObjectHideFlags: 3
@@ -1164,8 +1163,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 319491577}
   - {fileID: 8546906395773262028}
+  - {fileID: 319491577}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

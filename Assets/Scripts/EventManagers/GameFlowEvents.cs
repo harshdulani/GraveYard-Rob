@@ -5,7 +5,7 @@ public class GameFlowEvents : MonoBehaviour
 {
     public static GameFlowEvents current;
 
-    public Action gameplayStart, gameplayPause, gameplayResume, gameplayEnd;
+    public Action gameplayStart, gameplayPause, gameplayResume, gameOver;
 
     public Action updateObjective;
     
@@ -22,9 +22,9 @@ public class GameFlowEvents : MonoBehaviour
         gameplayStart?.Invoke();
     }
 
-    public void InvokeGameplayEnd()
+    public void InvokeGameOver()
     {
-        gameplayEnd?.Invoke();
+        gameOver?.Invoke();
     }
 
     public void InvokeGameplayPause()

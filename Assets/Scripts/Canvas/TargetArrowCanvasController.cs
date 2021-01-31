@@ -32,8 +32,6 @@ public class TargetArrowCanvasController : MonoBehaviour
         //you will find bandages for this issue in this design pattern, in more files like FindTargetGrave, ObjectiveCanvasController
         //no don't open this code after weeks/months and try to repair this.
 
-        print("updating");
-        
         if (!_arrowsShown)
         {
             _arrowParent.SetActive(true);

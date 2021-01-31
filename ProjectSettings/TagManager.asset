@@ -10,6 +10,7 @@ TagManager:
   - PlayerWeapon
   - Target
   - Ground
+  - SkyGlobe
   layers:
   - Default
   - TransparentFX

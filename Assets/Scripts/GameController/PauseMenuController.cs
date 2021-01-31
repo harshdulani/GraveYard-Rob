@@ -75,6 +75,7 @@ public class PauseMenuController : AMenuController
         {
             if (!GameStats.current.isGamePlaying) return;
             if (!GameStats.current.isPlayerAlive) return;
+            
             if (Input.GetButtonDown("Cancel"))
             {
                 GameFlowEvents.current.InvokeGameplayPause();
@@ -118,6 +119,7 @@ public class PauseMenuController : AMenuController
 
         foreach (var rootGameObject in SceneManager.GetSceneByName("PauseMenuScene").GetRootGameObjects())
         {
+            //these were set inactive by the MainMenuController when spawning them
             rootGameObject.SetActive(true);
         }
         

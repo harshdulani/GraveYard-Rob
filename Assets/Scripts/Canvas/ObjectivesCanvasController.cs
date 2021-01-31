@@ -28,8 +28,8 @@ public class ObjectivesCanvasController : MonoBehaviour
     {
         objectiveTitle.text = objectiveTexts[GameStats.current.currentObjective];
         
+        transform.GetChild(0).GetChild(2).gameObject.SetActive(false);
         transform.GetChild(0).GetChild(3).gameObject.SetActive(false);
-        transform.GetChild(0).GetChild(4).gameObject.SetActive(false);
     }
 
     private void Update()

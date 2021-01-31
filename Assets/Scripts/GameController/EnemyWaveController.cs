@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using UnityEngine;
-using UnityEngine.PlayerLoop;
 using UnityEngine.UI;
 
 public class EnemyWaveController : MonoBehaviour
@@ -65,8 +64,7 @@ public class EnemyWaveController : MonoBehaviour
             for (currentWaveCount = 0; currentWaveCount < wavesInThisGame; currentWaveCount++)
             {
                 UpdateWaveCount(wavesInThisGame);
-                
-                
+
                 if (shouldSpawnWaveAtOnce)
                 {
                     var ghosts = Random.Range(minimumEnemyCountByType[0],

@@ -84,7 +84,6 @@ public class PlayerController : MonoBehaviour
         _animator.SetTrigger(PlayerDeath);
         GameStats.current.isPlayerAlive = false;
         MovementInput.current.TakeAwayMovementControl();
-        //Destroy(gameObject);
     }
 
     private void FixedUpdate()
