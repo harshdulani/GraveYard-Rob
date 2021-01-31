@@ -18190,7 +18190,7 @@ MonoBehaviour:
   waveCountText: {fileID: 840780909}
   waveCountPrefix: 'Wave: '
   shouldSpawnWaveAtOnce: 1
-  minimumEnemyCountByType: 0400000003000000
+  minimumEnemyCountByType: 0300000002000000
   idealBreakTimeBetweenWaves: 7
   deviationBreakTimeBetweenWaves: 2.4
   idealWaveCount: 4

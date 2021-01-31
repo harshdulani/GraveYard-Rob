@@ -953,6 +953,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthBar: {fileID: 177689023}
+  minimumEnemyMovementSpeed: 3
+  enemyMovementSpeedVariability: 8
   timeBeforeInflictingBumpDamage: 2
 --- !u!114 &773945334
 MonoBehaviour:
@@ -1092,7 +1094,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lightShake: 15
   heavyShake: 25
-  firstEnemyShake: 35
 --- !u!1 &4874268804338708762
 GameObject:
   m_ObjectHideFlags: 0

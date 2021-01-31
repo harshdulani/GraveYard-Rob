@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 public class EnemyDiagonalMovement : MonoBehaviour
 {
-    public int jumpsInOneMovement = 3, jumpVariability = 1;
+    public int minJumpsPerMovement = 3, jumpVariability = 2;
     
     public float forwardForce = 500f, upwardForce = 550f;
     public float jumpForceMultiplierMin = 0.6f, jumpForceMultiplierMax = 1.5f; 
@@ -49,7 +48,7 @@ public class EnemyDiagonalMovement : MonoBehaviour
     private void Update()
     {
         if (_shouldStartMoving)
-            _movementCoroutine = StartCoroutine(Movement(Random.Range(jumpsInOneMovement - jumpVariability, jumpsInOneMovement + jumpVariability)));
+            _movementCoroutine = StartCoroutine(Movement(Random.Range(minJumpsPerMovement, minJumpsPerMovement + jumpVariability)));
         
         if(_shouldRotate)
             Rotate();

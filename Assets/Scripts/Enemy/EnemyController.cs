@@ -1,10 +1,13 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.UI;
 
 public class EnemyController : MonoBehaviour
 {
     public Image healthBar;
+
+    public float minimumEnemyMovementSpeed = 3f, enemyMovementSpeedVariability = 2f;
     
     public float timeBeforeInflictingBumpDamage = 2f;
 
@@ -22,6 +25,7 @@ public class EnemyController : MonoBehaviour
     private EnemyStats _enemyStats;
     private EnemyScreenShakes _shakes;
     private Rigidbody _rigidbody;
+    private NavMeshAgent _agent;
 
     private void OnEnable()
     {
@@ -39,9 +43,13 @@ public class EnemyController : MonoBehaviour
         _anim = GetComponent<Animator>();
         _rigidbody = GetComponent<Rigidbody>();
         _shakes = GetComponent<EnemyScreenShakes>();
+        _agent = GetComponent<NavMeshAgent>();
         
         EnemyEvents.current.InvokeEnemyBirth(transform);
         UpdateHealthBar();
+
+        _agent.speed = Random.Range(minimumEnemyMovementSpeed,
+            minimumEnemyMovementSpeed + enemyMovementSpeedVariability);
     }
 
     private void Update()
@@ -151,6 +159,7 @@ public class EnemyController : MonoBehaviour
     public void BiteMaxFront()
     {
         //called by animation event (with reference to this script instead of any object)
+        if (!GameStats.current.isPlayerAlive) return;
         
         if(!_isPlayerInContact) return;
         
@@ -170,6 +179,8 @@ public class EnemyController : MonoBehaviour
 
     private IEnumerator OnAttackMelee()
     {
+        if (!GameStats.current.isPlayerAlive) yield return null;
+        
         yield return new WaitForSeconds(_enemyStats.waitBeforeAttackTime / 1.5f);
         while (true)
         {
@@ -180,29 +191,9 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-    private IEnumerator OnAttackRanged()
-    {
-        //demons attack is infernal strike, circular aoe attack from the ground
-        
-        //vfx appears on demon who's casting this attack
-        
-        //collider is created at player position
-        
-        //initial stage to warn that an attack is coming - no damage
-
-        //walking inside is slowed and takes small damage per second
-        //if player is still in aoe at the end, takes big singular hit
-        
-        //vfx disappears from ground
-        //vfx disappears from demon
-        
-        //tell diagonal class to move again
-        
-        yield break;
-    }
-
     private void OnPlayerDeath()
     {
+        StopCoroutine("OnAttackMelee");
         StopAllCoroutines();
     }
 }
