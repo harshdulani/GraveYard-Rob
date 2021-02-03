@@ -63,6 +63,7 @@ public class EnemyWaveController : MonoBehaviour
 
             for (currentWaveCount = 0; currentWaveCount < wavesInThisGame; currentWaveCount++)
             {
+                print("start wave control flow");
                 UpdateWaveCount(wavesInThisGame);
 
                 if (shouldSpawnWaveAtOnce)
@@ -74,9 +75,11 @@ public class EnemyWaveController : MonoBehaviour
                             minimumEnemyCountByType[1] + deviationEnemyCount);
 
                     enemiesInThisWave = ghosts + demons;
+                    enemiesKilledInThisWave = 0;
                     
                     _spawner.SpawnNewWave(ghosts, demons);
                     UpdateEnemyCount();
+                    print("complete wave control if");
                 }
                 else
                 {
@@ -101,15 +104,16 @@ public class EnemyWaveController : MonoBehaviour
                 }
 
                 while(enemiesKilledInThisWave != enemiesInThisWave)
+                {
+                    print("enemies still alive, waiting");
                     yield return new WaitForSeconds(1f);
+                }
                 
                 //wave ends here
                 var waitTime = Mathf.Ceil(Random.Range(
                     idealBreakTimeBetweenWaves - deviationBreakTimeBetweenWaves,
                     idealBreakTimeBetweenWaves + deviationBreakTimeBetweenWaves));
-                
-                print(waitTime);
-                
+
                 StartCoroutine(CountDown(waitTime));
                 yield return new WaitForSeconds(waitTime);
             }
@@ -139,7 +143,7 @@ public class EnemyWaveController : MonoBehaviour
             var currentTime = Time.time;
             if (currentTime < endTime)
             {
-                waveCountText.text = (endTime - currentTime).ToString("0.0");
+                waveCountText.text = (endTime - currentTime).ToString("0.00");
                 yield return new WaitForSeconds(0.01f);
             }
             else
@@ -154,7 +158,7 @@ public class EnemyWaveController : MonoBehaviour
         UpdateEnemyCount();
     }
 
-    public void StartWaveSpawning()
+    private void StartWaveSpawning()
     {
         UpdateWaveCount();
         UpdateEnemyCount();

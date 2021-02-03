@@ -54,5 +54,6 @@ public class EnemySpawner : MonoBehaviour
         {
             tempList.RemoveAt(SpawnEnemyCustom(1, tempList));
         }
+        print("spawning wave");
     }
 }

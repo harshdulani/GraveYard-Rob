@@ -143,6 +143,7 @@ public class PlayerCombat : MonoBehaviour
         
         isAttacking = false;
         _playerWeaponController.shouldGiveHit = false;
+        _playerWeaponController.ClearAttackedEnemies();
 
         if (_shouldRotateToRaycastHit)
         {

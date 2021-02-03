@@ -24,7 +24,7 @@ public class SpawnWithVFX : MonoBehaviour
     private IEnumerator SpawnWithDelays()
     {
         var instance = Instantiate(vfx, transform.position, Quaternion.identity);
-
+        
         instance.transform.position = new Vector3(transform.position.x, vfx.transform.position.y, transform.position.z);
 
         _waitBeforeStartFollowing = instance.transform.GetChild(0).GetComponent<ParticleSystem>().main.duration * startFollowingAfterVFXDurationMultiplier;
@@ -43,5 +43,7 @@ public class SpawnWithVFX : MonoBehaviour
         
         else if(TryGetComponent(out EnemyDiagonalMovement movement))
             movement.StartMoving();
+
+        Destroy(instance, 5f);
     }
 }

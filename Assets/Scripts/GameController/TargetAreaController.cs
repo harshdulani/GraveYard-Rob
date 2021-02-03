@@ -70,8 +70,10 @@ public class TargetAreaController : MonoBehaviour
             _playerCombat.isDiggingComplete = true;
             _playerCombat.IsAllowedToDig = false;
             Destroy(healthBarLeft.transform.parent.parent.gameObject);
+            
             //TODO change to modified grave with gold inside
             print("initiate looting grave");
+            
             GameFlowEvents.current.InvokeUpdateObjective();
         }
     }
