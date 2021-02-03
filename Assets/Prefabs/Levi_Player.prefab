@@ -249,8 +249,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemies: []
-  DEBUG_ENEMY_FIND_STATUS: 0
-  DEBUG_ENEMY_FIND_NAMES: 0
+  DEBUG_ENEMY_FIND_STATUS: 1
+  DEBUG_ENEMY_FIND_NAMES: 1
+  DEBUG_ENEMY_TRIGGERING: 0
 --- !u!1 &1100752713
 GameObject:
   m_ObjectHideFlags: 0
@@ -1120,9 +1121,13 @@ MonoBehaviour:
   autoHealStaminaPerSecond: 50
   timeBeforeHealing: 3.5
   autoHealHealthPerSecond: 35
-  _elapsedTimeBeforeHealthHeal: 0
   climbDownFenceCamera: {fileID: 0}
+  deathCamera: {fileID: 0}
   tpsCamera: {fileID: 0}
+  explosionForce: 5000
+  explosionRadius: 4
+  explosionUpward: 15000
+  onDeathTimeScale: 0.5
 --- !u!114 &4327995299076921502
 MonoBehaviour:
   m_ObjectHideFlags: 0

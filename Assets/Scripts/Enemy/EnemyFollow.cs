@@ -48,6 +48,7 @@ public class EnemyFollow : MonoBehaviour
         while (true)
         {
             yield return new WaitForSeconds(minPathUpdateTime);
+
             if (_target && !_agent.isStopped)
             {
                 if ((_target.position - _targetPosOld).sqrMagnitude >
@@ -58,7 +59,8 @@ public class EnemyFollow : MonoBehaviour
                     _anim.SetBool(IsMoving, true);
                 }
             }
-            if(_target)
+
+            if (_target)
                 _targetPosOld = _target.position;
         }
     }
@@ -76,27 +78,27 @@ public class EnemyFollow : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.CompareTag("Player"))
-        {
-            _agent.isStopped = false;
-            _anim.SetBool(IsMoving, true);
+        if (!other.gameObject.CompareTag("Player")) return;
+        
+        _agent.isStopped = false;
+        _anim.SetBool(IsMoving, true);
 
-            _targetingEnemy.shouldLookAtTarget = false;
-        }
+        _targetingEnemy.shouldLookAtTarget = false;
     }
 
     private void OnEnemyDeath(Transform enemy)
     {
         if (enemy == transform)
         {
-            StopAllCoroutines();
+            StopCoroutine(followMechanic);
             Destroy(this, 0.15f);
         }
     }
 
     private void OnPlayerDeath()
     {
-        StopAllCoroutines();
+        StopCoroutine(followMechanic);
+        _agent.isStopped = true;
         _anim.SetBool(IsMoving, false);
     }
 }

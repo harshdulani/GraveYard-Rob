@@ -7,10 +7,12 @@ public class EnemyController : MonoBehaviour
 {
     public Image healthBar;
 
-    public float minimumEnemyMovementSpeed = 3f, enemyMovementSpeedVariability = 2f;
-    
     public float timeBeforeInflictingBumpDamage = 2f;
-
+    
+    [Header("Movement Speed")]
+    public float minimumEnemyMovementSpeed = 3f;
+    public float enemyMovementSpeedVariability = 8f;
+    
     private bool _isPlayerInContact;
     private bool _canBump = true;
     private float _myBumpDamageTimer;
@@ -25,7 +27,6 @@ public class EnemyController : MonoBehaviour
     private EnemyStats _enemyStats;
     private EnemyScreenShakes _shakes;
     private Rigidbody _rigidbody;
-    private NavMeshAgent _agent;
 
     private void OnEnable()
     {
@@ -43,13 +44,16 @@ public class EnemyController : MonoBehaviour
         _anim = GetComponent<Animator>();
         _rigidbody = GetComponent<Rigidbody>();
         _shakes = GetComponent<EnemyScreenShakes>();
-        _agent = GetComponent<NavMeshAgent>();
+
+        if (_enemyStats.type == EnemyType.Ghost)
+        {
+            GetComponent<NavMeshAgent>().speed = Random.Range(minimumEnemyMovementSpeed,
+                minimumEnemyMovementSpeed + enemyMovementSpeedVariability);
+        }
         
         EnemyEvents.current.InvokeEnemyBirth(transform);
         UpdateHealthBar();
 
-        _agent.speed = Random.Range(minimumEnemyMovementSpeed,
-            minimumEnemyMovementSpeed + enemyMovementSpeedVariability);
     }
 
     private void Update()
@@ -158,11 +162,12 @@ public class EnemyController : MonoBehaviour
 
     public void BiteMaxFront()
     {
-        //called by animation event (with reference to this script instead of any object)
         if (!GameStats.current.isPlayerAlive) return;
+        if(!GameStats.current.isGamePlaying) return;
         
+        //called by animation event (with reference to this script instead of any object)
         if(!_isPlayerInContact) return;
-        
+
         //now check whether the player is still in front of the enemy when it delivers its attack,
         //to see if an attack should actually be delivered
         Vector3 enemyForward = transform.TransformDirection(Vector3.forward);
@@ -172,6 +177,9 @@ public class EnemyController : MonoBehaviour
         if (Vector3.Dot(enemyForward.normalized, toPlayer.normalized) <= 0)
             return;
         
+        if (!GameStats.current.isPlayerAlive) return;
+        if(!GameStats.current.isGamePlaying) return;
+        
         if(!PlayerEvents.current.InvokeHealthChange(_enemyStats.attackDamage, AttackType.HeavyAttack))
             PlayerEvents.current.InvokePlayerDeath();
         //if there isn't enough health after a hit, invoke death
@@ -179,11 +187,11 @@ public class EnemyController : MonoBehaviour
 
     private IEnumerator OnAttackMelee()
     {
-        if (!GameStats.current.isPlayerAlive) yield return null;
-        
         yield return new WaitForSeconds(_enemyStats.waitBeforeAttackTime / 1.5f);
         while (true)
         {
+            if (!GameStats.current.isPlayerAlive) yield break;
+            
             //attack animation begins here and then when bite is at maximum front, attack is placed
             _anim.SetTrigger(ShouldMeleeHash);
             

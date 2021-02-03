@@ -37,7 +37,11 @@ public class SpawnWithVFX : MonoBehaviour
         }
 
         yield return new WaitForSeconds(_waitBeforeStartFollowing);
+
+        if(TryGetComponent(out EnemyFollow follow))
+            StartCoroutine(follow.followMechanic);
         
-        StartCoroutine(GetComponent<EnemyFollow>().followMechanic);
+        else if(TryGetComponent(out EnemyDiagonalMovement movement))
+            movement.StartMoving();
     }
 }

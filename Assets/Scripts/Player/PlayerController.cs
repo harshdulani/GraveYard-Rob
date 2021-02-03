@@ -6,16 +6,20 @@ public class PlayerController : MonoBehaviour
     [Header("Stamina Healing")] 
     public int autoHealStaminaPerSecond = 5;
     public float timeBeforeHealing = 3.5f;
+    
     private float _elapsedTimeBeforeStaminaHeal = 0f;
 
     [Header("Health Healing")] 
     public int autoHealHealthPerSecond = 5;
+    
     private float _elapsedTimeBeforeHealthHeal = 0f;
     
     [Header("Cameras")]
-    public CinemachineVirtualCamera climbDownFenceCamera;
+    public CinemachineVirtualCamera climbDownFenceCamera, deathCamera;
     public CinemachineFreeLook tpsCamera;
 
+    public float onDeathTimeScale = 0.5f;
+    
     private PlayerWeaponController _weaponController;
     private Animator _animator;
     
@@ -52,40 +56,6 @@ public class PlayerController : MonoBehaviour
         transform.localScale = new Vector3(0, 0, transform.localScale.z);
     }
 
-    private void OnGameplayStart()
-    {
-        transform.localScale = Vector3.one;
-        _animator.SetBool(PlayerBorn, true);
-    }
-
-    public void OnClimbDownFence()
-    {
-        GetComponent<PlayerCombat>().SwapWeapon();
-        //so that all the linked things can start happening
-        GameStats.current.isGamePlaying = true;
-
-        climbDownFenceCamera.gameObject.SetActive(false);
-        tpsCamera.gameObject.SetActive(true);
-    }
-
-    public void OnPlayerTakeHit()
-    {
-        ResetHealthHealTimer();
-        _animator.SetTrigger(PlayerTakeHit);
-    }
-
-    public void OnPlayerTakeBump()
-    {
-        ResetHealthHealTimer();
-    }
-    
-    private void OnPlayerDeath()
-    {
-        _animator.SetTrigger(PlayerDeath);
-        GameStats.current.isPlayerAlive = false;
-        MovementInput.current.TakeAwayMovementControl();
-    }
-
     private void FixedUpdate()
     {
         if(!GameStats.current.isPlayerAlive) return;
@@ -111,6 +81,48 @@ public class PlayerController : MonoBehaviour
                 PlayerEvents.current.InvokeHealthChange(-Mathf.CeilToInt(autoHealHealthPerSecond / 50f), AttackType.Heal);
             }
         }
+    }
+    
+    private void OnGameplayStart()
+    {
+        transform.localScale = Vector3.one;
+        _animator.SetBool(PlayerBorn, true);
+    }
+
+    public void OnClimbDownFence()
+    {
+        GetComponent<PlayerCombat>().SwapWeapon();
+        //so that all the linked things can start happening
+        GameStats.current.isGamePlaying = true;
+
+        climbDownFenceCamera.gameObject.SetActive(false);
+        tpsCamera.gameObject.SetActive(true);
+    }
+
+    public void OnPlayerTakeHit()
+    {
+        //to prevent getting hit after death
+        if (!GameStats.current.isPlayerAlive) return;
+        
+        ResetHealthHealTimer();
+        _animator.SetTrigger(PlayerTakeHit);
+    }
+
+    public void OnPlayerTakeBump()
+    {
+        ResetHealthHealTimer();
+    }
+    
+    private void OnPlayerDeath()
+    {
+        if(!GameStats.current.isPlayerAlive) return;
+
+        _animator.SetTrigger(PlayerDeath);
+        GameStats.current.isPlayerAlive = false;
+        MovementInput.current.TakeAwayMovementControl();
+        Time.timeScale = onDeathTimeScale;
+        tpsCamera.gameObject.SetActive(false);
+        deathCamera.gameObject.SetActive(true);
     }
 
     public void ResetStaminaHealTimer()

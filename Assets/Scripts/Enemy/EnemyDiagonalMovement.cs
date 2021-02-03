@@ -25,7 +25,7 @@ public class EnemyDiagonalMovement : MonoBehaviour
     
     private int _targetAngle = 0;
     private float _currentAngle;
-    private bool _shouldRotate, _shouldJump, _hasLanded = true, _shouldStartMoving = true;
+    private bool _shouldRotate, _shouldJump, _hasLanded = true, _shouldStartMoving = false;
     private Coroutine _movementCoroutine;
 
     private Rigidbody _rigidbody;

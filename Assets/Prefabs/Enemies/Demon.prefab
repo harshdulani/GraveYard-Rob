@@ -929,6 +929,7 @@ GameObject:
   - component: {fileID: 2026460537876886299}
   - component: {fileID: 583780848638140961}
   - component: {fileID: 8359831133010222766}
+  - component: {fileID: 1126536723027220940}
   - component: {fileID: 8136034163175344469}
   - component: {fileID: 9206977229282806550}
   - component: {fileID: 5993506962847614422}
@@ -1052,7 +1053,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f745cf3abb9db5a4aaee79cfe5df88f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpsInOneMovement: 4
+  minJumpsPerMovement: 3
   jumpVariability: 1
   forwardForce: 500
   upwardForce: 500
@@ -1077,7 +1078,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthBar: {fileID: 5377818195554305570}
+  minimumEnemyMovementSpeed: 3
+  enemyMovementSpeedVariability: 2
   timeBeforeInflictingBumpDamage: 2
+--- !u!114 &1126536723027220940
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8241805542354631109}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ecb9004d1664f23419ac80700af92ccd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  vfx: {fileID: 3107778121435067526, guid: dbfc22e735edcf24396ceffbdc699652, type: 3}
+  toDisable:
+  - {fileID: 5505739398211263303}
+  - {fileID: 1074044831104714962}
+  waitBeforeRender: 2
+  startFollowingAfterVFXDurationMultiplier: 0.35
 --- !u!114 &8136034163175344469
 MonoBehaviour:
   m_ObjectHideFlags: 0
