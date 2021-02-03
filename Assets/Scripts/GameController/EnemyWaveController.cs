@@ -63,7 +63,6 @@ public class EnemyWaveController : MonoBehaviour
 
             for (currentWaveCount = 0; currentWaveCount < wavesInThisGame; currentWaveCount++)
             {
-                print("start wave control flow");
                 UpdateWaveCount(wavesInThisGame);
 
                 if (shouldSpawnWaveAtOnce)
@@ -79,7 +78,6 @@ public class EnemyWaveController : MonoBehaviour
                     
                     _spawner.SpawnNewWave(ghosts, demons);
                     UpdateEnemyCount();
-                    print("complete wave control if");
                 }
                 else
                 {
@@ -105,7 +103,6 @@ public class EnemyWaveController : MonoBehaviour
 
                 while(enemiesKilledInThisWave != enemiesInThisWave)
                 {
-                    print("enemies still alive, waiting");
                     yield return new WaitForSeconds(1f);
                 }
                 

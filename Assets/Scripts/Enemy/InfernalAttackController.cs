@@ -74,7 +74,9 @@ public class InfernalAttackController : MonoBehaviour
             return;
         }
 
-        transform.position = _player.position;
+        var playerPos = _player.position;
+
+        transform.position = new Vector3(playerPos.x, 0.15f, playerPos.z);
     }
 
     private void InfernalAttack()

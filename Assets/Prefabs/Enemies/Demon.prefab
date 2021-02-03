@@ -1054,7 +1054,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   minJumpsPerMovement: 3
-  jumpVariability: 1
+  jumpVariability: 2
   forwardForce: 500
   upwardForce: 500
   jumpForceMultiplierMin: 0.6
@@ -1078,9 +1078,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthBar: {fileID: 5377818195554305570}
+  timeBeforeInflictingBumpDamage: 2
   minimumEnemyMovementSpeed: 3
   enemyMovementSpeedVariability: 2
-  timeBeforeInflictingBumpDamage: 2
 --- !u!114 &1126536723027220940
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -28,11 +28,13 @@ public class TargetAreaController : MonoBehaviour
     private void OnEnable()
     {
         GameFlowEvents.current.gameplayStart += OnGameplayStart;
+        GameFlowEvents.current.gameOver += OnGameOver;
     }
 
     private void OnDisable()
     {
         GameFlowEvents.current.gameplayStart -= OnGameplayStart;
+        GameFlowEvents.current.gameOver -= OnGameOver;
     }
 
     private void Start()
@@ -110,5 +112,10 @@ public class TargetAreaController : MonoBehaviour
         
         if(_playerCombat.IsAllowedToDig)
             _playerCombat.IsAllowedToDig = false;
+    }
+
+    private void OnGameOver()
+    {
+        graveCanvas.gameObject.SetActive(false);
     }
 }

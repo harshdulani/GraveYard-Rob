@@ -1,9 +1,12 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class PlayerCanvasController : MonoBehaviour
 {
     public static PlayerCanvasController main;
+
+    public Image head;
     
     public Image healthBar;
     public Text healthText;
@@ -19,6 +22,16 @@ public class PlayerCanvasController : MonoBehaviour
             main = this;
         else
             Destroy(this);
+    }
+
+    private void OnEnable()
+    {
+        GameFlowEvents.current.gameOver += OnGameOver;
+    }
+
+    private void OnDisable()
+    {
+        GameFlowEvents.current.gameOver -= OnGameOver;
     }
 
     private void Start()
@@ -47,5 +60,10 @@ public class PlayerCanvasController : MonoBehaviour
     public void StaminaAlarm()
     {
         _staminaFlasher.StartFlashing();
+    }
+    
+    private void OnGameOver()
+    {
+        gameObject.SetActive(false);
     }
 }

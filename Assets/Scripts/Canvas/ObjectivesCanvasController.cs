@@ -17,11 +17,13 @@ public class ObjectivesCanvasController : MonoBehaviour
     private void OnEnable()
     {
         GameFlowEvents.current.updateObjective += UpdateObjective;
+        GameFlowEvents.current.gameOver += OnGameOver;
     }
 
     private void OnDisable()
     {
         GameFlowEvents.current.updateObjective -= UpdateObjective;
+        GameFlowEvents.current.gameOver -= OnGameOver;
     }
 
     private void Start()
@@ -58,5 +60,10 @@ public class ObjectivesCanvasController : MonoBehaviour
                 playerCanvas.StartSliding();
                 break;
         }
+    }
+
+    private void OnGameOver()
+    {
+        gameObject.SetActive(false);
     }
 }

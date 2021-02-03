@@ -20,15 +20,18 @@ public class EnemyDiagonalMovement : MonoBehaviour
 
     [Header("Infernal Attack")] 
     public GameObject inferno;
-    
+
+    private bool _madeFirstAttack;
     private float _forceMultiplier;
     
     private int _targetAngle = 0;
     private float _currentAngle;
-    private bool _shouldRotate, _shouldJump, _hasLanded = true, _shouldStartMoving = false;
-    private Coroutine _movementCoroutine;
-
+    private bool _shouldRotate, _shouldJump, _hasLanded = true, _shouldStartMoving;
+    
     private Rigidbody _rigidbody;
+    
+    private Animator _animator;
+    private static readonly int ShouldRanged = Animator.StringToHash("shouldRanged");
 
     private void OnEnable()
     {
@@ -43,12 +46,13 @@ public class EnemyDiagonalMovement : MonoBehaviour
     private void Start()
     {
        _rigidbody = GetComponent<Rigidbody>();
+       _animator = GetComponent<Animator>();
     }
 
     private void Update()
     {
         if (_shouldStartMoving)
-            _movementCoroutine = StartCoroutine(Movement(Random.Range(minJumpsPerMovement, minJumpsPerMovement + jumpVariability)));
+            StartCoroutine(Movement(Random.Range(minJumpsPerMovement, minJumpsPerMovement + jumpVariability)));
         
         if(_shouldRotate)
             Rotate();
@@ -96,7 +100,12 @@ public class EnemyDiagonalMovement : MonoBehaviour
         _forceMultiplier = Random.Range(jumpForceMultiplierMin, jumpForceMultiplierMax);
         
         _shouldStartMoving = false;
-        //this will ideally be reactivated by the attack mechanism
+        
+        if(!_madeFirstAttack)
+        {
+            times += Random.Range(1, 2);
+            _madeFirstAttack = true;
+        }
         
         while (0 <= times)
         {
@@ -119,10 +128,12 @@ public class EnemyDiagonalMovement : MonoBehaviour
 
     private IEnumerator WaitAndBeginAgain(GameObject instance)
     {
-        while (instance)
-            yield return new WaitForSeconds(1f);
+        _animator.SetBool(ShouldRanged, true);
+        
+        yield return new WaitForSeconds(instance.GetComponent<InfernalAttackController>().followPlayerBeforeAttackTime + 1f); //this is equal to the duration of the attack indicator
 
         _shouldStartMoving = true;
+        _animator.SetBool(ShouldRanged, false);
     }
     
     private void Rotate()
