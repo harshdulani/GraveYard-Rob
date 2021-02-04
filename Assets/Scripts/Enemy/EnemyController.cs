@@ -25,7 +25,7 @@ public class EnemyController : MonoBehaviour
     
     private Animator _anim;
     private EnemyStats _enemyStats;
-    private EnemyScreenShakes _shakes;
+    private ScreenShakes _shakes;
     private Rigidbody _rigidbody;
 
     private void OnEnable()
@@ -43,7 +43,7 @@ public class EnemyController : MonoBehaviour
         _enemyStats = GetComponent<EnemyStats>();
         _anim = GetComponent<Animator>();
         _rigidbody = GetComponent<Rigidbody>();
-        _shakes = GetComponent<EnemyScreenShakes>();
+        _shakes = GetComponent<ScreenShakes>();
 
         if (_enemyStats.type == EnemyType.Ghost)
         {

@@ -20,8 +20,8 @@ public class EnemyDiagonalMovement : MonoBehaviour
 
     [Header("Infernal Attack")] 
     public GameObject inferno;
+    public ParticleSystem casterVFX;
 
-    private bool _madeFirstAttack;
     private float _forceMultiplier;
     
     private int _targetAngle = 0;
@@ -29,6 +29,7 @@ public class EnemyDiagonalMovement : MonoBehaviour
     private bool _shouldRotate, _shouldJump, _hasLanded = true, _shouldStartMoving;
     
     private Rigidbody _rigidbody;
+    private ScreenShakes _shakes;
     
     private Animator _animator;
     private static readonly int ShouldRanged = Animator.StringToHash("shouldRanged");
@@ -47,6 +48,7 @@ public class EnemyDiagonalMovement : MonoBehaviour
     {
        _rigidbody = GetComponent<Rigidbody>();
        _animator = GetComponent<Animator>();
+       _shakes = GetComponent<ScreenShakes>();
     }
 
     private void Update()
@@ -101,11 +103,8 @@ public class EnemyDiagonalMovement : MonoBehaviour
         
         _shouldStartMoving = false;
         
-        if(!_madeFirstAttack)
-        {
-            times += Random.Range(1, 2);
-            _madeFirstAttack = true;
-        }
+        //nai toh saath mein attack karte hain
+        times += Random.Range(0, 4);
         
         while (0 <= times)
         {
@@ -130,10 +129,12 @@ public class EnemyDiagonalMovement : MonoBehaviour
     {
         _animator.SetBool(ShouldRanged, true);
         
+        casterVFX.Play();
         yield return new WaitForSeconds(instance.GetComponent<InfernalAttackController>().followPlayerBeforeAttackTime + 1f); //this is equal to the duration of the attack indicator
-
+        
         _shouldStartMoving = true;
         _animator.SetBool(ShouldRanged, false);
+        casterVFX.Stop();
     }
     
     private void Rotate()
@@ -156,6 +157,7 @@ public class EnemyDiagonalMovement : MonoBehaviour
         if(!other.gameObject.CompareTag("Ground")) return;
 
         _hasLanded = true;
+        _shakes.Light();
     }
 
     public void StartMoving()

@@ -22,6 +22,8 @@ public class PlayerCombat : MonoBehaviour
 
     private bool _allowedToDig;
 
+    private ScreenShakes _shakes;
+
     public bool IsAllowedToDig
     {
         get => _allowedToDig;
@@ -47,7 +49,8 @@ public class PlayerCombat : MonoBehaviour
     {
         _playerWeaponController = GetComponentInChildren<PlayerWeaponController>();
         _anim = GetComponent<Animator>();
-        _movementInput = GetComponent<MovementInput>();
+        _movementInput = MovementInput.current;
+        _shakes = GetComponent<ScreenShakes>();
         _cam = Camera.main;
 
         _shouldRotateToRaycastHit = !_movementInput.shouldFaceTowardMouse;
@@ -91,17 +94,21 @@ public class PlayerCombat : MonoBehaviour
             }
             else if (Input.GetButtonDown("Fire2"))
             {
-                if (_shouldRotateToRaycastHit)
+                if (!IsAllowedToDig)
                 {
-                    // Reset ray with new mouse position
-                    _ray = _cam.ScreenPointToRay(Input.mousePosition);
+                    if (_shouldRotateToRaycastHit)
+                    {
+                        // Reset ray with new mouse position
+                        _ray = _cam.ScreenPointToRay(Input.mousePosition);
 
-                    foreach (var hit in Physics.RaycastAll(_ray))
-                        _position = hit.point;
+                        foreach (var hit in Physics.RaycastAll(_ray))
+                            _position = hit.point;
+                    }
+
+
+                    currentAttackType = AttackType.HeavyAttack;
+                    StartAttack(currentAttackType);
                 }
-
-                currentAttackType = AttackType.HeavyAttack;
-                StartAttack(currentAttackType);
             }
         }
         
@@ -171,7 +178,8 @@ public class PlayerCombat : MonoBehaviour
     {
         _anim.SetTrigger(ShouldDig);
         _movementInput.TakeAwayMovementControl();
-        
+
+        _shakes.CustomShake(15, .5f);
         _targetAreaController.TargetGiveHit();
         
         isAttacking = true;

@@ -1062,9 +1062,10 @@ MonoBehaviour:
   fallMultiplier: 2.5
   jumpMultiplier: 2
   rotationLerpSpeed: 0.1
-  timeBetweenJumps: 1
+  timeBetweenJumps: 2
   availableAngles: 2d00000087000000e10000003b010000
   inferno: {fileID: 625098787270546996, guid: 0202aa781c71a164085dd7d50fb61bf9, type: 3}
+  casterVFX: {fileID: 8633249531678480758}
 --- !u!114 &8359831133010222766
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1187,10 +1188,10 @@ MonoBehaviour:
       m_DecayTime: 0.2
       m_ScaleWithImpact: 1
       m_HoldForever: 0
-    m_ImpactRadius: 100
+    m_ImpactRadius: 50
     m_DirectionMode: 0
     m_DissipationMode: 2
-    m_DissipationDistance: 1000
+    m_DissipationDistance: 500
     m_PropagationSpeed: 343
 --- !u!114 &5993506962847614422
 MonoBehaviour:
@@ -1337,10 +1338,6 @@ PrefabInstance:
     m_TransformParent: {fileID: 8731097410183684991}
     m_Modifications:
     - target: {fileID: 2340327996813342465, guid: 6199871cb86bca047a542261dc7b2044, type: 3}
-      propertyPath: m_RootOrder
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 2340327996813342465, guid: 6199871cb86bca047a542261dc7b2044, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -1353,10 +1350,6 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2340327996813342465, guid: 6199871cb86bca047a542261dc7b2044, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2340327996813342465, guid: 6199871cb86bca047a542261dc7b2044, type: 3}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
@@ -1367,6 +1360,14 @@ PrefabInstance:
     - target: {fileID: 2340327996813342465, guid: 6199871cb86bca047a542261dc7b2044, type: 3}
       propertyPath: m_LocalRotation.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2340327996813342465, guid: 6199871cb86bca047a542261dc7b2044, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2340327996813342465, guid: 6199871cb86bca047a542261dc7b2044, type: 3}
+      propertyPath: m_RootOrder
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 2340327996813342465, guid: 6199871cb86bca047a542261dc7b2044, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -1384,14 +1385,15 @@ PrefabInstance:
       propertyPath: m_Name
       value: CasterVFX
       objectReference: {fileID: 0}
-    - target: {fileID: 8032300108240356704, guid: 6199871cb86bca047a542261dc7b2044, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6199871cb86bca047a542261dc7b2044, type: 3}
 --- !u!4 &6777459148407774183 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2340327996813342465, guid: 6199871cb86bca047a542261dc7b2044, type: 3}
+  m_PrefabInstance: {fileID: 9112150689163046118}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &8633249531678480758 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 701341579199395216, guid: 6199871cb86bca047a542261dc7b2044, type: 3}
   m_PrefabInstance: {fileID: 9112150689163046118}
   m_PrefabAsset: {fileID: 0}

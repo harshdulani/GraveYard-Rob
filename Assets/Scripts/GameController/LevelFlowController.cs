@@ -94,7 +94,7 @@ public class LevelFlowController : MonoBehaviour
         while (GameStats.current.activeEnemies.Count == 0)
             yield return new WaitForEndOfFrame();
         
-        GameStats.current.activeEnemies[0].GetComponent<EnemyScreenShakes>().FirstEnemy(screenShakeIntensity, screenShakeSustainTime);
+        GameStats.current.activeEnemies[0].GetComponent<ScreenShakes>().CustomShake(screenShakeIntensity, screenShakeSustainTime);
         
         yield return new WaitForSeconds(screenShakeSustainTime);
         Time.timeScale = 1f;

@@ -22,6 +22,7 @@ public class PlayerController : MonoBehaviour
     
     private PlayerWeaponController _weaponController;
     private Animator _animator;
+    private ScreenShakes _shakes;
     
     private static readonly int PlayerBorn = Animator.StringToHash("playerBorn");
     private static readonly int PlayerDeath = Animator.StringToHash("playerDeath");
@@ -48,6 +49,7 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         _animator = GetComponent<Animator>();
+        _shakes = GetComponent<ScreenShakes>();
         GetComponentInChildren<PlayerWeaponController>().gameObject.SetActive(false);
 
         PlayerEvents.current.InvokePlayerBirth();
@@ -91,6 +93,7 @@ public class PlayerController : MonoBehaviour
 
     public void OnClimbDownFence()
     {
+        _shakes.Heavy();
         GetComponent<PlayerCombat>().SwapWeapon();
         //so that all the linked things can start happening
         GameStats.current.isGamePlaying = true;
@@ -104,6 +107,7 @@ public class PlayerController : MonoBehaviour
         //to prevent getting hit after death
         if (!GameStats.current.isPlayerAlive) return;
         
+        _shakes.Light();
         ResetHealthHealTimer();
         _animator.SetTrigger(PlayerTakeHit);
     }

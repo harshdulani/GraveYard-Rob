@@ -954,9 +954,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healthBar: {fileID: 177689023}
   timeBeforeInflictingBumpDamage: 2
-  explosionForce: 10000
-  explosionRadius: 10
-  explosionUpward: 10
   minimumEnemyMovementSpeed: 3
   enemyMovementSpeedVariability: 8
 --- !u!114 &773945334
@@ -1078,10 +1075,10 @@ MonoBehaviour:
       m_DecayTime: 0.2
       m_ScaleWithImpact: 1
       m_HoldForever: 0
-    m_ImpactRadius: 100
+    m_ImpactRadius: 50
     m_DirectionMode: 0
     m_DissipationMode: 2
-    m_DissipationDistance: 1000
+    m_DissipationDistance: 500
     m_PropagationSpeed: 343
 --- !u!114 &8380368090572024354
 MonoBehaviour:

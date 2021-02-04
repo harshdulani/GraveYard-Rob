@@ -47,6 +47,11 @@ public class InfernalAttackController : MonoBehaviour
                 _isFollowingPlayer = false;
                 return;
             }
+            if (_followTimeRemaining < 0.2f)
+            {
+                _followTimeRemaining -= Time.deltaTime;
+                return;
+            }
 
             _followTimeRemaining -= Time.deltaTime;
             FollowPlayer();
