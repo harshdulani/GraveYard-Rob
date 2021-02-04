@@ -5,7 +5,7 @@ using Random = UnityEngine.Random;
 
 public class EnemyDiagonalMovement : MonoBehaviour
 {
-    public int minJumpsPerMovement = 3, jumpVariability = 2;
+    public float minTimeBeforeAttack = 5f, attackVariability = 7f;
     
     public float forwardForce = 500f, upwardForce = 550f;
     public float jumpForceMultiplierMin = 0.6f, jumpForceMultiplierMax = 1.5f; 
@@ -26,13 +26,19 @@ public class EnemyDiagonalMovement : MonoBehaviour
     
     private int _targetAngle = 0;
     private float _currentAngle;
-    private bool _shouldRotate, _shouldJump, _hasLanded = true, _shouldStartMoving;
+    public bool _shouldRotate, _shouldJump, _hasLanded = true, _shouldStartMoving;
+    private bool _waitingToAttack;
+
+    public float _countdownForStuck = 2f;
+    private bool _isStuck;
     
     private Rigidbody _rigidbody;
     private ScreenShakes _shakes;
     
     private Animator _animator;
     private static readonly int ShouldRanged = Animator.StringToHash("shouldRanged");
+
+    private WaitForSeconds countdownWait;
 
     private void OnEnable()
     {
@@ -49,12 +55,15 @@ public class EnemyDiagonalMovement : MonoBehaviour
        _rigidbody = GetComponent<Rigidbody>();
        _animator = GetComponent<Animator>();
        _shakes = GetComponent<ScreenShakes>();
+       
+       countdownWait = new WaitForSeconds(_countdownForStuck);
+       StartCoroutine(CheckForStuck());
     }
 
     private void Update()
     {
         if (_shouldStartMoving)
-            StartCoroutine(Movement(Random.Range(minJumpsPerMovement, minJumpsPerMovement + jumpVariability)));
+            StartCoroutine(Movement());
         
         if(_shouldRotate)
             Rotate();
@@ -97,16 +106,14 @@ public class EnemyDiagonalMovement : MonoBehaviour
         _shouldRotate = true;
     }
 
-    private IEnumerator Movement(int times)
+    private IEnumerator Movement()
     {
         _forceMultiplier = Random.Range(jumpForceMultiplierMin, jumpForceMultiplierMax);
         
         _shouldStartMoving = false;
+        StartCoroutine(AttackCountdown(Random.Range(minTimeBeforeAttack, minTimeBeforeAttack + attackVariability)));
         
-        //nai toh saath mein attack karte hain
-        times += Random.Range(0, 4);
-        
-        while (0 <= times)
+        while (!_waitingToAttack)
         {
             if (_hasLanded && !_shouldRotate)
             {
@@ -118,11 +125,37 @@ public class EnemyDiagonalMovement : MonoBehaviour
                 while(!_hasLanded || _shouldRotate)
                     yield return new WaitForEndOfFrame();
             }
-            times--;
         }
-
+        
         //start infernal attack
         StartCoroutine(WaitAndBeginAgain(Instantiate(inferno, parent: null)));
+        _waitingToAttack = false;
+    }
+
+    private IEnumerator AttackCountdown(float seconds)
+    {
+        yield return new WaitForSeconds(seconds);
+        _waitingToAttack = true;
+    }
+
+    private IEnumerator CheckForStuck()
+    {
+        while (true)
+        {
+            yield return countdownWait;
+            if (_isStuck)
+            {
+                _hasLanded = true;
+                _isStuck = false;
+            }
+            else
+            {
+                if (!_hasLanded && !_shouldRotate)
+                {
+                    _isStuck = true;
+                }
+            }
+        }
     }
 
     private IEnumerator WaitAndBeginAgain(GameObject instance)
@@ -130,7 +163,7 @@ public class EnemyDiagonalMovement : MonoBehaviour
         _animator.SetBool(ShouldRanged, true);
         
         casterVFX.Play();
-        yield return new WaitForSeconds(instance.GetComponent<InfernalAttackController>().followPlayerBeforeAttackTime + 1f); //this is equal to the duration of the attack indicator
+        yield return new WaitForSeconds(instance.GetComponent<InfernalAttackController>().followPlayerBeforeAttackTime + 2f); //this is equal to the duration of the attack indicator
         
         _shouldStartMoving = true;
         _animator.SetBool(ShouldRanged, false);

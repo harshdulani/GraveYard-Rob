@@ -36,11 +36,9 @@ public class TargetArrowCanvasController : MonoBehaviour
         {
             _arrowParent.SetActive(true);
             _arrowsShown = true;
-            print("arrows shown");
         }
         else
         {
-            print("arrows hid");
             if (_arrowParent.activeSelf)
                 _arrowParent.SetActive(false);
         }

@@ -47,6 +47,7 @@ public class PlayerCombat : MonoBehaviour
 
     private void Start()
     {
+        print("hey i got instantiated");
         _playerWeaponController = GetComponentInChildren<PlayerWeaponController>();
         _anim = GetComponent<Animator>();
         _movementInput = MovementInput.current;
@@ -136,11 +137,20 @@ public class PlayerCombat : MonoBehaviour
         PlayerEvents.current.InvokePlayerCombatStrikeStart();
 
         isAttacking = true;
-        _playerWeaponController.shouldGiveHit = true;
+        //_playerWeaponController.shouldGiveHit = true;
         _movementInput.TakeAwayMovementControl();
         
         if (_shouldRotateToRaycastHit)
             _rotatingToPosition = true;
+    }
+
+    public void CanActuallyHit()
+    {
+        //this is an animation event, so that collisions before the sword looks like its attacking dont count
+        //hence the players that were bound to get hit regardless, get hit when it matters
+        
+        //this is for both light and heavy attacks
+        _playerWeaponController.shouldGiveHit = true;
     }
 
     public void CompleteAttack()
