@@ -7,6 +7,8 @@ public class EnemyController : MonoBehaviour
 {
     public Image healthBar;
 
+    public GameObject deathVFX;
+
     public float timeBeforeInflictingBumpDamage = 2f;
     
     [Header("Movement Speed")]
@@ -117,8 +119,9 @@ public class EnemyController : MonoBehaviour
 
         _anim.SetTrigger(DeathHash);
 
-        //reflect in UI
-        Destroy(gameObject, 1.75f);
+        Instantiate(deathVFX, transform.position + Vector3.up * 2f, Quaternion.identity, gameObject.transform);
+        Destroy(transform.GetChild(0).gameObject, 2.5f);
+        Destroy(gameObject, 3.5f);
     }
 
     private void OnTriggerEnter(Collider other)

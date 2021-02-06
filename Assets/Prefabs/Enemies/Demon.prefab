@@ -1053,8 +1053,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f745cf3abb9db5a4aaee79cfe5df88f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minJumpsPerMovement: 3
-  jumpVariability: 2
+  minTimeBeforeAttack: 5
+  attackVariability: 7
   forwardForce: 500
   upwardForce: 500
   jumpForceMultiplierMin: 0.6
@@ -1066,6 +1066,11 @@ MonoBehaviour:
   availableAngles: 2d00000087000000e10000003b010000
   inferno: {fileID: 625098787270546996, guid: 0202aa781c71a164085dd7d50fb61bf9, type: 3}
   casterVFX: {fileID: 8633249531678480758}
+  _shouldRotate: 0
+  _shouldJump: 0
+  _hasLanded: 1
+  _shouldStartMoving: 0
+  _countdownForStuck: 2
 --- !u!114 &8359831133010222766
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1079,6 +1084,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthBar: {fileID: 5377818195554305570}
+  deathVFX: {fileID: 6388234455797825, guid: 21b1b709ff686bf429bf7c40d9f451e0, type: 3}
   timeBeforeInflictingBumpDamage: 2
   minimumEnemyMovementSpeed: 3
   enemyMovementSpeedVariability: 2

@@ -953,6 +953,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthBar: {fileID: 177689023}
+  deathVFX: {fileID: 7726178578342950430, guid: 88a1f19b48d32444ab2367c071e14cd2, type: 3}
   timeBeforeInflictingBumpDamage: 2
   minimumEnemyMovementSpeed: 3
   enemyMovementSpeedVariability: 8
