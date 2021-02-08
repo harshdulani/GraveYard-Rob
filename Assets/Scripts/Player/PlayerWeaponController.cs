@@ -5,7 +5,7 @@ public class PlayerWeaponController : MonoBehaviour
 {
     public bool shouldGiveHit;
 
-    private List<GameObject> _enemiesAttacked = new List<GameObject>(); 
+    private List<GameObject> _enemiesAttacked = new List<GameObject>();
 
     private void OnTriggerEnter(Collider other)
     {
@@ -40,14 +40,3 @@ public class PlayerWeaponController : MonoBehaviour
         _enemiesAttacked.Clear();
     }
 }
-
-/*
- * 
-            //making this false because hit already given
-            shouldGiveHit = false;
-            
-            if(PlayerCombat.currentAttackType == AttackType.LightAttack)
-                other.gameObject.GetComponent<EnemyController>().DecreaseHealth(PlayerStats.main.lightAttackDamage);
-            else if(PlayerCombat.currentAttackType == AttackType.HeavyAttack)
-                other.gameObject.GetComponent<EnemyController>().DecreaseHealth(PlayerStats.main.heavyAttackDamage);
-*/

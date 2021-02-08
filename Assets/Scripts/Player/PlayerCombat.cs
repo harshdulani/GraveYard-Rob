@@ -7,7 +7,9 @@ public class PlayerCombat : MonoBehaviour
     public GameObject weaponOnBack;
     public bool isAttacking;
     public static AttackType currentAttackType;
-
+    public ParticleSystem slash;
+    public float slashSpeed = .5f;
+    
     private Ray _ray;
     private Vector3 _position;
     private bool _rotatingToPosition;
@@ -47,7 +49,6 @@ public class PlayerCombat : MonoBehaviour
 
     private void Start()
     {
-        print("hey i got instantiated");
         _playerWeaponController = GetComponentInChildren<PlayerWeaponController>();
         _anim = GetComponent<Animator>();
         _movementInput = MovementInput.current;
@@ -61,6 +62,9 @@ public class PlayerCombat : MonoBehaviour
         
         shovelOnBack.SetActive(!IsAllowedToDig);
         weaponOnBack.SetActive(IsAllowedToDig);
+
+        var mainModule = slash.main;
+        mainModule.simulationSpeed = slashSpeed;
     }
 
     private void Update()
@@ -146,6 +150,7 @@ public class PlayerCombat : MonoBehaviour
 
     public void CanActuallyHit()
     {
+        slash.Play();
         //this is an animation event, so that collisions before the sword looks like its attacking dont count
         //hence the players that were bound to get hit regardless, get hit when it matters
         
