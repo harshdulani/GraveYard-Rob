@@ -39,6 +39,7 @@ public class EnemyDiagonalMovement : MonoBehaviour
     private static readonly int ShouldRanged = Animator.StringToHash("shouldRanged");
 
     private WaitForSeconds _waitStuckCheck, _waitBetweenJumps;
+    private readonly WaitForEndOfFrame _waitForEndOfFrame = new WaitForEndOfFrame();
 
     private void OnEnable()
     {
@@ -125,8 +126,8 @@ public class EnemyDiagonalMovement : MonoBehaviour
             }
             else
             {
-                while(!_hasLanded || _shouldRotate)
-                    yield return new WaitForEndOfFrame();
+                while (!_hasLanded || _shouldRotate)
+                    yield return _waitForEndOfFrame;
             }
         }
         
