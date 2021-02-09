@@ -20,7 +20,7 @@ public class InfernalAttackController : MonoBehaviour
     {
         _vfx = transform.GetChild(0).gameObject;
         _particles = _vfx.transform.GetChild(9).GetComponent<ParticleSystem>();
-        _player = GameObject.FindGameObjectWithTag("Player").transform;
+        _player = PlayerStats.main.transform;
         
         foreach (var system in attackIndicator.GetComponentsInChildren<ParticleSystem>())
         {

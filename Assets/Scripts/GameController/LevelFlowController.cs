@@ -26,7 +26,10 @@ public class LevelFlowController : MonoBehaviour
     public CinemachineVirtualCamera stareAtEnemy;
     public CinemachineTargetGroup targetGroup;
 
-    private EnemyWaveController _waveController; 
+    private EnemyWaveController _waveController;
+
+    private WaitForSeconds _waitScreenShake;
+    private WaitForEndOfFrame _endOfFrame;
     
     private void OnEnable()
     {
@@ -51,6 +54,9 @@ public class LevelFlowController : MonoBehaviour
     private void Start()
     {
         _waveController = GetComponent<EnemyWaveController>();
+        
+        _waitScreenShake = new WaitForSeconds(screenShakeSustainTime);
+        _endOfFrame = new WaitForEndOfFrame();
     }
     
     private void OnGameplayStart()
@@ -92,11 +98,11 @@ public class LevelFlowController : MonoBehaviour
     {
         Time.timeScale = 0.75f;
         while (GameStats.current.activeEnemies.Count == 0)
-            yield return new WaitForEndOfFrame();
+            yield return _endOfFrame;
         
         GameStats.current.activeEnemies[0].GetComponent<ScreenShakes>().CustomShake(screenShakeIntensity, screenShakeSustainTime);
-        
-        yield return new WaitForSeconds(screenShakeSustainTime);
+
+        yield return _waitScreenShake;
         Time.timeScale = 1f;
     }
 

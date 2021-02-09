@@ -15,7 +15,7 @@ public class EnemyShooting : MonoBehaviour
 
     private void Start()
     {
-        _player = GameObject.FindGameObjectWithTag("Player").transform;
+        _player = PlayerStats.main.transform;
         StartCoroutine(ShootYourShot());
     }
 

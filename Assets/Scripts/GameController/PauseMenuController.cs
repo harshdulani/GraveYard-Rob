@@ -105,8 +105,7 @@ public class PauseMenuController : AMenuController
 
     private void OnLoadPauseMenu()
     {
-        _player = GameObject.FindGameObjectWithTag("Player").transform.GetChild(8).transform;
-        print("Found player " + _player.name);
+        _player = PlayerStats.main.transform.GetChild(8).transform;
     }
 
     private void OnGameplayPause()

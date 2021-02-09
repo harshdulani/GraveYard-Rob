@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,7 +14,7 @@ public class EnemyWaveController : MonoBehaviour
     
     public int idealEnemyCount;
     public int deviationEnemyCount;
-    public float idealWaitBeforeSpawning, deviationWaitBeforeSpawning;
+    public List<float> waitBeforeSpawningEnemy;
     public int currentEnemiesSpawnedCount;
     public int enemiesInThisWave, enemiesKilledInThisWave;
 
@@ -24,14 +25,15 @@ public class EnemyWaveController : MonoBehaviour
     public bool shouldSpawnWaveAtOnce;
     public int[] minimumEnemyCountByType;
 
-    public float idealBreakTimeBetweenWaves;
-    public float deviationBreakTimeBetweenWaves;
+    public List<float> breakTimeBetweenWaves;
     public int idealWaveCount, deviationWaveCount;
     public int currentWaveCount;
 
     private bool _hasWaveEnded;
     
     private EnemySpawner _spawner;
+    private List<WaitForSeconds> _waitSpawningEnemy, _waitWaveBreaktime;
+    private WaitForSeconds _waitOneSec, _waitCountdownTextUpdate;
 
     private void OnEnable()
     {
@@ -47,6 +49,17 @@ public class EnemyWaveController : MonoBehaviour
     private void Start()
     {
         _spawner = GetComponent<EnemySpawner>();
+
+        _waitSpawningEnemy = new List<WaitForSeconds>();
+        _waitWaveBreaktime = new List<WaitForSeconds>();
+        _waitOneSec = new WaitForSeconds(1f);
+        _waitCountdownTextUpdate = new WaitForSeconds(0.01f);
+        
+        foreach (var waitTime in waitBeforeSpawningEnemy)
+            _waitSpawningEnemy.Add(new WaitForSeconds(waitTime));
+
+        foreach (var waitTime in breakTimeBetweenWaves)
+            _waitWaveBreaktime.Add(new WaitForSeconds(waitTime));
     }
 
     private IEnumerator SpawnLoop(float startWaitTime = 0f)
@@ -95,24 +108,20 @@ public class EnemyWaveController : MonoBehaviour
                         _spawner.SpawnNewEnemy();
                         UpdateEnemyCount();
 
-                        yield return new WaitForSeconds(
-                            Random.Range(idealWaitBeforeSpawning - deviationWaitBeforeSpawning,
-                                idealWaitBeforeSpawning + deviationWaitBeforeSpawning));
+                        yield return _waitSpawningEnemy[Random.Range(0, _waitSpawningEnemy.Count)];
                     }
                 }
 
                 while(enemiesKilledInThisWave != enemiesInThisWave)
                 {
-                    yield return new WaitForSeconds(1f);
+                    yield return _waitOneSec;
                 }
                 
                 //wave ends here
-                var waitTime = Mathf.Ceil(Random.Range(
-                    idealBreakTimeBetweenWaves - deviationBreakTimeBetweenWaves,
-                    idealBreakTimeBetweenWaves + deviationBreakTimeBetweenWaves));
+                var waitIndex = Random.Range(0, breakTimeBetweenWaves.Count);
 
-                StartCoroutine(CountDown(waitTime));
-                yield return new WaitForSeconds(waitTime);
+                StartCoroutine(CountDown(breakTimeBetweenWaves[waitIndex]));
+                yield return _waitWaveBreaktime[waitIndex];
             }
         }
     }
@@ -141,7 +150,7 @@ public class EnemyWaveController : MonoBehaviour
             if (currentTime < endTime)
             {
                 waveCountText.text = (endTime - currentTime).ToString("0.00");
-                yield return new WaitForSeconds(0.01f);
+                yield return _waitCountdownTextUpdate;
             }
             else
                 break;

@@ -24,10 +24,14 @@ public class TargetingEnemies : MonoBehaviour
     public CinemachineTargetGroup targetCameraHelper;
     public float enemyRadius = 1f, enemyWeight = 1f;
 
+    private WaitForSeconds _waitForSeconds;
+    
     private void Start()
     {
         _targetingMechanic = TargetingMechanic();
         StartCoroutine(_targetingMechanic);
+        
+        _waitForSeconds = new WaitForSeconds(waitForTime);
     }
     
     private void OnEnable()
@@ -44,7 +48,7 @@ public class TargetingEnemies : MonoBehaviour
     {
         while (true)
         {
-            yield return new WaitForSeconds(waitForTime);
+            yield return _waitForSeconds;
             if(!PlayerMovement.IsMoving)
                 if (!FindTarget())
                     if(DEBUG_ENEMY_FIND_STATUS)

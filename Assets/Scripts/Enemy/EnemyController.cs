@@ -30,6 +30,8 @@ public class EnemyController : MonoBehaviour
     private ScreenShakes _shakes;
     private Rigidbody _rigidbody;
 
+    private WaitForSeconds _waitBeforeAttack, _waitBeforeFirstAttack;
+    
     private void OnEnable()
     {
         PlayerEvents.current.playerDeath += OnPlayerDeath;
@@ -56,6 +58,8 @@ public class EnemyController : MonoBehaviour
         EnemyEvents.current.InvokeEnemyBirth(transform);
         UpdateHealthBar();
 
+        _waitBeforeAttack = new WaitForSeconds(_enemyStats.waitBeforeAttackTime);
+        _waitBeforeFirstAttack = new WaitForSeconds(_enemyStats.waitBeforeAttackTime / 1.5f);
     }
 
     private void Update()
@@ -190,15 +194,15 @@ public class EnemyController : MonoBehaviour
 
     private IEnumerator OnAttackMelee()
     {
-        yield return new WaitForSeconds(_enemyStats.waitBeforeAttackTime / 1.5f);
+        yield return _waitBeforeFirstAttack;
         while (true)
         {
             if (!GameStats.current.isPlayerAlive) yield break;
             
             //attack animation begins here and then when bite is at maximum front, attack is placed
             _anim.SetTrigger(ShouldMeleeHash);
-            
-            yield return new WaitForSeconds(_enemyStats.waitBeforeAttackTime);
+
+            yield return _waitBeforeAttack;
         }
     }
 

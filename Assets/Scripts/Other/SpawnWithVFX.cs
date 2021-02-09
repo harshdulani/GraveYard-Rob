@@ -12,8 +12,12 @@ public class SpawnWithVFX : MonoBehaviour
     
     private float _waitBeforeStartFollowing;
 
+    private static WaitForSeconds _waitForRender, _waitToStartFollow;
+
     private void Start()
     {
+        _waitForRender = new WaitForSeconds(waitBeforeRender);
+        
         foreach (var renderer in toDisable)
         {
             renderer.SetActive(false);
@@ -28,15 +32,18 @@ public class SpawnWithVFX : MonoBehaviour
         instance.transform.position = new Vector3(transform.position.x, vfx.transform.position.y, transform.position.z);
 
         _waitBeforeStartFollowing = instance.transform.GetChild(0).GetComponent<ParticleSystem>().main.duration * startFollowingAfterVFXDurationMultiplier;
-
-        yield return new WaitForSeconds(waitBeforeRender);
         
-        foreach (var renderer in toDisable)
+        yield return _waitForRender;
+        
+        foreach (var myRenderer in toDisable)
         {
-            renderer.SetActive(true);
+            myRenderer.SetActive(true);
         }
 
-        yield return new WaitForSeconds(_waitBeforeStartFollowing);
+        if(_waitToStartFollow == null)
+            _waitToStartFollow = new WaitForSeconds(_waitBeforeStartFollowing);
+
+        yield return _waitToStartFollow; 
 
         if(TryGetComponent(out EnemyFollow follow))
             StartCoroutine(follow.followMechanic);

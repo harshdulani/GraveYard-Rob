@@ -13,6 +13,8 @@ public class TargetingThePlayer : MonoBehaviour
     private float _angle;
     private IEnumerator _targetingMech;
 
+    private WaitForSeconds _waitTargeting;
+    
     private void OnEnable()
     {
         EnemyEvents.current.enemyDeath += OnEnemyDeath;
@@ -29,8 +31,10 @@ public class TargetingThePlayer : MonoBehaviour
 
     private void Start()
     {
-        target = GameObject.FindGameObjectWithTag("Player").transform;
+        target = PlayerStats.main.transform;
         _targetingMech = TargetingMechanic();
+        
+        _waitTargeting = new WaitForSeconds(waitForTime);
         
         StartCoroutine(_targetingMech);
     }
@@ -45,7 +49,7 @@ public class TargetingThePlayer : MonoBehaviour
                 _angle = (Mathf.Atan2(_direction.x, _direction.z) * Mathf.Rad2Deg);
                 transform.rotation = Quaternion.AngleAxis(_angle, Vector3.up);
             }
-            yield return new WaitForSeconds(waitForTime);
+            yield return _waitTargeting;
         }
     }
 

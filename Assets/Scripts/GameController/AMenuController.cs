@@ -27,12 +27,17 @@ public abstract class AMenuController : MonoBehaviour
     protected static readonly int RightKeyPress = Animator.StringToHash("rightKeyPress");
     protected static readonly int LeftKeyPress = Animator.StringToHash("leftKeyPress");
 
+    private WaitForSecondsRealtime _waitScrolling;
+    
     protected abstract void MakeSelection(int selection);
 
     private IEnumerator WaitForScrollingAgain()
     {
+        if(_waitScrolling == null)
+            _waitScrolling = new WaitForSecondsRealtime(_waitBeforeScrolling);
+        
         //because pause menus make timescale 0
-        yield return new WaitForSecondsRealtime(_waitBeforeScrolling);
+        yield return _waitScrolling;
         _allowedToScroll = true;
     }
 }

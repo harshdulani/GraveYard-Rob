@@ -25,6 +25,9 @@ public class TargetAreaController : MonoBehaviour
 
     private PlayerCombat _playerCombat;
 
+    private readonly WaitForSeconds _waitHalfSec = new WaitForSeconds(0.5f);
+    private readonly WaitForSeconds _waitUpdateCanvas = new WaitForSeconds(0.05f);
+
     private void OnEnable()
     {
         GameFlowEvents.current.gameplayStart += OnGameplayStart;
@@ -43,7 +46,7 @@ public class TargetAreaController : MonoBehaviour
         
         _delta = Mathf.Abs(dirtEndY - dirtStartY) / digsHitsRequired;
 
-        _playerCombat = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerCombat>();
+        _playerCombat = PlayerStats.main.GetComponent<PlayerCombat>();
     }
 
     public void TargetGiveHit()
@@ -53,7 +56,7 @@ public class TargetAreaController : MonoBehaviour
 
     private IEnumerator TargetTakeHit()
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return _waitHalfSec;
         
         var targetPercent = (--_digHitsRemaining) / (float)(digsHitsRequired);
         print(_digHitsRemaining);
@@ -64,7 +67,7 @@ public class TargetAreaController : MonoBehaviour
         for (var i = healthBarLeft.fillAmount; i >= targetPercent; i -= 0.05f)
         {
             UpdateHealthBar(i);
-            yield return new WaitForSeconds(0.05f);
+            yield return _waitUpdateCanvas;
         }
 
         if (_digHitsRemaining == 0)
@@ -74,7 +77,7 @@ public class TargetAreaController : MonoBehaviour
             Destroy(healthBarLeft.transform.parent.parent.gameObject);
             
             //TODO change to modified grave with gold inside
-            print("initiate looting grave");
+            print("objective complete/ initiate looting grave");
             
             GameFlowEvents.current.InvokeUpdateObjective();
         }

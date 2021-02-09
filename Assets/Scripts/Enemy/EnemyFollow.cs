@@ -17,6 +17,8 @@ public class EnemyFollow : MonoBehaviour
 
     private static readonly int IsMoving = Animator.StringToHash("isMoving");
 
+    private WaitForSeconds _waitPathUpdate;
+
     private void OnEnable()
     {
         EnemyEvents.current.enemyDeath += OnEnemyDeath;
@@ -37,17 +39,18 @@ public class EnemyFollow : MonoBehaviour
         _anim = GetComponent<Animator>();
         _targetingEnemy = GetComponent<TargetingThePlayer>();
 
-        _target = GameObject.FindGameObjectWithTag("Player").transform;
+        _target = PlayerStats.main.transform;
 
         followMechanic = FollowMechanic();
-        //StartCoroutine(followMechanic);
+        
+        _waitPathUpdate = new WaitForSeconds(minPathUpdateTime);
     }
 
     private IEnumerator FollowMechanic()
     {
         while (true)
         {
-            yield return new WaitForSeconds(minPathUpdateTime);
+            yield return _waitPathUpdate;
 
             if (_target && !_agent.isStopped)
             {

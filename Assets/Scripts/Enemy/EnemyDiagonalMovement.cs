@@ -26,10 +26,10 @@ public class EnemyDiagonalMovement : MonoBehaviour
     
     private int _targetAngle = 0;
     private float _currentAngle;
-    public bool _shouldRotate, _shouldJump, _hasLanded = true, _shouldStartMoving;
+    private bool _shouldRotate, _shouldJump, _hasLanded = true, _shouldStartMoving;
     private bool _waitingToAttack;
 
-    public float _countdownForStuck = 2f;
+    public float stuckCheckWait = 2f;
     private bool _isStuck;
     
     private Rigidbody _rigidbody;
@@ -38,7 +38,7 @@ public class EnemyDiagonalMovement : MonoBehaviour
     private Animator _animator;
     private static readonly int ShouldRanged = Animator.StringToHash("shouldRanged");
 
-    private WaitForSeconds countdownWait;
+    private WaitForSeconds _waitStuckCheck, _waitBetweenJumps;
 
     private void OnEnable()
     {
@@ -56,7 +56,10 @@ public class EnemyDiagonalMovement : MonoBehaviour
        _animator = GetComponent<Animator>();
        _shakes = GetComponent<ScreenShakes>();
        
-       countdownWait = new WaitForSeconds(_countdownForStuck);
+       _waitStuckCheck = new WaitForSeconds(stuckCheckWait);
+       
+       _waitBetweenJumps = new WaitForSeconds(timeBetweenJumps);
+       
        StartCoroutine(CheckForStuck());
     }
 
@@ -117,7 +120,7 @@ public class EnemyDiagonalMovement : MonoBehaviour
         {
             if (_hasLanded && !_shouldRotate)
             {
-                yield return new WaitForSeconds(timeBetweenJumps);
+                yield return _waitBetweenJumps;
                 CalculateRotation();
             }
             else
@@ -142,7 +145,7 @@ public class EnemyDiagonalMovement : MonoBehaviour
     {
         while (true)
         {
-            yield return countdownWait;
+            yield return _waitStuckCheck;
             if (_isStuck)
             {
                 _hasLanded = true;

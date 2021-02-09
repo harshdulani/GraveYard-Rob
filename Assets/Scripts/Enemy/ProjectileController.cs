@@ -8,9 +8,9 @@ public class ProjectileController : MonoBehaviour
 
     private void Start()
     {
-        if (GameObject.FindGameObjectWithTag("Player") != null)
+        if (PlayerStats.main != null)
         {
-            ShootTowards(GameObject.FindGameObjectWithTag("Player").transform);
+            ShootTowards(PlayerStats.main.transform);
             Destroy(gameObject, lifetime);
         }
         else

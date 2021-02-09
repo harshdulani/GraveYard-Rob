@@ -18446,8 +18446,10 @@ MonoBehaviour:
   enemyCountPrefix: 'Enemies: '
   idealEnemyCount: 5
   deviationEnemyCount: 1
-  idealWaitBeforeSpawning: 10
-  deviationWaitBeforeSpawning: 3.5
+  waitBeforeSpawningEnemy:
+  - 1
+  - 1.5
+  - 2
   currentEnemiesSpawnedCount: 0
   enemiesInThisWave: 0
   enemiesKilledInThisWave: 0
@@ -18455,8 +18457,10 @@ MonoBehaviour:
   waveCountPrefix: 'Wave: '
   shouldSpawnWaveAtOnce: 1
   minimumEnemyCountByType: 0300000002000000
-  idealBreakTimeBetweenWaves: 7
-  deviationBreakTimeBetweenWaves: 2.4
+  breakTimeBetweenWaves:
+  - 7
+  - 8.5
+  - 10
   idealWaveCount: 4
   deviationWaveCount: 1
   currentWaveCount: 0
