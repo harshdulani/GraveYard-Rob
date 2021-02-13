@@ -288,6 +288,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 363.7951
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: bdb6fc0d84dfc71499e1e9499e1b2d16, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 067e9154e42d741498239742e0e35342, type: 2}
     - target: {fileID: 919132149155446097, guid: bdb6fc0d84dfc71499e1e9499e1b2d16, type: 3}
       propertyPath: m_Name
       value: game name
@@ -521,6 +525,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 98.535
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: ac79c64ee523aca468e6d8753e0b3000, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 067e9154e42d741498239742e0e35342, type: 2}
     - target: {fileID: 919132149155446097, guid: ac79c64ee523aca468e6d8753e0b3000, type: 3}
       propertyPath: m_Name
       value: exit text
@@ -667,6 +675,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 37.64795
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: cbb4e527f7b5c09409911c59ec85d940, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 067e9154e42d741498239742e0e35342, type: 2}
     - target: {fileID: 919132149155446097, guid: cbb4e527f7b5c09409911c59ec85d940, type: 3}
       propertyPath: m_Name
       value: options text
@@ -1239,6 +1251,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 37
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 90cb2e8353ed4364fb70eabd6de00d81, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 067e9154e42d741498239742e0e35342, type: 2}
     - target: {fileID: 919132149155446097, guid: 90cb2e8353ed4364fb70eabd6de00d81, type: 3}
       propertyPath: m_Name
       value: about text
@@ -1709,6 +1725,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 37
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: a2fd106465b61c2448c5a564d007dd62, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 067e9154e42d741498239742e0e35342, type: 2}
     - target: {fileID: 919132149155446097, guid: a2fd106465b61c2448c5a564d007dd62, type: 3}
       propertyPath: m_Name
       value: play text
