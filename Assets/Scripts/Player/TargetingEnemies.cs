@@ -49,10 +49,10 @@ public class TargetingEnemies : MonoBehaviour
         while (true)
         {
             yield return _waitForSeconds;
-            if(!PlayerMovement.IsMoving)
-                if (!FindTarget())
-                    if(DEBUG_ENEMY_FIND_STATUS)
-                        print("Find Target failure for player.");
+            if (FindTarget()) continue;
+            
+            if(DEBUG_ENEMY_FIND_STATUS)
+                print("Find Target failure for player.");
         }
     }
 

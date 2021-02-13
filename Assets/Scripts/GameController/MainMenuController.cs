@@ -3,7 +3,6 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-
 public enum mainMenuOptions
 {
     Exit,
@@ -16,13 +15,13 @@ public class MainMenuController : AMenuController
 {
     #region Singleton, Awake() lies inside
 
-    private static MainMenuController main;
+    private static MainMenuController _main;
 
     private void Awake()
     {
-        if (main == null)
+        if (_main == null)
         {
-            main = this;
+            _main = this;
             DontDestroyOnLoad(gameObject);
         }
         else
@@ -31,11 +30,12 @@ public class MainMenuController : AMenuController
 
     #endregion
 
-    private bool _initiated, _inGame;
+    private bool _initiated, _insideMenu;
 
     private static readonly mainMenuOptions _selection;
     
     public GameObject optionTextMeshHolder;
+    public GameObject aboutCanvas;
     
     private void Start()
     {
@@ -53,23 +53,29 @@ public class MainMenuController : AMenuController
     private void Update()
     {
         if (!_initiated) return;
-        if (_inGame) return;
         if (!_allowedToScroll) return;
-        
-        if (Input.GetAxisRaw("Horizontal") == 1f)
+        if (_insideMenu)
         {
-            cameraAnim.SetTrigger(RightKeyPress);
-            SelectedMenuOption++;
+            if (Input.GetButtonDown("Cancel"))
+                ToggleAboutContent(false);
         }
-        else if (Input.GetAxisRaw("Horizontal") == -1f)
+        else
         {
-            cameraAnim.SetTrigger(LeftKeyPress);
-            SelectedMenuOption--;
-        }
+            if (Input.GetAxisRaw("Horizontal") == 1f)
+            {
+                cameraAnim.SetTrigger(RightKeyPress);
+                SelectedMenuOption++;
+            }
+            else if (Input.GetAxisRaw("Horizontal") == -1f)
+            {
+                cameraAnim.SetTrigger(LeftKeyPress);
+                SelectedMenuOption--;
+            }
 
-        if (Input.GetButtonDown("Submit"))
-        {
-            MakeSelection(SelectedMenuOption);
+            if (Input.GetButtonDown("Submit"))
+            {
+                MakeSelection(SelectedMenuOption);
+            }
         }
     }
 
@@ -87,8 +93,7 @@ public class MainMenuController : AMenuController
                 OnGameplayStart();
                 break;
             case mainMenuOptions.About:
-                print("lmao later");
-                //use this space to unset _inGame when coming back from this section
+                ToggleAboutContent(true);
                 break;
             case mainMenuOptions.Settings:
                 print("lmao later");
@@ -98,13 +103,11 @@ public class MainMenuController : AMenuController
                 print("not processed properly");
                 break;
         }
-
-        _inGame = true;
     }
 
     private void OnGameplayStart()
     {
-        GameObject.Destroy(GameObject.Find("MainMenuController"));
+        Destroy(gameObject);
         SceneManager.UnloadSceneAsync("MainMenuScene");
     }
 
@@ -141,5 +144,11 @@ public class MainMenuController : AMenuController
             obj.SetActive(false);
         }
         //a notifier to "intermediary" scene/black image at the start of the game that waits for everything to load
+    }
+
+    private void ToggleAboutContent(bool showAbout)
+    {
+        aboutCanvas.SetActive(showAbout);
+        _insideMenu = showAbout;
     }
 }
