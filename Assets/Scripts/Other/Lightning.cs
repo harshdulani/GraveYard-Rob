@@ -49,7 +49,6 @@ public class Lightning : MonoBehaviour
     {
         if (_isFirstThunder)
         {
-            print("lightning");
             _isFirstThunder = false;
             _animation.Play(_states[0].name);
         }
