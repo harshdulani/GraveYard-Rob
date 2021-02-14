@@ -30,12 +30,12 @@ public class MainMenuController : AMenuController
 
     #endregion
 
-    private bool _initiated, _insideMenu;
+    private bool _initiated, _insideMenu, _isInsideSettingsNotAbout;//false when inside about and not settings
 
     private static readonly mainMenuOptions _selection;
     
     public GameObject optionTextMeshHolder;
-    public GameObject aboutCanvas;
+    public GameObject aboutCanvas, settingsCanvas;
     
     private void Start()
     {
@@ -56,7 +56,11 @@ public class MainMenuController : AMenuController
         if (!_allowedToScroll) return;
         if (_insideMenu)
         {
-            if (Input.GetButtonDown("Cancel"))
+            if (!Input.GetButtonDown("Cancel")) return;
+            
+            if(_isInsideSettingsNotAbout)
+                ToggleSettingsContent(false);
+            else
                 ToggleAboutContent(false);
         }
         else
@@ -96,8 +100,7 @@ public class MainMenuController : AMenuController
                 ToggleAboutContent(true);
                 break;
             case mainMenuOptions.Settings:
-                print("lmao later");
-                //use this space to unset _inGame when coming back from this section
+                ToggleSettingsContent(true);
                 break;
             default:
                 print("not processed properly");
@@ -150,5 +153,13 @@ public class MainMenuController : AMenuController
     {
         aboutCanvas.SetActive(showAbout);
         _insideMenu = showAbout;
+        _isInsideSettingsNotAbout = false;
+    }
+
+    private void ToggleSettingsContent(bool showSettings)
+    {
+        settingsCanvas.SetActive(showSettings);
+        _insideMenu = showSettings;
+        _isInsideSettingsNotAbout = true;
     }
 }
