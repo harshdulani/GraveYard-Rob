@@ -4,14 +4,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-[RequireComponent(typeof(Animation))]
+[RequireComponent(typeof(Animation))] [RequireComponent(typeof(AudioSource))]
 public class Lightning : MonoBehaviour
 {
     public List<float> waitTimes = new List<float>();
+    public List<AudioClip> thunderAudioClips;
+    public AudioClip firstThunder;
 
     private List<WaitForSeconds> _waiters = new List<WaitForSeconds>();
 
     private bool _isFirstThunder = true;
+    
     private int CurrentAnimation
     {
         get => _currentAnimation;
@@ -21,6 +24,8 @@ public class Lightning : MonoBehaviour
 
     private Animation _animation;
     private List<AnimationState> _states = new List<AnimationState>();
+
+    private AudioSource _audio;
 
     private void OnEnable()
     {
@@ -35,6 +40,8 @@ public class Lightning : MonoBehaviour
     private void Start()
     {
         _animation = GetComponent<Animation>();
+        _audio = GetComponent<AudioSource>();
+        
         foreach (AnimationState state in _animation)
             _states.Add(state);
         _totalStates = _states.Count;
@@ -51,6 +58,7 @@ public class Lightning : MonoBehaviour
         {
             _isFirstThunder = false;
             _animation.Play(_states[0].name);
+            _audio.PlayOneShot(firstThunder);
         }
 
         while (true)
@@ -59,6 +67,7 @@ public class Lightning : MonoBehaviour
 
             //TODO: Add thundering sounds as animation events
             _animation.Play(_states[CurrentAnimation++].name);
+            _audio.PlayOneShot(thunderAudioClips[CurrentAnimation]);
         }
     }
 
