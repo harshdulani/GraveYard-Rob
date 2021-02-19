@@ -6,6 +6,7 @@ public class EnemyEvents : MonoBehaviour
     public static EnemyEvents current;
 
     public Action<Transform> enemyBirth, enemyDeath;
+    public Action infernalAttackCautionStart, infernalAttackCautionEnd;
     
     private void Awake()
     {
@@ -23,5 +24,15 @@ public class EnemyEvents : MonoBehaviour
     public void InvokeEnemyDeath(Transform enemy)
     {
         enemyDeath?.Invoke(enemy);
+    }
+
+    public void InvokeInfernalCautionStart()
+    {
+        infernalAttackCautionStart?.Invoke();
+    }
+    
+    public void InvokeInfernalCautionEnd()
+    {
+        infernalAttackCautionEnd?.Invoke();
     }
 }

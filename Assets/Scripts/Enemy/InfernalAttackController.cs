@@ -106,9 +106,14 @@ public class InfernalAttackController : MonoBehaviour
 
         if(!_particles.isPlaying) return;
         
+        EnemyEvents.current.InvokeInfernalCautionStart();
+        
         //give dps like you heal
-        if(!PlayerEvents.current.InvokeHealthChange((damagePerSecond / 50), AttackType.LightAttack))
+        if (!PlayerEvents.current.InvokeHealthChange((damagePerSecond / 50), AttackType.LightAttack))
+        {
             PlayerEvents.current.InvokePlayerDeath();
+            EnemyEvents.current.InvokeInfernalCautionEnd();
+        }
     }
 
     private void OnTriggerExit(Collider other)
@@ -116,5 +121,6 @@ public class InfernalAttackController : MonoBehaviour
         //stop attacking
         //increase movement speed
         MovementInput.current.RestoreMovement();
+        EnemyEvents.current.InvokeInfernalCautionEnd();
     }
 }
