@@ -117,7 +117,7 @@ public class EnemyDiagonalMovement : MonoBehaviour
         _shouldStartMoving = false;
         StartCoroutine(AttackCountdown(Random.Range(minTimeBeforeAttack, minTimeBeforeAttack + attackVariability)));
         
-        while (!_waitingToAttack)
+        while (!_waitingToAttack || GameStats.current.isInfernalAttacking)
         {
             if (_hasLanded && !_shouldRotate)
             {

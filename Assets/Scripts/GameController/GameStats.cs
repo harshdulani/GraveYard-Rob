@@ -8,11 +8,12 @@ public class GameStats : MonoBehaviour
     public List<Transform> activeEnemies;
     
     public int EnemiesAlive => activeEnemies.Count;
-
-    //might be useful for a respawn ability, game start checks, game end checks  
+    
     public bool isPlayerAlive, isGamePlaying;
 
     public int currentObjective;
+
+    public bool isInfernalAttacking;
 
     private void Awake()
     {

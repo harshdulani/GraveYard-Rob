@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 [RequireComponent(typeof(AudioSource))]
 public class InfernalAttackController : MonoBehaviour
@@ -15,7 +16,7 @@ public class InfernalAttackController : MonoBehaviour
 
     private AudioSource _audio;
     
-    private bool _isAttacking, _isFollowingPlayer, _waitingToDie;
+    private bool _isAttacking, _isFollowingPlayer, _waitingToDie, _hasCalledInfernalAttack;
     private float _followTimeRemaining;
 
     private GameObject _vfx;
@@ -29,6 +30,9 @@ public class InfernalAttackController : MonoBehaviour
         _player = PlayerStats.main.transform;
 
         _audio = GetComponent<AudioSource>();
+
+        GameStats.current.isInfernalAttacking = true;
+        //false this in ondisable
         
         foreach (var system in attackIndicator.GetComponentsInChildren<ParticleSystem>())
         {
@@ -36,7 +40,6 @@ public class InfernalAttackController : MonoBehaviour
             main.duration = followPlayerBeforeAttackTime;
             system.Play();
         }
-        _audio.Play();
 
         StartAttack();
     }
@@ -67,7 +70,8 @@ public class InfernalAttackController : MonoBehaviour
         }
         else
         {
-            InfernalAttack();
+            if(!_hasCalledInfernalAttack)
+                InfernalAttack();
         }
     }
 
@@ -78,6 +82,7 @@ public class InfernalAttackController : MonoBehaviour
         _isFollowingPlayer = true;
 
         _followTimeRemaining = followPlayerBeforeAttackTime;
+        _audio.Play();
     }
 
     private void FollowPlayer()
@@ -95,11 +100,20 @@ public class InfernalAttackController : MonoBehaviour
 
     private void InfernalAttack()
     {
+        _hasCalledInfernalAttack = true;
         attackIndicator.SetActive(false);
         _vfx.SetActive(true);
         _waitingToDie = true;
         
+        
+        _audio.Stop();
         _audio.PlayOneShot(tremor);
+    }
+
+    private void OnDisable()
+    {
+        //when attack is being disabled
+        GameStats.current.isInfernalAttacking = false;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -107,6 +121,8 @@ public class InfernalAttackController : MonoBehaviour
         //start attacking
         //slow movement
         MovementInput.current.SlowDownMovement(slowDownMovementMultiplier);
+        
+        EnemyEvents.current.InvokeInfernalCautionStart();
     }
 
     private void OnTriggerStay(Collider other)
@@ -116,9 +132,7 @@ public class InfernalAttackController : MonoBehaviour
         if(!GameStats.current.isPlayerAlive) return;
 
         if(!_particles.isPlaying) return;
-        
-        EnemyEvents.current.InvokeInfernalCautionStart();
-        
+
         //give dps like you heal
         if (!PlayerEvents.current.InvokeHealthChange((damagePerSecond / 50), AttackType.LightAttack))
         {
