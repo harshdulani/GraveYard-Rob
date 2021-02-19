@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 
+[RequireComponent(typeof(AudioSource))]
 public class InfernalAttackController : MonoBehaviour
 {
     public int damagePerSecond = 150;
@@ -8,6 +9,11 @@ public class InfernalAttackController : MonoBehaviour
     public float followPlayerBeforeAttackTime = 2f;
 
     public GameObject attackIndicator;
+
+    [Header("Audio")]
+    public AudioClip tremor;
+
+    private AudioSource _audio;
     
     private bool _isAttacking, _isFollowingPlayer, _waitingToDie;
     private float _followTimeRemaining;
@@ -21,6 +27,8 @@ public class InfernalAttackController : MonoBehaviour
         _vfx = transform.GetChild(0).gameObject;
         _particles = _vfx.transform.GetChild(9).GetComponent<ParticleSystem>();
         _player = PlayerStats.main.transform;
+
+        _audio = GetComponent<AudioSource>();
         
         foreach (var system in attackIndicator.GetComponentsInChildren<ParticleSystem>())
         {
@@ -28,7 +36,8 @@ public class InfernalAttackController : MonoBehaviour
             main.duration = followPlayerBeforeAttackTime;
             system.Play();
         }
-        
+        _audio.Play();
+
         StartAttack();
     }
 
@@ -67,7 +76,7 @@ public class InfernalAttackController : MonoBehaviour
         //Start following Player
         _isAttacking = true;
         _isFollowingPlayer = true;
-        
+
         _followTimeRemaining = followPlayerBeforeAttackTime;
     }
 
@@ -89,6 +98,8 @@ public class InfernalAttackController : MonoBehaviour
         attackIndicator.SetActive(false);
         _vfx.SetActive(true);
         _waitingToDie = true;
+        
+        _audio.PlayOneShot(tremor);
     }
 
     private void OnTriggerEnter(Collider other)

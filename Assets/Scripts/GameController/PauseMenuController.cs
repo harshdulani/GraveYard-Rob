@@ -128,7 +128,7 @@ public class PauseMenuController : AMenuController
 
         resumeText.gameObject.SetActive(true);
         resumeText.parent = _player;
-        resumeText.localPosition = Vector3.zero + Vector3.back * 4.25f;
+        resumeText.localPosition = Vector3.up * 5f + Vector3.back * 4.25f;
     }
     
     private void OnGameplayResume()
