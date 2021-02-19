@@ -35,6 +35,7 @@ public class GameOverController : AMenuController
 
     private void Start()
     {
+        AudioController = GetComponent<MenuAudioController>();
         _totalOptionCount = Enum.GetValues(typeof(GameOverOptions)).Length;
         SelectedMenuOption = 0;
     }

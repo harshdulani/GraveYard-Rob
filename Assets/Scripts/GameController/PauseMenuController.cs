@@ -36,6 +36,7 @@ public class PauseMenuController : AMenuController
 
     private void Start()
     {
+        AudioController = GetComponent<MenuAudioController>();
         _totalOptionCount = Enum.GetValues(typeof(pauseMenuOptions)).Length;
         SelectedMenuOption = 1;
         _mainCam = Camera.main.transform;

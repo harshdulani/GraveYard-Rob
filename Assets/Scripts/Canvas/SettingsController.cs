@@ -44,7 +44,7 @@ public class SettingsController : MonoBehaviour
 
             if (controller.name == "Global Volume")
             {
-                print(controller.TryGetComponent(out _volume));
+                _volume = controller.GetComponent<Volume>();
             }
         }
 

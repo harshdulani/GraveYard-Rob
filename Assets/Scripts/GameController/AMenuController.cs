@@ -8,8 +8,17 @@ public abstract class AMenuController : MonoBehaviour
         get => _selectedMenuOption;
         set
         {
-            if (value == -1)
+            var oldValue = _selectedMenuOption;
+            if (value == -1) //if you underflow option list, come back to first option
+            {
                 value = _totalOptionCount.Value - 1;
+                AudioController.Scroll(true);
+            }
+            else if (value > oldValue)
+                AudioController.Scroll(false);
+            else if (value < oldValue)
+                AudioController.Scroll(true);
+            
             _selectedMenuOption = value % _totalOptionCount.Value;
             _allowedToScroll = false;
             StartCoroutine(WaitForScrollingAgain());
@@ -17,12 +26,13 @@ public abstract class AMenuController : MonoBehaviour
     }
 
     private int _selectedMenuOption = 0;
-
-    protected float _waitBeforeScrolling = 1f;
+    private float _waitBeforeScrolling = 1f;
+    
     protected int? _totalOptionCount = null;
     protected bool _allowedToScroll = true;
 
     public Animator cameraAnim;
+    protected MenuAudioController AudioController;
     
     protected static readonly int RightKeyPress = Animator.StringToHash("rightKeyPress");
     protected static readonly int LeftKeyPress = Animator.StringToHash("leftKeyPress");

@@ -36,12 +36,14 @@ public class MainMenuController : AMenuController
     
     public GameObject optionTextMeshHolder;
     public GameObject aboutCanvas, settingsCanvas;
-    
+
     private void Start()
     {
+        AudioController = GetComponent<MenuAudioController>();
+        
         //this is set to 0.5f in GameOver Screen
         Time.timeScale = 1f;
-        
+
         _totalOptionCount = Enum.GetValues(typeof(mainMenuOptions)).Length;
         
         SelectedMenuOption = 2;
