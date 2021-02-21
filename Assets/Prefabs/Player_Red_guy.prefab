@@ -717,15 +717,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83af8a05acf7c714b9c7d02746a19a90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerHasControl: 1
+  shouldFaceTowardMouse: 1
   movementSpeed: 1.5
   isWalking: 1
-  rotationSlerpSpeed: 0.1
   desiredMovementDirection: {x: 0, y: 0, z: 0}
-  playerHasControl: 1
+  rotationSlerpSpeed: 0.1
   allowPlayerRotationSpeed: 0.1
-  jumpSpeed: 8
-  doJump: 0
+  rollSpeed: 7.5
+  isJumping: 0
   isGrounded: 0
+  rotationStrafeFactor: 0
+  speedLimitStrafeRunning: 1.35
+  sideStrafeThreshold: 0.25
 --- !u!114 &1140459998
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -738,8 +742,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3984dcf07779da5448a8248a903ed130, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waitBeforeAttacking: 0.5
+  weapon: {fileID: 0}
+  weaponOnBack: {fileID: 0}
   isAttacking: 0
+  slash: {fileID: 0}
+  slashSpeed: 0.5
+  shovel: {fileID: 0}
+  shovelOnBack: {fileID: 0}
+  isDiggingComplete: 0
+  _targetAreaController: {fileID: 0}
 --- !u!114 &1139075664
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -754,7 +765,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerHealth: 0
   maxHealth: 1000
-  isAiming: 0
+  playerStamina: 0
+  maxStamina: 750
+  lightAttackDamage: 100
+  heavyAttackDamage: 250
+  jumpStaminaCost: 150
+  lightAttackStaminaCost: 50
+  heavyAttackStaminaCost: 150
 --- !u!1 &660038632042057747
 GameObject:
   m_ObjectHideFlags: 0

@@ -34,6 +34,7 @@ public class EnemyDiagonalMovement : MonoBehaviour
     
     private Rigidbody _rigidbody;
     private ScreenShakes _shakes;
+    private MovementSounds _sounds;
     
     private Animator _animator;
     private static readonly int ShouldRanged = Animator.StringToHash("shouldRanged");
@@ -56,6 +57,7 @@ public class EnemyDiagonalMovement : MonoBehaviour
        _rigidbody = GetComponent<Rigidbody>();
        _animator = GetComponent<Animator>();
        _shakes = GetComponent<ScreenShakes>();
+       _sounds = GetComponent<MovementSounds>();
        
        _waitStuckCheck = new WaitForSeconds(stuckCheckWait);
        
@@ -77,6 +79,8 @@ public class EnemyDiagonalMovement : MonoBehaviour
             _rigidbody.AddForce((transform.forward * forwardForce + transform.up * upwardForce) * _forceMultiplier);
             _shouldJump = false;
             _hasLanded = false;
+            
+            _sounds.DemonJump();
         }
         //for better jumping
         if (_rigidbody.velocity.y < -1f) //falling
@@ -194,7 +198,9 @@ public class EnemyDiagonalMovement : MonoBehaviour
         if(!other.gameObject.CompareTag("Ground")) return;
 
         _hasLanded = true;
+        
         _shakes.Light();
+        _sounds.DemonLand();
     }
 
     public void StartMoving()
