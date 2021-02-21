@@ -10,7 +10,9 @@ public class EnemySpawner : MonoBehaviour
     //and dragging all of those to the editor drop point but without opening the array details
     [SerializeField]
     private Transform[] spawnPoints;
-
+    
+    public AudioSource audioSource;
+    
     private void Start()
     {
         //print(enemyPrefabs.Length + " enemyPrefabs in dictionary, to be spawned at " + spawnPoints.Length + " locations.");
@@ -54,6 +56,6 @@ public class EnemySpawner : MonoBehaviour
         {
             tempList.RemoveAt(SpawnEnemyCustom(1, tempList));
         }
-        print("spawning wave");
+        audioSource.Play();
     }
 }

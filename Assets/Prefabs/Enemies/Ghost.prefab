@@ -956,9 +956,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healthBar: {fileID: 177689023}
   deathVFX: {fileID: 7726178578342950430, guid: 88a1f19b48d32444ab2367c071e14cd2, type: 3}
+  hitSFX:
+  - {fileID: 8300000, guid: 449b93153b971eb46a738cc7314f644d, type: 3}
+  - {fileID: 8300000, guid: da55913ece0f33a4fbe830af5e6b3905, type: 3}
+  - {fileID: 8300000, guid: 3155a487feff4514b9542359ceeb00b3, type: 3}
+  - {fileID: 8300000, guid: 7fdbfb6efcfa88e47b684f6b0861aeca, type: 3}
   timeBeforeInflictingBumpDamage: 2
-  minimumEnemyMovementSpeed: 3
-  enemyMovementSpeedVariability: 8
+  minimumEnemyMovementSpeed: 1
+  enemyMovementSpeedVariability: 5
 --- !u!114 &773945334
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1108,7 +1113,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 0.2
   m_Pitch: 1
   Loop: 0
@@ -1213,6 +1218,7 @@ MonoBehaviour:
   demonJump: []
   playerJump: {fileID: 0}
   demonLand: {fileID: 0}
+  demonCaster: {fileID: 0}
 --- !u!1 &4874268804338708762
 GameObject:
   m_ObjectHideFlags: 0

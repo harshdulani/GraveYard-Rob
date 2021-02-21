@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
@@ -8,6 +9,7 @@ public class EnemyController : MonoBehaviour
     public Image healthBar;
 
     public GameObject deathVFX;
+    public List<AudioClip> hitSFX;
 
     public float timeBeforeInflictingBumpDamage = 2f;
     
@@ -18,19 +20,20 @@ public class EnemyController : MonoBehaviour
     private bool _isPlayerInContact;
     private bool _canBump = true;
     private float _myBumpDamageTimer;
-
-    private static readonly int ShouldMeleeHash = Animator.StringToHash("shouldMelee");
-    private static readonly int DeathHash = Animator.StringToHash("death");
-    private static readonly int IsMovingHash = Animator.StringToHash("isMoving");
-    private static readonly int HitReceivedHash = Animator.StringToHash("hitReceived");
-    private static readonly int ShouldRanged = Animator.StringToHash("shouldRanged");
     
     private Animator _anim;
     private EnemyStats _enemyStats;
     private ScreenShakes _shakes;
     private Rigidbody _rigidbody;
+    private AudioSource _audio;
 
     private WaitForSeconds _waitBeforeAttack, _waitBeforeFirstAttack;
+    
+    private static readonly int ShouldMeleeHash = Animator.StringToHash("shouldMelee");
+    private static readonly int DeathHash = Animator.StringToHash("death");
+    private static readonly int IsMovingHash = Animator.StringToHash("isMoving");
+    private static readonly int HitReceivedHash = Animator.StringToHash("hitReceived");
+    private static readonly int ShouldRanged = Animator.StringToHash("shouldRanged");
     
     private void OnEnable()
     {
@@ -48,6 +51,7 @@ public class EnemyController : MonoBehaviour
         _anim = GetComponent<Animator>();
         _rigidbody = GetComponent<Rigidbody>();
         _shakes = GetComponent<ScreenShakes>();
+        _audio = GetComponent<AudioSource>();
 
         if (_enemyStats.type == EnemyType.Ghost)
         {
@@ -82,6 +86,11 @@ public class EnemyController : MonoBehaviour
             _shakes.Light();
         else if(amt == PlayerStats.main.heavyAttackDamage)
             _shakes.Heavy();
+        
+        //the impact sound
+        _audio.PlayOneShot(hitSFX[2], 0.8f);
+        //pain sound
+        _audio.PlayOneShot(hitSFX[Random.Range(0, 2)], 0.5f);
         
         if (_enemyStats.TakeHit(amt))
         {
@@ -122,6 +131,7 @@ public class EnemyController : MonoBehaviour
         }
 
         _anim.SetTrigger(DeathHash);
+        _audio.PlayOneShot(hitSFX[3], 0.8f);
 
         Instantiate(deathVFX, transform.position + Vector3.up * 2f, Quaternion.identity, gameObject.transform);
         Destroy(transform.GetChild(0).gameObject, 2.5f);

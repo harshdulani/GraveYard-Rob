@@ -1083,6 +1083,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healthBar: {fileID: 5377818195554305570}
   deathVFX: {fileID: 6388234455797825, guid: 21b1b709ff686bf429bf7c40d9f451e0, type: 3}
+  hitSFX:
+  - {fileID: 8300000, guid: 449b93153b971eb46a738cc7314f644d, type: 3}
+  - {fileID: 8300000, guid: da55913ece0f33a4fbe830af5e6b3905, type: 3}
+  - {fileID: 8300000, guid: 3155a487feff4514b9542359ceeb00b3, type: 3}
+  - {fileID: 8300000, guid: 7fdbfb6efcfa88e47b684f6b0861aeca, type: 3}
   timeBeforeInflictingBumpDamage: 2
   minimumEnemyMovementSpeed: 3
   enemyMovementSpeedVariability: 2
@@ -1223,7 +1228,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 0.8
+  m_Volume: 0.5
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -1267,7 +1272,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0.45
+      value: 0.5
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -1327,6 +1332,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: cc50cc3db7215f0499d8f03425ab304d, type: 3}
   playerJump: {fileID: 0}
   demonLand: {fileID: 8300000, guid: e8b4dac1cb9ff714c82d19bf619d8e5d, type: 3}
+  demonCaster: {fileID: 8300000, guid: 4fa2dbce8f6403840b52fe3e96e0823d, type: 3}
 --- !u!1 &8698641814744011286
 GameObject:
   m_ObjectHideFlags: 0

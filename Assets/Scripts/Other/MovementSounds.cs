@@ -6,7 +6,7 @@ public class MovementSounds : MonoBehaviour
 {
     public List<AudioClip> leftFootstep, rightFootstep, ghostMove, demonJump;
 
-    public AudioClip playerJump, demonLand;
+    public AudioClip playerJump, demonLand, demonCaster;
 
     private AudioSource _audio;
     private int _counter = 0;
@@ -44,5 +44,10 @@ public class MovementSounds : MonoBehaviour
     public void DemonLand()
     {
         _audio.PlayOneShot(demonLand);
+    }
+
+    public void DemonCaster()
+    {
+        _audio.PlayOneShot(demonCaster);
     }
 }

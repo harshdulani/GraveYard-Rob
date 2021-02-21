@@ -171,6 +171,8 @@ public class EnemyDiagonalMovement : MonoBehaviour
         _animator.SetBool(ShouldRanged, true);
         
         casterVFX.Play();
+        _sounds.DemonCaster();
+        
         yield return new WaitForSeconds(instance.GetComponent<InfernalAttackController>().followPlayerBeforeAttackTime + 2f); //this is equal to the duration of the attack indicator
         
         _shouldStartMoving = true;
