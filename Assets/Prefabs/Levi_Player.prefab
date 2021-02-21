@@ -1255,6 +1255,15 @@ MonoBehaviour:
   shovelOnBack: {fileID: 4200627451101253562}
   isDiggingComplete: 0
   _targetAreaController: {fileID: 0}
+  lightAttackSounds:
+  - {fileID: 8300000, guid: 3b376d204b013164cabd186591d4023d, type: 3}
+  - {fileID: 8300000, guid: 833d3a1100de2474484e0792af5ace45, type: 3}
+  heavyAttackSounds:
+  - {fileID: 8300000, guid: 0a1c5aed2f91a794184080a3269fbdc3, type: 3}
+  - {fileID: 8300000, guid: e6933a7547e7fe743841c459f461ecca, type: 3}
+  digSounds:
+  - {fileID: 8300000, guid: 361b4c94c675bde449b5d013b74b2e59, type: 3}
+  - {fileID: 8300000, guid: 9fd81a7702895b348982c06da7cc136e, type: 3}
 --- !u!114 &3551488297236394368
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1377,7 +1386,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 0.3
+  m_Volume: 0.8
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -1421,7 +1430,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 0.5
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -1482,6 +1491,8 @@ MonoBehaviour:
   ghostMove: []
   demonJump: []
   playerJump: {fileID: 8300000, guid: 0a1af2a021bdd9047b5624f0848f4146, type: 3}
+  demonLand: {fileID: 0}
+  demonCaster: {fileID: 0}
 --- !u!1 &4545466314195437122
 GameObject:
   m_ObjectHideFlags: 0

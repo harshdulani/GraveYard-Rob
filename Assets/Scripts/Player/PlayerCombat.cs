@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class PlayerCombat : MonoBehaviour
 {
@@ -25,7 +26,7 @@ public class PlayerCombat : MonoBehaviour
     private bool _allowedToDig;
 
     private ScreenShakes _shakes;
-
+    
     public bool IsAllowedToDig
     {
         get => _allowedToDig;
@@ -36,16 +37,22 @@ public class PlayerCombat : MonoBehaviour
         }
     }
 
-    private static readonly int Attack1Hash = Animator.StringToHash("attack1");
-    private static readonly int Attack2Hash = Animator.StringToHash("attack2");
-    private static readonly int ShouldDig = Animator.StringToHash("shouldDig");
-    private static readonly int CycleWeapon = Animator.StringToHash("cycleWeapon");
+    [Header("Audio")]
+    public List<AudioClip> lightAttackSounds;
+    public List<AudioClip> heavyAttackSounds, digSounds;
 
+    private AudioSource _audio;
+    
     private Animator _anim;
     private MovementInput _movementInput;
     private Camera _cam;
 
     private PlayerWeaponController _playerWeaponController;
+
+    private static readonly int Attack1Hash = Animator.StringToHash("attack1");
+    private static readonly int Attack2Hash = Animator.StringToHash("attack2");
+    private static readonly int ShouldDig = Animator.StringToHash("shouldDig");
+    private static readonly int CycleWeapon = Animator.StringToHash("cycleWeapon");
 
     private void Start()
     {
@@ -54,6 +61,7 @@ public class PlayerCombat : MonoBehaviour
         _movementInput = MovementInput.current;
         _shakes = GetComponent<ScreenShakes>();
         _cam = Camera.main;
+        _audio = GetComponent<AudioSource>();
 
         _shouldRotateToRaycastHit = !_movementInput.shouldFaceTowardMouse;
 
@@ -127,15 +135,17 @@ public class PlayerCombat : MonoBehaviour
     {
         if (type == AttackType.LightAttack)
         {
-            if(PlayerEvents.current.InvokeStaminaChange(PlayerStats.main.lightAttackStaminaCost))
-                _anim.SetTrigger(Attack1Hash);
-            else return;
+            if (!PlayerEvents.current.InvokeStaminaChange(PlayerStats.main.lightAttackStaminaCost)) return;
+            
+            _anim.SetTrigger(Attack1Hash);
+            _audio.PlayOneShot(lightAttackSounds[Random.Range(0, 2)]);
         }
         else if (type == AttackType.HeavyAttack)
         {
-            if(PlayerEvents.current.InvokeStaminaChange(PlayerStats.main.heavyAttackStaminaCost))
-                _anim.SetTrigger(Attack2Hash);
-            else return;
+            if(!PlayerEvents.current.InvokeStaminaChange(PlayerStats.main.heavyAttackStaminaCost)) return;
+            
+            _anim.SetTrigger(Attack2Hash);
+            _audio.PlayOneShot(heavyAttackSounds[Random.Range(0, 2)]);
         }
         
         PlayerEvents.current.InvokePlayerCombatStrikeStart();
@@ -219,5 +229,10 @@ public class PlayerCombat : MonoBehaviour
         _desiredMovementDirection.y = 0f;
 
         transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(_desiredMovementDirection), 0.2f);
+    }
+
+    public void DigSound()
+    {
+        _audio.PlayOneShot(digSounds[Random.Range(0, digSounds.Count)]);
     }
 }

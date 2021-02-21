@@ -1087,7 +1087,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 449b93153b971eb46a738cc7314f644d, type: 3}
   - {fileID: 8300000, guid: da55913ece0f33a4fbe830af5e6b3905, type: 3}
   - {fileID: 8300000, guid: 3155a487feff4514b9542359ceeb00b3, type: 3}
-  - {fileID: 8300000, guid: 7fdbfb6efcfa88e47b684f6b0861aeca, type: 3}
+  - {fileID: 8300000, guid: 1019464589633604782ba2bb74cfdfcf, type: 3}
+  - {fileID: 8300000, guid: 6d0a65231b769a54dbcb6a41dac46295, type: 3}
   timeBeforeInflictingBumpDamage: 2
   minimumEnemyMovementSpeed: 3
   enemyMovementSpeedVariability: 2

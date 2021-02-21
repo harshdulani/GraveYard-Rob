@@ -18,22 +18,22 @@ public class MovementSounds : MonoBehaviour
 
     public void LeftStep()
     {
-        _audio.PlayOneShot(leftFootstep[(_counter++ % 2)]);
+        _audio.PlayOneShot(leftFootstep[(_counter++ % 2)], 0.25f);
     }
 
     public void RightStep()
     {
-        _audio.PlayOneShot(rightFootstep[(_counter++ % 2)]);
+        _audio.PlayOneShot(rightFootstep[(_counter++ % 2)], 0.25f);
     }
     
     public void PlayerJump()
     {
-        _audio.PlayOneShot(playerJump);
+        _audio.PlayOneShot(playerJump, 0.3f);
     }
 
     public void GhostStep()
     {
-        _audio.PlayOneShot(ghostMove[(_counter++ % 2)]);
+        _audio.PlayOneShot(ghostMove[(_counter++ % 2)], 0.25f);
     }
 
     public void DemonJump()

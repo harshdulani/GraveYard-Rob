@@ -132,6 +132,7 @@ public class EnemyController : MonoBehaviour
 
         _anim.SetTrigger(DeathHash);
         _audio.PlayOneShot(hitSFX[3], 0.8f);
+        _audio.PlayOneShot(hitSFX[4], 0.8f);
 
         Instantiate(deathVFX, transform.position + Vector3.up * 2f, Quaternion.identity, gameObject.transform);
         Destroy(transform.GetChild(0).gameObject, 2.5f);
