@@ -900,7 +900,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 3.25
+  m_Radius: 3
   m_Center: {x: 0, y: 1, z: 0}
 --- !u!195 &919132147837541353
 NavMeshAgent:
@@ -962,6 +962,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 3155a487feff4514b9542359ceeb00b3, type: 3}
   - {fileID: 8300000, guid: 1019464589633604782ba2bb74cfdfcf, type: 3}
   - {fileID: 8300000, guid: 6d0a65231b769a54dbcb6a41dac46295, type: 3}
+  bite: {fileID: 8300000, guid: 7f95979064fef134ebfd20eb6f7abaaa, type: 3}
   timeBeforeInflictingBumpDamage: 2
   minimumEnemyMovementSpeed: 1
   enemyMovementSpeedVariability: 5
@@ -1159,7 +1160,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0.45
+      value: 0.7
       inSlope: 0
       outSlope: 0
       tangentMode: 0

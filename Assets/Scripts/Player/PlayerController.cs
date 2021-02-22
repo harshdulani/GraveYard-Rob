@@ -1,4 +1,5 @@
-﻿using Cinemachine;
+﻿using System.Collections.Generic;
+using Cinemachine;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -19,6 +20,15 @@ public class PlayerController : MonoBehaviour
     public CinemachineFreeLook tpsCamera;
 
     public float onDeathTimeScale = 0.5f;
+    
+    [Header("Audio")] public List<AudioClip> hits;
+    public AudioClip hitHeavy;
+
+    public float timeBeforeHitSound = 0.2f;
+
+    private float _elapsedTimeBeforeHitSound;
+    private bool _isWaitingToMakeHitSound;
+    private AudioSource _audioSource;
     
     private PlayerWeaponController _weaponController;
     private Animator _animator;
@@ -50,6 +60,8 @@ public class PlayerController : MonoBehaviour
     {
         _animator = GetComponent<Animator>();
         _shakes = GetComponent<ScreenShakes>();
+        _audioSource = GetComponent<AudioSource>();
+        
         GetComponentInChildren<PlayerWeaponController>().gameObject.SetActive(false);
 
         PlayerEvents.current.InvokePlayerBirth();
@@ -61,6 +73,18 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         if(!GameStats.current.isPlayerAlive) return;
+        
+        //hit sound countdown
+        if (_isWaitingToMakeHitSound)
+        {
+            print(_elapsedTimeBeforeHitSound + " <= " + timeBeforeHitSound);
+            if (_elapsedTimeBeforeHitSound <= timeBeforeHitSound)
+                _elapsedTimeBeforeHitSound += Time.fixedDeltaTime;
+            else
+            {
+                _isWaitingToMakeHitSound = false;
+            }
+        }
         
         //stamina regen
         if (PlayerStats.main.playerStamina < PlayerStats.main.maxStamina)
@@ -110,11 +134,21 @@ public class PlayerController : MonoBehaviour
         _shakes.Light();
         ResetHealthHealTimer();
         _animator.SetTrigger(PlayerTakeHit);
+
+        
+        _audioSource.PlayOneShot(hits[Random.Range(0, hits.Count)], 0.65f);
     }
 
     public void OnPlayerTakeBump()
     {
         ResetHealthHealTimer();
+        
+        if (_isWaitingToMakeHitSound) return;
+        
+        print(_isWaitingToMakeHitSound + " making hit");
+        _audioSource.PlayOneShot(hits[Random.Range(0, hits.Count)], 0.65f);
+        _isWaitingToMakeHitSound = true;
+        _elapsedTimeBeforeHitSound = 0f;
     }
     
     private void OnPlayerDeath()
@@ -122,6 +156,8 @@ public class PlayerController : MonoBehaviour
         if(!GameStats.current.isPlayerAlive) return;
 
         _animator.SetTrigger(PlayerDeath);
+        _audioSource.PlayOneShot(hitHeavy);
+        
         GameStats.current.isPlayerAlive = false;
         MovementInput.current.TakeAwayMovementControl();
         Time.timeScale = onDeathTimeScale;
@@ -143,14 +179,4 @@ public class PlayerController : MonoBehaviour
             
         _elapsedTimeBeforeHealthHeal = 0f;
     }
-    
-    /*private void OnControllerColliderHit(ControllerColliderHit hit)
-    {
-        if(hit.gameObject.CompareTag("Projectile"))
-        {
-            PlayerEvents.current.healthChange(-hit.gameObject.GetComponent<ProjectileController>().projectileDamage);
-            print("projectile hit w " + hit.gameObject.name);
-            Destroy(hit.gameObject);
-        }
-    }*/
 }

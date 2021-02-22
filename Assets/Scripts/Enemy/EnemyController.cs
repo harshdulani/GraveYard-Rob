@@ -10,6 +10,7 @@ public class EnemyController : MonoBehaviour
 
     public GameObject deathVFX;
     public List<AudioClip> hitSFX;
+    public AudioClip bite;
 
     public float timeBeforeInflictingBumpDamage = 2f;
     
@@ -160,6 +161,7 @@ public class EnemyController : MonoBehaviour
         
         _isPlayerInContact = false;
         StopCoroutine("OnAttackMelee");
+        _anim.ResetTrigger(ShouldMeleeHash);
     }
 
     private void OnCollisionEnter(Collision other)
@@ -201,6 +203,8 @@ public class EnemyController : MonoBehaviour
         if(!PlayerEvents.current.InvokeHealthChange(_enemyStats.attackDamage, AttackType.HeavyAttack))
             PlayerEvents.current.InvokePlayerDeath();
         //if there isn't enough health after a hit, invoke death
+        
+        _audio.PlayOneShot(bite, 0.6f);
     }
 
     private IEnumerator OnAttackMelee()

@@ -1209,6 +1209,13 @@ MonoBehaviour:
   deathCamera: {fileID: 0}
   tpsCamera: {fileID: 0}
   onDeathTimeScale: 0.6
+  hits:
+  - {fileID: 8300000, guid: 214ae0116941e8d4ca275f6eb8a856e7, type: 3}
+  - {fileID: 8300000, guid: 12bb44ca0f7645e44b4c59e5b68b92e6, type: 3}
+  - {fileID: 8300000, guid: e981e230a96e76b44a7fc590827c52c5, type: 3}
+  - {fileID: 8300000, guid: 94f235428d157f8428f1eb4f53517138, type: 3}
+  hitHeavy: {fileID: 8300000, guid: 99f06852cc8922947a889bdd965bee9d, type: 3}
+  timeBeforeHitSound: 0.2
 --- !u!114 &4327995299076921502
 MonoBehaviour:
   m_ObjectHideFlags: 0
