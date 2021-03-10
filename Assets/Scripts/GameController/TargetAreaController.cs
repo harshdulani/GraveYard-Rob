@@ -32,12 +32,16 @@ public class TargetAreaController : MonoBehaviour
     {
         GameFlowEvents.current.gameplayStart += OnGameplayStart;
         GameFlowEvents.current.gameOver += OnGameOver;
+        GameFlowEvents.current.gameplayPause += OnPause;
+        GameFlowEvents.current.gameplayResume += OnResume;
     }
 
     private void OnDisable()
     {
         GameFlowEvents.current.gameplayStart -= OnGameplayStart;
         GameFlowEvents.current.gameOver -= OnGameOver;
+        GameFlowEvents.current.gameplayPause -= OnPause;
+        GameFlowEvents.current.gameplayResume -= OnResume;
     }
 
     private void Start()
@@ -120,5 +124,15 @@ public class TargetAreaController : MonoBehaviour
     private void OnGameOver()
     {
         graveCanvas.gameObject.SetActive(false);
+    }
+    
+    private void OnPause()
+    {
+        graveCanvas.gameObject.SetActive(false);
+    }
+
+    private void OnResume()
+    {
+        graveCanvas.gameObject.SetActive(true);
     }
 }

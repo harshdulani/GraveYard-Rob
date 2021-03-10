@@ -11,6 +11,8 @@ public class ObjectivesCanvasController : MonoBehaviour
     public Animation bgFlasher;
 
     public SlideIntoScreen objectiveCanvas, playerCanvas;
+
+    private Canvas _canvas;
     
     private bool _hasSlidIn;
 
@@ -18,16 +20,21 @@ public class ObjectivesCanvasController : MonoBehaviour
     {
         GameFlowEvents.current.updateObjective += UpdateObjective;
         GameFlowEvents.current.gameOver += OnGameOver;
+        GameFlowEvents.current.gameplayPause += OnPause;
+        GameFlowEvents.current.gameplayResume += OnResume;
     }
 
     private void OnDisable()
     {
         GameFlowEvents.current.updateObjective -= UpdateObjective;
         GameFlowEvents.current.gameOver -= OnGameOver;
+        GameFlowEvents.current.gameplayPause -= OnPause;
+        GameFlowEvents.current.gameplayResume -= OnResume;
     }
 
     private void Start()
     {
+        _canvas = GetComponent<Canvas>();
         objectiveTitle.text = objectiveTexts[GameStats.current.currentObjective];
         
         transform.GetChild(0).GetChild(2).gameObject.SetActive(false);
@@ -65,5 +72,15 @@ public class ObjectivesCanvasController : MonoBehaviour
     private void OnGameOver()
     {
         gameObject.SetActive(false);
+    }
+    
+    private void OnPause()
+    {
+        _canvas.enabled = false;
+    }
+
+    private void OnResume()
+    {
+        _canvas.enabled = true;
     }
 }

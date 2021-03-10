@@ -1,12 +1,9 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class PlayerCanvasController : MonoBehaviour
 {
     public static PlayerCanvasController main;
-
-    public Image head;
     
     public Image healthBar;
     public Text healthText;
@@ -15,6 +12,8 @@ public class PlayerCanvasController : MonoBehaviour
     public Image staminaBar;
     public Text staminaText;
     private FlashRepeatedly _staminaFlasher;
+
+    private Canvas _canvas;
 
     private void Awake()
     {
@@ -27,15 +26,21 @@ public class PlayerCanvasController : MonoBehaviour
     private void OnEnable()
     {
         GameFlowEvents.current.gameOver += OnGameOver;
+        GameFlowEvents.current.gameplayPause += OnPause;
+        GameFlowEvents.current.gameplayResume += OnResume;
     }
 
     private void OnDisable()
     {
         GameFlowEvents.current.gameOver -= OnGameOver;
+        GameFlowEvents.current.gameplayPause -= OnPause;
+        GameFlowEvents.current.gameplayResume -= OnResume;
     }
 
     private void Start()
     {
+        _canvas = GetComponent<Canvas>();
+        
         _healthFlasher = healthBar.transform.parent.GetChild(4).GetComponent<FlashRepeatedly>();
         _staminaFlasher = staminaBar.transform.parent.GetChild(4).GetComponent<FlashRepeatedly>();
     }
@@ -65,5 +70,15 @@ public class PlayerCanvasController : MonoBehaviour
     private void OnGameOver()
     {
         gameObject.SetActive(false);
+    }
+
+    private void OnPause()
+    {
+        _canvas.enabled = false;
+    }
+
+    private void OnResume()
+    {
+        _canvas.enabled = true;
     }
 }

@@ -6604,7 +6604,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 711cb7c6c1a8c1844a908649f3f29681, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  head: {fileID: 0}
   healthBar: {fileID: 1469269183}
   healthText: {fileID: 84956522}
   staminaBar: {fileID: 2004573734}
