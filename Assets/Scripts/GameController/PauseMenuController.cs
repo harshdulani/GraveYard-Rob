@@ -27,8 +27,6 @@ public class PauseMenuController : AMenuController
 
     #endregion
 
-    public Transform resumeText;
-
     public bool _isPaused;
     private static readonly pauseMenuOptions _selection;
 
@@ -49,9 +47,6 @@ public class PauseMenuController : AMenuController
 
         if (_isPaused)
         {
-            if(SelectedMenuOption == 1)
-                resumeText.transform.rotation = Quaternion.LookRotation(-_mainCam.transform.forward);
-            
             if (Input.GetAxisRaw("Horizontal") == 1f)
             {
                 cameraAnim.SetTrigger(RightKeyPress);
@@ -122,13 +117,6 @@ public class PauseMenuController : AMenuController
             //these were set inactive by the MainMenuController when spawning them
             rootGameObject.SetActive(true);
         }
-        
-        cameraAnim.transform.GetChild(1).GetComponent<CinemachineFreeLook>().m_Follow = _player;
-        cameraAnim.transform.GetChild(1).GetComponent<CinemachineFreeLook>().m_LookAt = _player;
-
-        resumeText.gameObject.SetActive(true);
-        resumeText.parent = _player;
-        resumeText.localPosition = Vector3.up * 5f + Vector3.back * 4.25f;
     }
     
     private void OnGameplayResume()
@@ -136,8 +124,6 @@ public class PauseMenuController : AMenuController
         GameStats.current.isGamePlaying = true;
         _isPaused = false;
         Time.timeScale = 1f;
-
-        resumeText.gameObject.SetActive(false);
         
         foreach (var rootGameObject in SceneManager.GetSceneByName("PauseMenuScene").GetRootGameObjects())
         {

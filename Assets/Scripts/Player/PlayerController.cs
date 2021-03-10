@@ -20,6 +20,8 @@ public class PlayerController : MonoBehaviour
     public CinemachineFreeLook tpsCamera;
 
     public float onDeathTimeScale = 0.5f;
+
+    private Vector3 _spawnPosition;
     
     [Header("Audio")] public List<AudioClip> hits;
     public AudioClip hitHeavy;
@@ -68,6 +70,9 @@ public class PlayerController : MonoBehaviour
 
         //so that hes not visible on main menu
         transform.localScale = new Vector3(0, 0, transform.localScale.z);
+
+        //so that levi doesn't fall off the fence bc of root motion due to wait for jump anim, while player is on main menu
+        _spawnPosition = transform.position;
     }
 
     private void FixedUpdate()
@@ -77,7 +82,6 @@ public class PlayerController : MonoBehaviour
         //hit sound countdown
         if (_isWaitingToMakeHitSound)
         {
-            print(_elapsedTimeBeforeHitSound + " <= " + timeBeforeHitSound);
             if (_elapsedTimeBeforeHitSound <= timeBeforeHitSound)
                 _elapsedTimeBeforeHitSound += Time.fixedDeltaTime;
             else
@@ -112,6 +116,9 @@ public class PlayerController : MonoBehaviour
     private void OnGameplayStart()
     {
         transform.localScale = Vector3.one;
+
+        transform.position = _spawnPosition;
+        
         _animator.SetBool(PlayerBorn, true);
     }
 
