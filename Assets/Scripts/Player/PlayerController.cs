@@ -152,7 +152,6 @@ public class PlayerController : MonoBehaviour
         
         if (_isWaitingToMakeHitSound) return;
         
-        print(_isWaitingToMakeHitSound + " making hit");
         _audioSource.PlayOneShot(hits[Random.Range(0, hits.Count)], 0.65f);
         _isWaitingToMakeHitSound = true;
         _elapsedTimeBeforeHitSound = 0f;

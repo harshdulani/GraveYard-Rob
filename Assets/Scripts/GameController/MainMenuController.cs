@@ -35,7 +35,7 @@ public class MainMenuController : AMenuController
     private static readonly mainMenuOptions _selection;
     
     public GameObject optionTextMeshHolder;
-    public GameObject aboutCanvas, settingsCanvas;
+    public GameObject aboutCanvas, settingsCanvas, helpCanvas;
 
     private void Start()
     {
@@ -71,16 +71,22 @@ public class MainMenuController : AMenuController
             {
                 cameraAnim.SetTrigger(RightKeyPress);
                 SelectedMenuOption++;
+                
+                TurnOffHelpCanvas();
             }
             else if (Input.GetAxisRaw("Horizontal") == -1f)
             {
                 cameraAnim.SetTrigger(LeftKeyPress);
                 SelectedMenuOption--;
+                
+                TurnOffHelpCanvas();
             }
 
-            if (Input.GetButtonDown("Submit"))
+            if (Input.GetButtonDown("Submit") || Input.GetButtonDown("Fire1"))
             {
                 MakeSelection(SelectedMenuOption);
+                
+                TurnOffHelpCanvas();
             }
         }
     }
@@ -163,5 +169,11 @@ public class MainMenuController : AMenuController
         settingsCanvas.SetActive(showSettings);
         _insideMenu = showSettings;
         _isInsideSettingsNotAbout = true;
+    }
+
+    private void TurnOffHelpCanvas()
+    {
+        if(helpCanvas)
+            Destroy(helpCanvas);
     }
 }

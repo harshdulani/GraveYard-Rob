@@ -23,7 +23,7 @@ public class StarrySkyShaderEditor : ShaderGUI {
     public bool isRendering;
     public float starRadius;
   }
-
+  
   private Dictionary<BaseStarDataRenderer, StarRendererData> starData;
   private Dictionary<string, BaseStarDataRenderer> renderers;
 
