@@ -166,6 +166,7 @@ Light:
   m_UseColorTemperature: 0
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
+  m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
 --- !u!1 &1231560296
@@ -294,6 +295,7 @@ Light:
   m_UseColorTemperature: 0
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
+  m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
 --- !u!1 &1472335927
@@ -386,6 +388,7 @@ Light:
   m_UseColorTemperature: 0
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
+  m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
 --- !u!1 &1654558354
@@ -471,6 +474,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
+  m_PresetInfoIsWorld: 0
 --- !u!114 &1654558356
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -964,8 +968,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 6d0a65231b769a54dbcb6a41dac46295, type: 3}
   bite: {fileID: 8300000, guid: 7f95979064fef134ebfd20eb6f7abaaa, type: 3}
   timeBeforeInflictingBumpDamage: 2
-  minimumEnemyMovementSpeed: 1
-  enemyMovementSpeedVariability: 5
+  minimumEnemyMovementSpeed: 2.5
+  enemyMovementSpeedVariability: 4
 --- !u!114 &773945334
 MonoBehaviour:
   m_ObjectHideFlags: 0

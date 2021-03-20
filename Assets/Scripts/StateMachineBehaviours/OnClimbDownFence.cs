@@ -24,9 +24,12 @@ public class OnClimbDownFence : StateMachineBehaviour
             _playerController = animator.GetComponent<PlayerController>();
             _movementInput = animator.GetComponent<MovementInput>();
         }
-        
-        if(MyJumpState == JumpState.JumpStart)
+
+        if (MyJumpState == JumpState.JumpStart)
+        {
             animator.SetBool(LandingFromFence, false);
+            TutorialManager.current.ShowGameIntro();
+        }
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
