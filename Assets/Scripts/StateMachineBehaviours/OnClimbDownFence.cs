@@ -47,6 +47,8 @@ public class OnClimbDownFence : StateMachineBehaviour
         {
             _playerController.OnClimbDownFence();
             animator.SetBool(LandingFromFence, false);
+            
+            TutorialManager.current.ShowGlyphs();
         }
     }
 

@@ -12,6 +12,7 @@ public enum SlideInDirection
 public class SlideIntoScreen : MonoBehaviour
 {
     public SlideInDirection mySlideInDirection;
+    public bool _autoSlide;
 
     private Vector3 _initialLocalPosition, _newLocalPosition;
     private float _time, _endTime;
@@ -39,6 +40,9 @@ public class SlideIntoScreen : MonoBehaviour
             default:
                 throw new ArgumentOutOfRangeException();
         }
+        
+        if(_autoSlide)
+            StartSliding();
     }
 
     private void Update()

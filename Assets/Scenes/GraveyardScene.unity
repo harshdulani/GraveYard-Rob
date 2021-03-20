@@ -1113,13 +1113,14 @@ GameObject:
   - component: {fileID: 150940087}
   - component: {fileID: 150940086}
   - component: {fileID: 150940085}
+  - component: {fileID: 150940088}
   m_Layer: 5
   m_Name: LMB
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &150940084
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1132,7 +1133,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 286075405}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
@@ -1152,9 +1153,37 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mySlideInDirection: 0
+  _autoSlide: 1
   slideOverTimeCurve:
     serializedVersion: 2
-    m_Curve: []
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1.7181044
+      value: 0.9922122
+      inSlope: 0.056437742
+      outSlope: 0.056437742
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.07536545
+      outWeight: 0.48950613
+    - serializedVersion: 3
+      time: 2
+      value: 1
+      inSlope: 0.14772235
+      outSlope: 0.14772235
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.08076358
+      outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
@@ -1196,6 +1225,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 150940083}
   m_CullTransparentMesh: 1
+--- !u!111 &150940088
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 150940083}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: 4523b19b039d3b74b95df4d7832aff87, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: 4523b19b039d3b74b95df4d7832aff87, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 0
+  m_AnimatePhysics: 0
+  m_CullingType: 0
 --- !u!1 &159135501 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 8ce01b95f6e934a4e8adff13bceaadc8, type: 3}
@@ -2316,7 +2361,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &286075405
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2328,9 +2373,9 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 1079883776}
   - {fileID: 150940084}
   - {fileID: 1566947255}
+  - {fileID: 1079883776}
   m_Father: {fileID: 1323951812}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -9310,6 +9355,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mySlideInDirection: 3
+  _autoSlide: 0
   slideOverTimeCurve:
     serializedVersion: 2
     m_Curve:
@@ -12314,6 +12360,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mySlideInDirection: 0
+  _autoSlide: 0
   slideOverTimeCurve:
     serializedVersion: 2
     m_Curve:
@@ -12359,13 +12406,14 @@ GameObject:
   - component: {fileID: 1079883779}
   - component: {fileID: 1079883778}
   - component: {fileID: 1079883777}
+  - component: {fileID: 1079883780}
   m_Layer: 5
   m_Name: Jump
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1079883776
 RectTransform:
   m_ObjectHideFlags: 0
@@ -12378,7 +12426,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 286075405}
-  m_RootOrder: 0
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
@@ -12398,9 +12446,37 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mySlideInDirection: 3
+  _autoSlide: 1
   slideOverTimeCurve:
     serializedVersion: 2
-    m_Curve: []
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1.7181044
+      value: 0.9922122
+      inSlope: 0.056437742
+      outSlope: 0.056437742
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.07536545
+      outWeight: 0.48950613
+    - serializedVersion: 3
+      time: 2
+      value: 1
+      inSlope: 0.14772235
+      outSlope: 0.14772235
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.08076358
+      outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
@@ -12442,6 +12518,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1079883775}
   m_CullTransparentMesh: 1
+--- !u!111 &1079883780
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1079883775}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: 4523b19b039d3b74b95df4d7832aff87, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: 4523b19b039d3b74b95df4d7832aff87, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 0
+  m_AnimatePhysics: 0
+  m_CullingType: 0
 --- !u!1001 &1088934066
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14203,6 +14295,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mySlideInDirection: 0
+  _autoSlide: 0
   slideOverTimeCurve:
     serializedVersion: 2
     m_Curve:
@@ -14879,9 +14972,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49e7b3090f782414992695eab210181d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  blackOverlay: {fileID: 1427513257}
   gameIntro: {fileID: 527412014}
-  pressToC: {fileID: 111508199}
+  playerCanvas: {fileID: 940837276}
+  playerCanvasSlide: {fileID: 1399247064}
+  lmb: {fileID: 150940088}
+  rmb: {fileID: 1566947259}
+  space: {fileID: 1079883780}
 --- !u!1 &1326548918
 GameObject:
   m_ObjectHideFlags: 0
@@ -15346,6 +15442,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mySlideInDirection: 0
+  _autoSlide: 0
   slideOverTimeCurve:
     serializedVersion: 2
     m_Curve:
@@ -16629,7 +16726,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   thingsToEnableWhenGameplayStarts:
   - {fileID: 1355202481}
-  - {fileID: 940837276}
   - {fileID: 30900918}
   climbDownFenceCamera: {fileID: 1355202482}
   tpsCamera: {fileID: 1289800024}
@@ -17135,13 +17231,14 @@ GameObject:
   - component: {fileID: 1566947258}
   - component: {fileID: 1566947257}
   - component: {fileID: 1566947256}
+  - component: {fileID: 1566947259}
   m_Layer: 5
   m_Name: RMB
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1566947255
 RectTransform:
   m_ObjectHideFlags: 0
@@ -17154,7 +17251,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 286075405}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
@@ -17174,9 +17271,37 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mySlideInDirection: 1
+  _autoSlide: 1
   slideOverTimeCurve:
     serializedVersion: 2
-    m_Curve: []
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1.7181044
+      value: 0.9922122
+      inSlope: 0.056437742
+      outSlope: 0.056437742
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.07536545
+      outWeight: 0.48950613
+    - serializedVersion: 3
+      time: 2
+      value: 1
+      inSlope: 0.14772235
+      outSlope: 0.14772235
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.08076358
+      outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
@@ -17218,6 +17343,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1566947254}
   m_CullTransparentMesh: 1
+--- !u!111 &1566947259
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1566947254}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: 4523b19b039d3b74b95df4d7832aff87, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: 4523b19b039d3b74b95df4d7832aff87, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 0
+  m_AnimatePhysics: 0
+  m_CullingType: 0
 --- !u!1001 &1583702909
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -18694,6 +18835,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mySlideInDirection: 1
+  _autoSlide: 0
   slideOverTimeCurve:
     serializedVersion: 2
     m_Curve:

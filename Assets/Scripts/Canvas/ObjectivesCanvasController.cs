@@ -64,7 +64,6 @@ public class ObjectivesCanvasController : MonoBehaviour
             case 1:
                 transform.GetChild(0).GetChild(2).gameObject.SetActive(true);
                 transform.GetChild(0).GetChild(3).gameObject.SetActive(true);
-                playerCanvas.StartSliding();
                 break;
         }
     }
