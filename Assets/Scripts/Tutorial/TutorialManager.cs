@@ -22,7 +22,7 @@ public class TutorialManager : MonoBehaviour
     public GameObject gameIntro, playerCanvas;
     public SlideIntoScreen playerCanvasSlide;
     
-    public Animation lmb, rmb, space;
+    public Animation lmb, rmb, space, skipText;
     
     private bool _waitForUser, _isTutoring, _lmbDone, _rmbDone, _spaceDone;
 
@@ -38,6 +38,9 @@ public class TutorialManager : MonoBehaviour
         }
         else if (_isTutoring)
         {
+            if(Input.GetButtonDown("Fire3"))
+                SkipTutorial();
+                
             if (!_lmbDone && Input.GetButtonDown("Fire1"))
             {
                 _lmbDone = true;
@@ -54,11 +57,10 @@ public class TutorialManager : MonoBehaviour
                 space.Play();
             }
 
-            if (_lmbDone && _rmbDone && _spaceDone)
-            {
-                _isTutoring = false;
-                lmb.transform.parent.gameObject.SetActive(false);
-            }
+            if (!_lmbDone || !_rmbDone || !_spaceDone) return;
+            
+            _isTutoring = false;
+            lmb.transform.parent.gameObject.SetActive(false);
         }
     }
 
@@ -93,6 +95,17 @@ public class TutorialManager : MonoBehaviour
         lmb.gameObject.SetActive(true);
         rmb.gameObject.SetActive(true);
         space.gameObject.SetActive(true);
+        skipText.gameObject.SetActive(true);
+    }
+
+    private void SkipTutorial()
+    {
+        _isTutoring = false;
+        
+        lmb.Play();
+        rmb.Play();
+        space.Play();
+        skipText.Play();
     }
     
     private IEnumerator SlowDownTime()
