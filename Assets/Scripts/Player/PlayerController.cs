@@ -185,4 +185,9 @@ public class PlayerController : MonoBehaviour
             
         _elapsedTimeBeforeHealthHeal = 0f;
     }
+
+    public void ForceStaminaRegen()
+    {
+        _elapsedTimeBeforeStaminaHeal = timeBeforeHealing - Time.fixedDeltaTime;
+    }
 }

@@ -69,7 +69,7 @@ public class PlayerCombat : MonoBehaviour
         _allowedToDig = shovel.activeSelf; 
         
         shovelOnBack.SetActive(!IsAllowedToDig);
-        weaponOnBack.SetActive(IsAllowedToDig);
+        weaponOnBack.SetActive(!IsAllowedToDig);
 
         var mainModule = slash.main;
         mainModule.simulationSpeed = slashSpeed;

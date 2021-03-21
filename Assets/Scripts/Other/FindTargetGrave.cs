@@ -6,7 +6,7 @@ public class FindTargetGrave : MonoBehaviour
     {
         if(!other.gameObject.CompareTag("Player")) return;
         
-        print("found");
+        MovementInput.current.GetComponent<PlayerController>().ForceStaminaRegen();
         GameFlowEvents.current.InvokeUpdateObjective();
 
         Destroy(gameObject);

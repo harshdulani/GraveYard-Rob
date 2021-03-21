@@ -1,12 +1,12 @@
-﻿using UnityEngine;
+using UnityEngine;
 
-public class Roll : StateMachineBehaviour
+public class OnCarryGold : StateMachineBehaviour
 {
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        animator.GetComponent<MovementInput>().EndJump();
-        animator.GetComponent<PlayerController>().ResetStaminaHealTimer();
+        MovementInput.current.CarryGoldStart();
+        
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -16,10 +16,10 @@ public class Roll : StateMachineBehaviour
     //}
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
-    // public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    // {
-    //     
-    // }
+    public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    {
+        MovementInput.current.CarryGoldEnd();
+    }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()
     //override public void OnStateMove(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

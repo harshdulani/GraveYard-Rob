@@ -27,7 +27,7 @@ public class MovementInput : MonoBehaviour
     public bool isGrounded;
     private bool _jumpDone = false;
 
-    private Vector3 groudingVector;
+    private Vector3 _groundingVector;
 
     [Header("Diagonal StrafeRunning")]
     [Range(0f, 1f)]
@@ -37,7 +37,7 @@ public class MovementInput : MonoBehaviour
 
     [Header("Side Strafe Forward Movement threshold")] [Range(0.25f, 1f)]
     public float sideStrafeThreshold = 0.25f;
-    
+
     private float _speed;
     private float _inputX, _inputZ;
     private Vector3 _forward, _right;
@@ -223,9 +223,9 @@ public class MovementInput : MonoBehaviour
     private void GroundPlayer()
     {
         if (transform.position.y >= 0.15f)
-            groudingVector.y = -transform.position.y * 2f;
+            _groundingVector.y = -transform.position.y * 2f;
         
-        _controller.Move(groudingVector * Time.deltaTime);
+        _controller.Move(_groundingVector * Time.deltaTime);
     }
     
     private void StartJump()
@@ -250,6 +250,16 @@ public class MovementInput : MonoBehaviour
         _jumpDone = true;
         GiveBackMovementControl();
         rotationSlerpSpeed /= 0.1f;
+    }
+
+    public void CarryGoldStart()
+    {
+        
+    }
+
+    public void CarryGoldEnd()
+    {
+        
     }
     
     public void TakeAwayMovementControl()

@@ -71,6 +71,7 @@ public class TutorialManager : MonoBehaviour
 
     private void HideGameIntro()
     {
+        StopAllCoroutines();
         StartCoroutine(RampUpTime());
         gameIntro.gameObject.SetActive(false);
         _waitForUser = false;

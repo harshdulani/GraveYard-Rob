@@ -80,7 +80,10 @@ public class TargetAreaController : MonoBehaviour
             _playerCombat.IsAllowedToDig = false;
             Destroy(healthBarLeft.transform.parent.parent.gameObject);
             
-            //TODO change to modified grave with gold inside
+            //TODO replace the grave dig bar with gold steal bar 
+            dirtHole.GetChild(0).gameObject.SetActive(false);
+            dirtHole.GetChild(1).gameObject.SetActive(true);
+            
             print("objective complete/ initiate looting grave");
             
             GameFlowEvents.current.InvokeUpdateObjective();
