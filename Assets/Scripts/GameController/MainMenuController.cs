@@ -94,7 +94,6 @@ public class MainMenuController : AMenuController
     protected override void MakeSelection(int selection)
     {
         var option = (mainMenuOptions) Mathf.Abs(selection);
-        print("selected " + option);
         switch (option)
         {
             case mainMenuOptions.Exit:

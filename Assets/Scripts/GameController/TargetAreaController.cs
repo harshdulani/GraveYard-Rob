@@ -23,6 +23,13 @@ public class TargetAreaController : MonoBehaviour
     private int _digHitsRemaining;
     private float _delta;
 
+    [Header("Gold Steal Canvas")] 
+    public SlideIntoScreen goldCanvas;
+    public Transform wheelBarrow, wheelBarrowDest;
+    public int goldBricksRequired = 7;
+
+    private bool _canStealGold;
+
     private PlayerCombat _playerCombat;
 
     private readonly WaitForSeconds _waitHalfSec = new WaitForSeconds(0.5f);
@@ -63,10 +70,9 @@ public class TargetAreaController : MonoBehaviour
         yield return _waitHalfSec;
         
         var targetPercent = (--_digHitsRemaining) / (float)(digsHitsRequired);
-        print(_digHitsRemaining);
 
         var position = dirtHole.position;
-        dirtHole.position = Vector3.MoveTowards(position, new Vector3(position.x, dirtEndY, position.z), _delta);
+        dirtHole.position = new Vector3(position.x, Mathf.Clamp(position.y + _delta, dirtStartY, dirtEndY), position.z);
 
         for (var i = healthBarLeft.fillAmount; i >= targetPercent; i -= 0.05f)
         {
@@ -74,20 +80,21 @@ public class TargetAreaController : MonoBehaviour
             yield return _waitUpdateCanvas;
         }
 
-        if (_digHitsRemaining == 0)
-        {
-            _playerCombat.isDiggingComplete = true;
-            _playerCombat.IsAllowedToDig = false;
-            Destroy(healthBarLeft.transform.parent.parent.gameObject);
+        if (_digHitsRemaining >= 0) yield break;
+        
+        _playerCombat.isStealingGold = true;
+        _playerCombat.IsAllowedToDig = false;
             
-            //TODO replace the grave dig bar with gold steal bar 
-            dirtHole.GetChild(0).gameObject.SetActive(false);
-            dirtHole.GetChild(1).gameObject.SetActive(true);
+        //destroying grave dig canvas here
+        Destroy(healthBarLeft.transform.parent.parent.gameObject);
             
-            print("objective complete/ initiate looting grave");
-            
-            GameFlowEvents.current.InvokeUpdateObjective();
-        }
+        //TODO replace the grave dig bar with gold steal bar 
+        dirtHole.GetChild(0).gameObject.SetActive(false);
+        dirtHole.GetChild(1).gameObject.SetActive(true);
+
+        wheelBarrow.SetPositionAndRotation(wheelBarrowDest.position, wheelBarrowDest.rotation);
+
+        GameFlowEvents.current.InvokeUpdateObjective();
     }
 
     private void OnGameplayStart()
@@ -112,7 +119,7 @@ public class TargetAreaController : MonoBehaviour
             graveCanvas.StartSliding();
         }
         
-        if(_digHitsRemaining >= 0)
+        //if(_digHitsRemaining >= 0)
             _playerCombat.IsAllowedToDig = true;
     }
 
@@ -126,7 +133,8 @@ public class TargetAreaController : MonoBehaviour
 
     private void OnGameOver()
     {
-        graveCanvas.gameObject.SetActive(false);
+        if(graveCanvas)
+            graveCanvas.gameObject.SetActive(false);
     }
     
     private void OnPause()
