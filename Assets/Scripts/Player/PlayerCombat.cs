@@ -204,7 +204,6 @@ public class PlayerCombat : MonoBehaviour
             shovel.SetActive(IsAllowedToDig);
             shovelOnBack.SetActive(!IsAllowedToDig);
         }
-        print(IsAllowedToDig);
         
         weapon.SetActive(!IsAllowedToDig);
         weaponOnBack.SetActive(IsAllowedToDig);
@@ -219,8 +218,9 @@ public class PlayerCombat : MonoBehaviour
 
         if (isStealingGold)
         {
-            goldBrick.SetActive(isStealingGold);
+            goldBrick.SetActive(true);
             _anim.SetBool(DigGold, true);
+            _targetAreaController.TargetGiveHit(true);
         }
         else
         {

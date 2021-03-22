@@ -17,7 +17,7 @@ RenderSettings:
   m_Fog: 1
   m_FogColor: {r: 0.007843138, g: 0.31764707, b: 0.34901962, a: 1}
   m_FogMode: 3
-  m_FogDensity: 0.015
+  m_FogDensity: 0.03
   m_LinearFogStart: -0.1
   m_LinearFogEnd: 150
   m_AmbientSkyColor: {r: 0.54509807, g: 0.8509804, b: 0.8509804, a: 1}
@@ -8955,7 +8955,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mySlideInDirection: 3
-  _autoSlide: 0
+  _autoSlide: 1
   slideOverTimeCurve:
     serializedVersion: 2
     m_Curve:
@@ -14197,9 +14197,11 @@ MonoBehaviour:
   digsHitsRequired: 2
   graveCanvas: {fileID: 611941383}
   goldCanvas: {fileID: 516771152}
+  goldBarLeft: {fileID: 1468167010}
+  goldBarRight: {fileID: 2124258600}
   wheelBarrow: {fileID: 1664665289}
   wheelBarrowDest: {fileID: 1050259751}
-  goldBricksRequired: 7
+  goldBricksRequired: 3
 --- !u!136 &1201436987
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -17227,6 +17229,7 @@ MonoBehaviour:
   - Find the right grave
   - Dig the grave to get the loot
   - Steal the gold from the grave
+  - Get the gold cart to the gate!
   - Escape!
   objectiveTitle: {fileID: 480148059}
   bgFlasher: {fileID: 480148061}
