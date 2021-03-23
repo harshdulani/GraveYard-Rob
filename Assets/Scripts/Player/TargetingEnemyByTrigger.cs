@@ -143,6 +143,18 @@ public class TargetingEnemyByTrigger : MonoBehaviour
         if (enemies.Contains(enemy))
             enemies.Remove(enemy);
     }
+    
+    public void FaceGraveToStealGold(Transform grave)
+    {
+        _target = grave;
+        _isRotatingToEnemy = true;
+    }
+
+    public void StopFacingGrave()
+    {
+        _isRotatingToEnemy = false;
+        _target = null;
+    }
 
     private void Rotate(Vector3 position)
     {

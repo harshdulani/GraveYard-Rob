@@ -31,10 +31,10 @@ public class TargetAreaController : MonoBehaviour
     public Transform wheelBarrow, wheelBarrowDest;
     public int goldBricksRequired = 7;
 
-    private bool _canStealGold;
     private int _goldBricksRemaining;
 
     private PlayerCombat _playerCombat;
+    private TargetingEnemyByTrigger _targeter;
 
     private readonly WaitForSeconds _waitHalfSec = new WaitForSeconds(0.5f);
     private readonly WaitForSeconds _waitUpdateCanvas = new WaitForSeconds(0.05f);
@@ -63,6 +63,7 @@ public class TargetAreaController : MonoBehaviour
         _delta = Mathf.Abs(dirtEndY - dirtStartY) / digsHitsRequired;
 
         _playerCombat = PlayerStats.main.GetComponent<PlayerCombat>();
+        _targeter = _playerCombat.GetComponentInChildren<TargetingEnemyByTrigger>();
     }
 
     public void TargetGiveHit(bool stealingGold = false)
@@ -91,7 +92,6 @@ public class TargetAreaController : MonoBehaviour
         if (_digHitsRemaining >= 0) yield break;
 
         _playerCombat.isStealingGold = true;
-        //_playerCombat.IsAllowedToDig = false;
             
         //destroying grave dig canvas here
         Destroy(healthBarLeft.transform.parent.parent.gameObject);
@@ -109,20 +109,27 @@ public class TargetAreaController : MonoBehaviour
 
     private IEnumerator TargetTakeGoldSteal()
     {
+        _targeter.FaceGraveToStealGold(transform);
+        
         yield return _waitHalfSec;
         
         var targetPercent = (--_goldBricksRemaining) / (float)(goldBricksRequired);
-
-        print(_goldBricksRemaining);
-        
-        //insert code here to change model of wheelbarrow gold level
 
         for (var i = goldBarLeft.fillAmount; i >= targetPercent; i -= 0.05f)
         {
             UpdateGoldBar(i);
             yield return _waitUpdateCanvas;
         }
-
+        
+        yield return _waitHalfSec;
+        yield return _waitHalfSec;
+        
+        //when you change number of gold bricks also change the order of the bricks in the prefab
+        wheelBarrow.transform.GetChild(_goldBricksRemaining + 1).gameObject.SetActive(true);
+        _playerCombat.goldBrick.SetActive(false);
+        
+        StartCoroutine(StopRotation());
+        
         if (_goldBricksRemaining >= 0) yield break;
         
         _playerCombat.isStealingGold = false;
@@ -134,6 +141,13 @@ public class TargetAreaController : MonoBehaviour
         //insert code to enable dragging wheelbarrow around
         
         GameFlowEvents.current.InvokeUpdateObjective();
+    }
+
+    private IEnumerator StopRotation()
+    {
+        yield return _waitHalfSec;
+        yield return _waitHalfSec;
+        _targeter.StopFacingGrave();
     }
 
     private void OnGameplayStart()
@@ -163,8 +177,7 @@ public class TargetAreaController : MonoBehaviour
             graveCanvas.StartSliding();
         }
         
-        //if(_digHitsRemaining >= 0)
-            _playerCombat.IsAllowedToDig = true;
+        _playerCombat.IsAllowedToDig = true;
     }
 
     private void OnTriggerExit(Collider other)

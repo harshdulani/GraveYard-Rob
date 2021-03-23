@@ -235,7 +235,6 @@ public class PlayerCombat : MonoBehaviour
     public void CompleteDigging()
     {
         _movementInput.GiveBackMovementControl();
-        goldBrick.SetActive(IsAllowedToDig);
         _anim.SetBool(DigGold, false);
         isAttacking = false;
         _allowedToDig = true;
