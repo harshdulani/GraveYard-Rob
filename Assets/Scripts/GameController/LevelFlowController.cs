@@ -22,6 +22,10 @@ public class LevelFlowController : MonoBehaviour
     [Header("Screenshake at first enemy birth")] 
     public int screenShakeIntensity = 30;
     public float screenShakeSustainTime = 1.5f;
+
+    [Header("Final Objective")] 
+    public GameObject van;
+    public GameObject gateClosed, gateOpen;
     
     public CinemachineVirtualCamera stareAtEnemy;
     public CinemachineTargetGroup targetGroup;
@@ -36,7 +40,7 @@ public class LevelFlowController : MonoBehaviour
         GameFlowEvents.current.gameplayStart += OnGameplayStart;
         GameFlowEvents.current.gameplayPause += OnGameplayPause;
         GameFlowEvents.current.gameplayResume += OnGameplayResume;
-        GameFlowEvents.current.updateObjective += OnEnemySpawningStart;
+        GameFlowEvents.current.updateObjective += OnUpdateObjective;
 
         PlayerEvents.current.playerDeath += OnPlayerDeath;
     }
@@ -46,7 +50,7 @@ public class LevelFlowController : MonoBehaviour
         GameFlowEvents.current.gameplayStart -= OnGameplayStart;
         GameFlowEvents.current.gameplayPause -= OnGameplayPause;
         GameFlowEvents.current.gameplayResume -= OnGameplayResume;
-        GameFlowEvents.current.updateObjective -= OnEnemySpawningStart;
+        GameFlowEvents.current.updateObjective -= OnUpdateObjective;
         
         PlayerEvents.current.playerDeath -= OnPlayerDeath;
     }
@@ -82,16 +86,19 @@ public class LevelFlowController : MonoBehaviour
         MovementInput.current.GiveBackMovementControl();
     }
 
-    private void OnEnemySpawningStart()
+    private void OnUpdateObjective()
     {
-        if(GameStats.current.currentObjective != 1) return;
-        
-        ShowDialogue();
-        StartCoroutine(WaitTillYouFindEnemy());
-        
-        /*        
-        StartCoroutine(LookAtEnemy());
-        */
+        if (GameStats.current.currentObjective == 1)
+        {
+            ShowDialogue();
+            StartCoroutine(WaitTillYouFindEnemy());
+        }
+        else if (GameStats.current.currentObjective == 4)
+        {
+            van.SetActive(true);
+            gateOpen.SetActive(true);
+            gateClosed.SetActive(false);
+        }
     }
 
     private IEnumerator WaitTillYouFindEnemy()

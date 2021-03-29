@@ -24,9 +24,9 @@ public class PlayerCombat : MonoBehaviour
 
     [Header("Stealing Gold")]
     public GameObject goldBrick;
-    public bool isStealingGold;
+    public bool isStealingGold, isDoneStealingGold;
     
-    private bool _allowedToDig;
+    private bool _allowedToDig, _canSwapWeapon = true;
 
     private ScreenShakes _shakes;
     
@@ -187,9 +187,14 @@ public class PlayerCombat : MonoBehaviour
 
     public void SwapWeapon()
     {
+        if(!_canSwapWeapon) return;
+
         _anim.SetTrigger(CycleWeapon);
         _anim.SetBool(CanStealGold, IsAllowedToDig && isStealingGold);
         isAttacking = true;
+
+        if (isDoneStealingGold)
+            _canSwapWeapon = false;
     }
 
     public void CompleteWeaponSwap()
@@ -204,15 +209,23 @@ public class PlayerCombat : MonoBehaviour
             shovel.SetActive(IsAllowedToDig);
             shovelOnBack.SetActive(!IsAllowedToDig);
         }
-        
+
         weapon.SetActive(!IsAllowedToDig);
         weaponOnBack.SetActive(IsAllowedToDig);
+
+        if (isDoneStealingGold)
+        {
+            weapon.SetActive(true);
+            weaponOnBack.SetActive(false);
+        }
         
         isAttacking = false;
     }
     
     private void StartDigging()
     {
+        if(isDoneStealingGold) return;
+
         _anim.SetTrigger(ShouldDig);
         _movementInput.TakeAwayMovementControl();
 

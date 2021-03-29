@@ -92,13 +92,13 @@ public class TargetAreaController : MonoBehaviour
         if (_digHitsRemaining >= 0) yield break;
 
         _playerCombat.isStealingGold = true;
+        _playerCombat.IsAllowedToDig = true;
             
         //destroying grave dig canvas here
         Destroy(healthBarLeft.transform.parent.parent.gameObject);
 
         goldCanvas.transform.parent.gameObject.SetActive(true);
 
-        //TODO replace the grave dig bar with gold steal bar 
         dirtHole.GetChild(0).gameObject.SetActive(false);
         dirtHole.GetChild(1).gameObject.SetActive(true);
 
@@ -130,12 +130,12 @@ public class TargetAreaController : MonoBehaviour
         
         StartCoroutine(StopRotation());
         
-        if (_goldBricksRemaining >= 0) yield break;
+        if (_goldBricksRemaining > 0) yield break;
         
-        _playerCombat.isStealingGold = false;
+        _playerCombat.isDoneStealingGold = true;
         _playerCombat.IsAllowedToDig = false;
-            
-        //destroying grave dig canvas here
+
+        //destroying gold canvas here
         Destroy(goldCanvas.transform.parent.gameObject);
         
         //insert code to enable dragging wheelbarrow around
@@ -183,8 +183,8 @@ public class TargetAreaController : MonoBehaviour
     private void OnTriggerExit(Collider other)
     {
         if (!other.gameObject.CompareTag("Player")) return;
-        
-        if(_playerCombat.IsAllowedToDig)
+
+        if (_playerCombat.IsAllowedToDig)
             _playerCombat.IsAllowedToDig = false;
     }
 
