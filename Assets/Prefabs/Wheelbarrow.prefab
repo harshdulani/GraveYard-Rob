@@ -307,8 +307,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd8fa2bcd98f4aa4d96ccedc60fe8b05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lifted: {fileID: 0}
+  liftedState: {fileID: 0}
   tutorial: {fileID: 0}
+  tpsCam: {fileID: 0}
+  lowSensi: 200
   isLifted: 0
   hasMaxGold: 0
   canLift: 0
@@ -405,9 +407,10 @@ GameObject:
   - component: {fileID: 4038986055021392566}
   - component: {fileID: 3394413057837708027}
   - component: {fileID: 1417837714682427810}
+  - component: {fileID: 1696096457}
   m_Layer: 0
   m_Name: barrow
-  m_TagString: Untagged
+  m_TagString: WheelBarrow
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -492,6 +495,22 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.6602501, y: 2.806035, z: 1.4007287}
   m_Center: {x: 0.0000025481047, y: 1.0089918, z: -0.70663905}
+--- !u!54 &1696096457
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5461691973860973529}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0
 --- !u!1 &6425477536571787606
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,3 +1,4 @@
+using Cinemachine;
 using UnityEngine;
 
 public class WheelBarrowController : MonoBehaviour
@@ -17,9 +18,13 @@ public class WheelBarrowController : MonoBehaviour
 
     #endregion
 
-    public Transform lifted;
+    public Transform liftedState;
     public GameObject tutorial;
+    public CinemachineFreeLook tpsCam;
 
+    public float lowSensi = 200;
+    private float _normSensi;
+    
     public bool isLifted;
     public bool hasMaxGold, canLift;
     
@@ -35,6 +40,7 @@ public class WheelBarrowController : MonoBehaviour
     {
         _animator = PlayerStats.main.GetComponent<Animator>();
         _originalYPos = transform.position.y;
+        _normSensi = tpsCam.m_XAxis.m_MaxSpeed;
     }
 
     private void Update()
@@ -71,8 +77,10 @@ public class WheelBarrowController : MonoBehaviour
             MovementInput.current.blockJumping = true;
             
             transform.SetParent(_animator.transform);
-            transform.localPosition = lifted.position;
-            transform.localRotation = lifted.rotation;
+            transform.localPosition = liftedState.position;
+            transform.localRotation = liftedState.rotation;
+            
+            tpsCam.m_XAxis.m_MaxSpeed = lowSensi;
         }
         else
         {
@@ -84,6 +92,8 @@ public class WheelBarrowController : MonoBehaviour
             transform.SetParent(null);
             transform.Rotate(-transform.rotation.eulerAngles.x, 0, 0);
             transform.position = new Vector3(transform.position.x, _originalYPos, transform.position.z);
+            
+            tpsCam.m_XAxis.m_MaxSpeed = _normSensi;
         }
     }
 
