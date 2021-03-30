@@ -65,7 +65,6 @@ public class Lightning : MonoBehaviour
         {
             yield return _waiters[Random.Range(0, _waiters.Count)];
 
-            //TODO: Add thundering sounds as animation events
             _animation.Play(_states[CurrentAnimation++].name);
             _audio.PlayOneShot(thunderAudioClips[CurrentAnimation]);
         }

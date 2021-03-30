@@ -1265,9 +1265,10 @@ MonoBehaviour:
   slashSpeed: 0.75
   shovel: {fileID: 4200627452431505705}
   shovelOnBack: {fileID: 4200627451101253562}
-  isDiggingComplete: 0
   _targetAreaController: {fileID: 0}
-  canGoldBeCarried: 0
+  goldBrick: {fileID: 0}
+  isStealingGold: 0
+  isDoneStealingGold: 0
   lightAttackSounds:
   - {fileID: 8300000, guid: 3b376d204b013164cabd186591d4023d, type: 3}
   - {fileID: 8300000, guid: 833d3a1100de2474484e0792af5ace45, type: 3}

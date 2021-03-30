@@ -84,6 +84,9 @@ public class PlayerCombat : MonoBehaviour
     {
         if(!GameStats.current.isGamePlaying) return;
         if(!MovementInput.current.playerHasControl) return;
+        
+        if(WheelBarrowController.main.isLifted) return;
+        
         if (!isAttacking && !MovementInput.current.isJumping)
         {
             if (Input.GetButtonDown("Fire1"))

@@ -26,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 16499503086217293}
   m_LocalRotation: {x: -0.82226473, y: 2.810635e-17, z: -2.810635e-17, w: 0.5691052}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0.05, y: -0.32, z: 0.16}
   m_LocalScale: {x: -1, y: -1, z: -1}
   m_Children: []
   m_Father: {fileID: 5473145283978947737}
@@ -107,7 +107,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 146520222306606625}
   m_LocalRotation: {x: -0.86037725, y: -0.011003277, z: -0.0025466795, w: 0.5095325}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0.05, y: -0.32, z: 0.16}
   m_LocalScale: {x: -1, y: -1, z: -1}
   m_Children: []
   m_Father: {fileID: 5473145283978947737}
@@ -188,7 +188,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2441330914297686566}
   m_LocalRotation: {x: -0.81241804, y: 2.5462146e-17, z: -2.5462151e-17, w: 0.5830754}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0.05, y: -0.32, z: 0.16}
   m_LocalScale: {x: -1, y: -1, z: -1}
   m_Children: []
   m_Father: {fileID: 5473145283978947737}
@@ -253,6 +253,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5473145283978947737}
   - component: {fileID: 8687261143254227040}
+  - component: {fileID: 1664665291}
   m_Layer: 0
   m_Name: Wheelbarrow
   m_TagString: Untagged
@@ -292,8 +293,24 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 3.1627562, y: 2.9955664, z: 2.620871}
-  m_Center: {x: -0.0000005382816, y: 1.2699999, z: 1.7224903}
+  m_Size: {x: 3.1627562, y: 2.6727629, z: 4.5331035}
+  m_Center: {x: -0.0000012141687, y: 1.4314016, z: 1.5482923}
+--- !u!114 &1664665291
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4665540166089913891}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd8fa2bcd98f4aa4d96ccedc60fe8b05, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lifted: {fileID: 0}
+  isLifted: 0
+  hasMaxGold: 0
+  canLift: 0
 --- !u!1 &5370306753028904909
 GameObject:
   m_ObjectHideFlags: 0
@@ -320,7 +337,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5370306753028904909}
   m_LocalRotation: {x: -0.85776883, y: -0.024975836, z: -0.041865755, w: 0.51171887}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0.05, y: -0.32, z: 0.16}
   m_LocalScale: {x: -1, y: -1, z: -1}
   m_Children: []
   m_Father: {fileID: 5473145283978947737}
@@ -402,7 +419,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5461691973860973529}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071067}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0, y: 0, z: -3.15}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5473145283978947737}
@@ -472,8 +489,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.6602501, y: 4.288051, z: 1.4007288}
-  m_Center: {x: -0.002019763, y: -1.7183117, z: -0.706639}
+  m_Size: {x: 1.6602501, y: 2.806035, z: 1.4007287}
+  m_Center: {x: 0.0000025481047, y: 1.0089918, z: -0.70663905}
 --- !u!1 &6425477536571787606
 GameObject:
   m_ObjectHideFlags: 0
@@ -500,7 +517,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6425477536571787606}
   m_LocalRotation: {x: 0.86736745, y: 0.007011207, z: -0.07556203, w: 0.49184847}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0.05, y: -0.32, z: 0.16}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5473145283978947737}
@@ -581,7 +598,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7745262716617005605}
   m_LocalRotation: {x: 0.87022144, y: -0.051120527, z: 0.0273946, w: 0.48923498}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0.05, y: -0.32, z: 0.16}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5473145283978947737}

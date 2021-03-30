@@ -37,6 +37,8 @@ public class MovementInput : MonoBehaviour
 
     [Header("Side Strafe Forward Movement threshold")] [Range(0.25f, 1f)]
     public float sideStrafeThreshold = 0.25f;
+    
+    public bool blockStrafing, blockWalkBack;
 
     private float _speed;
     private float _inputX, _inputZ;
@@ -135,15 +137,21 @@ public class MovementInput : MonoBehaviour
         _forward.Normalize();
         _right.Normalize();
         
-        desiredMovementDirection = _forward * (_inputZ * movementSpeed);
+        if(blockWalkBack && _inputZ < 0f)
+            desiredMovementDirection = Vector3.zero;
+        else
+            desiredMovementDirection = _forward * (_inputZ * movementSpeed);
 
-        if (_inputZ >= -sideStrafeThreshold)
+        if(!blockStrafing)
         {
-            desiredMovementDirection += _right * (_inputX * movementSpeed);
-            desiredMovementDirection *= Mathf.Clamp(_speed, -speedLimitStrafeRunning, speedLimitStrafeRunning);
-            if (_speed > 1.2f)
+            if (_inputZ >= -sideStrafeThreshold)
             {
-                rotateCamForward += _right * ((_inputX ) * (_speed - (Mathf.Sign(_speed) * (_speed - rotationStrafeFactor))));
+                desiredMovementDirection += _right * (_inputX * movementSpeed);
+                desiredMovementDirection *= Mathf.Clamp(_speed, -speedLimitStrafeRunning, speedLimitStrafeRunning);
+                if (_speed > 1.2f)
+                {
+                    rotateCamForward += _right * ((_inputX) * (_speed - (Mathf.Sign(_speed) * (_speed - rotationStrafeFactor))));
+                }
             }
         }
 
@@ -250,16 +258,6 @@ public class MovementInput : MonoBehaviour
         _jumpDone = true;
         GiveBackMovementControl();
         rotationSlerpSpeed /= 0.1f;
-    }
-
-    public void CarryGoldStart()
-    {
-        
-    }
-
-    public void CarryGoldEnd()
-    {
-        
     }
     
     public void TakeAwayMovementControl()

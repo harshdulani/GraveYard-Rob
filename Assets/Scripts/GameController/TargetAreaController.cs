@@ -89,7 +89,7 @@ public class TargetAreaController : MonoBehaviour
             yield return _waitUpdateCanvas;
         }
 
-        if (_digHitsRemaining >= 0) yield break;
+        if (_digHitsRemaining > 0) yield break;
 
         _playerCombat.isStealingGold = true;
         _playerCombat.IsAllowedToDig = true;
@@ -139,6 +139,7 @@ public class TargetAreaController : MonoBehaviour
         Destroy(goldCanvas.transform.parent.gameObject);
         
         //insert code to enable dragging wheelbarrow around
+        WheelBarrowController.main.hasMaxGold = true;
         
         GameFlowEvents.current.InvokeUpdateObjective();
     }
