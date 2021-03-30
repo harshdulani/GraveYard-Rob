@@ -11,6 +11,7 @@ TagManager:
   - Target
   - Ground
   - SkyGlobe
+  - WheelBarrow
   layers:
   - Default
   - TransparentFX

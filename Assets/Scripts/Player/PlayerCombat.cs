@@ -20,10 +20,13 @@ public class PlayerCombat : MonoBehaviour
     [Header("Digging Grave")] 
     public GameObject shovel;
     public GameObject shovelOnBack;
-    public bool isDiggingComplete;
     public TargetAreaController _targetAreaController;
 
-    private bool _allowedToDig;
+    [Header("Stealing Gold")]
+    public GameObject goldBrick;
+    public bool isStealingGold, isDoneStealingGold;
+    
+    private bool _allowedToDig, _canSwapWeapon = true;
 
     private ScreenShakes _shakes;
     
@@ -53,6 +56,8 @@ public class PlayerCombat : MonoBehaviour
     private static readonly int Attack2Hash = Animator.StringToHash("attack2");
     private static readonly int ShouldDig = Animator.StringToHash("shouldDig");
     private static readonly int CycleWeapon = Animator.StringToHash("cycleWeapon");
+    private static readonly int CanStealGold = Animator.StringToHash("canStealGold");
+    private static readonly int DigGold = Animator.StringToHash("digGold");
 
     private void Start()
     {
@@ -65,11 +70,11 @@ public class PlayerCombat : MonoBehaviour
 
         _shouldRotateToRaycastHit = !_movementInput.shouldFaceTowardMouse;
 
-        //didnt wanna set this value and execute the setter of the property
-        _allowedToDig = shovel.activeSelf; 
+        //didn't wanna set this value and execute the setter of the property
+        _allowedToDig = shovel.activeSelf;
         
         shovelOnBack.SetActive(!IsAllowedToDig);
-        weaponOnBack.SetActive(IsAllowedToDig);
+        weaponOnBack.SetActive(!IsAllowedToDig);
 
         var mainModule = slash.main;
         mainModule.simulationSpeed = slashSpeed;
@@ -79,16 +84,16 @@ public class PlayerCombat : MonoBehaviour
     {
         if(!GameStats.current.isGamePlaying) return;
         if(!MovementInput.current.playerHasControl) return;
+        
+        if(WheelBarrowController.main.isLifted) return;
+        
         if (!isAttacking && !MovementInput.current.isJumping)
         {
             if (Input.GetButtonDown("Fire1"))
             {
                 if (IsAllowedToDig)
                 {
-                    if (!isDiggingComplete)
-                    {
-                        StartDigging();
-                    }
+                    StartDigging();
                 }
                 else
                 {
@@ -117,7 +122,6 @@ public class PlayerCombat : MonoBehaviour
                         foreach (var hit in Physics.RaycastAll(_ray))
                             _position = hit.point;
                     }
-
 
                     currentAttackType = AttackType.HeavyAttack;
                     StartAttack(currentAttackType);
@@ -161,7 +165,7 @@ public class PlayerCombat : MonoBehaviour
     public void CanActuallyHit()
     {
         slash.Play();
-        //this is an animation event, so that collisions before the sword looks like its attacking dont count
+        //this is an animation event, so that collisions before the sword looks like its attacking don't count
         //hence the players that were bound to get hit regardless, get hit when it matters
         
         //this is for both light and heavy attacks
@@ -186,27 +190,60 @@ public class PlayerCombat : MonoBehaviour
 
     public void SwapWeapon()
     {
+        if(!_canSwapWeapon) return;
+
         _anim.SetTrigger(CycleWeapon);
+        _anim.SetBool(CanStealGold, IsAllowedToDig && isStealingGold);
         isAttacking = true;
+
+        if (isDoneStealingGold)
+            _canSwapWeapon = false;
     }
 
     public void CompleteWeaponSwap()
     {
-        shovel.SetActive(IsAllowedToDig);
+        if (isStealingGold)
+        {
+            shovel.SetActive(false);
+            shovelOnBack.SetActive(true);
+        }
+        else
+        {
+            shovel.SetActive(IsAllowedToDig);
+            shovelOnBack.SetActive(!IsAllowedToDig);
+        }
+
         weapon.SetActive(!IsAllowedToDig);
-        shovelOnBack.SetActive(!IsAllowedToDig);
         weaponOnBack.SetActive(IsAllowedToDig);
+
+        if (isDoneStealingGold)
+        {
+            weapon.SetActive(true);
+            weaponOnBack.SetActive(false);
+        }
+        
         isAttacking = false;
     }
     
     private void StartDigging()
     {
+        if(isDoneStealingGold) return;
+
         _anim.SetTrigger(ShouldDig);
         _movementInput.TakeAwayMovementControl();
 
-        _shakes.CustomShake(15, .5f);
-        _targetAreaController.TargetGiveHit();
-        
+        if (isStealingGold)
+        {
+            goldBrick.SetActive(true);
+            _anim.SetBool(DigGold, true);
+            _targetAreaController.TargetGiveHit(true);
+        }
+        else
+        {
+            _shakes.CustomShake(15, .5f);
+            _targetAreaController.TargetGiveHit();
+        }
+
         isAttacking = true;
         _allowedToDig = false;
     }
@@ -214,6 +251,7 @@ public class PlayerCombat : MonoBehaviour
     public void CompleteDigging()
     {
         _movementInput.GiveBackMovementControl();
+        _anim.SetBool(DigGold, false);
         isAttacking = false;
         _allowedToDig = true;
     }

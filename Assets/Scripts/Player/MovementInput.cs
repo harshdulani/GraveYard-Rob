@@ -27,7 +27,7 @@ public class MovementInput : MonoBehaviour
     public bool isGrounded;
     private bool _jumpDone = false;
 
-    private Vector3 groudingVector;
+    private Vector3 _groundingVector;
 
     [Header("Diagonal StrafeRunning")]
     [Range(0f, 1f)]
@@ -37,7 +37,11 @@ public class MovementInput : MonoBehaviour
 
     [Header("Side Strafe Forward Movement threshold")] [Range(0.25f, 1f)]
     public float sideStrafeThreshold = 0.25f;
-    
+
+    [Header("Wheelbarrow modifiers")]
+    public bool blockStrafing;
+    public bool blockWalkBack, blockJumping;
+
     private float _speed;
     private float _inputX, _inputZ;
     private Vector3 _forward, _right;
@@ -82,7 +86,8 @@ public class MovementInput : MonoBehaviour
         {
             if (Input.GetButtonDown("Jump") && !isJumping)
             {
-                StartJump();
+                if(!blockJumping)
+                    StartJump();
             }
             isWalking = Input.GetKey(KeyCode.LeftShift);
             InputMagnitude();
@@ -135,15 +140,21 @@ public class MovementInput : MonoBehaviour
         _forward.Normalize();
         _right.Normalize();
         
-        desiredMovementDirection = _forward * (_inputZ * movementSpeed);
+        if(blockWalkBack && _inputZ < 0f)
+            desiredMovementDirection = Vector3.zero;
+        else
+            desiredMovementDirection = _forward * (_inputZ * movementSpeed);
 
-        if (_inputZ >= -sideStrafeThreshold)
+        if(!blockStrafing)
         {
-            desiredMovementDirection += _right * (_inputX * movementSpeed);
-            desiredMovementDirection *= Mathf.Clamp(_speed, -speedLimitStrafeRunning, speedLimitStrafeRunning);
-            if (_speed > 1.2f)
+            if (_inputZ >= -sideStrafeThreshold)
             {
-                rotateCamForward += _right * ((_inputX ) * (_speed - (Mathf.Sign(_speed) * (_speed - rotationStrafeFactor))));
+                desiredMovementDirection += _right * (_inputX * movementSpeed);
+                desiredMovementDirection *= Mathf.Clamp(_speed, -speedLimitStrafeRunning, speedLimitStrafeRunning);
+                if (_speed > 1.2f)
+                {
+                    rotateCamForward += _right * ((_inputX) * (_speed - (Mathf.Sign(_speed) * (_speed - rotationStrafeFactor))));
+                }
             }
         }
 
@@ -223,9 +234,9 @@ public class MovementInput : MonoBehaviour
     private void GroundPlayer()
     {
         if (transform.position.y >= 0.15f)
-            groudingVector.y = -transform.position.y * 2f;
+            _groundingVector.y = -transform.position.y * 2f;
         
-        _controller.Move(groudingVector * Time.deltaTime);
+        _controller.Move(_groundingVector * Time.deltaTime);
     }
     
     private void StartJump()

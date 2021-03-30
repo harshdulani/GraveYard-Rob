@@ -1,12 +1,19 @@
-﻿using UnityEngine;
+using UnityEngine;
 
-public class Roll : StateMachineBehaviour
+public class OnCarryGold : StateMachineBehaviour
 {
+    [Header("Behaviour")] public bool setWeaponVisibility;
+
+    private PlayerCombat _playerCombat;
+    
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        animator.GetComponent<MovementInput>().EndJump();
-        animator.GetComponent<PlayerController>().ResetStaminaHealTimer();
+        if (!_playerCombat)
+            _playerCombat = animator.GetComponent<PlayerCombat>();
+
+        _playerCombat.weapon.SetActive(setWeaponVisibility);
+        _playerCombat.weaponOnBack.SetActive(!setWeaponVisibility);
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -16,10 +23,10 @@ public class Roll : StateMachineBehaviour
     //}
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
-    // public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    // {
-    //     
-    // }
+    //override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    //{
+    //    
+    //}
 
     // OnStateMove is called right after Animator.OnAnimatorMove()
     //override public void OnStateMove(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
