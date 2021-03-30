@@ -37,8 +37,10 @@ public class MovementInput : MonoBehaviour
 
     [Header("Side Strafe Forward Movement threshold")] [Range(0.25f, 1f)]
     public float sideStrafeThreshold = 0.25f;
-    
-    public bool blockStrafing, blockWalkBack;
+
+    [Header("Wheelbarrow modifiers")]
+    public bool blockStrafing;
+    public bool blockWalkBack, blockJumping;
 
     private float _speed;
     private float _inputX, _inputZ;
@@ -84,7 +86,8 @@ public class MovementInput : MonoBehaviour
         {
             if (Input.GetButtonDown("Jump") && !isJumping)
             {
-                StartJump();
+                if(!blockJumping)
+                    StartJump();
             }
             isWalking = Input.GetKey(KeyCode.LeftShift);
             InputMagnitude();

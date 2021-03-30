@@ -1,5 +1,3 @@
-using System;
-using System.Collections;
 using UnityEngine;
 
 public class WheelBarrowController : MonoBehaviour
@@ -20,6 +18,7 @@ public class WheelBarrowController : MonoBehaviour
     #endregion
 
     public Transform lifted;
+    public GameObject tutorial;
 
     public bool isLifted;
     public bool hasMaxGold, canLift;
@@ -69,6 +68,7 @@ public class WheelBarrowController : MonoBehaviour
             _animator.SetBool(BarrowLifted, true);
             MovementInput.current.blockStrafing = true;
             MovementInput.current.blockWalkBack = true;
+            MovementInput.current.blockJumping = true;
             
             transform.SetParent(_animator.transform);
             transform.localPosition = lifted.position;
@@ -79,6 +79,7 @@ public class WheelBarrowController : MonoBehaviour
             _animator.SetBool(BarrowLifted, false);
             MovementInput.current.blockStrafing = false;
             MovementInput.current.blockWalkBack = false;
+            MovementInput.current.blockJumping = false;
             
             transform.SetParent(null);
             transform.Rotate(-transform.rotation.eulerAngles.x, 0, 0);
@@ -93,6 +94,7 @@ public class WheelBarrowController : MonoBehaviour
         if(!hasMaxGold) return;
 
         canLift = true;
+        tutorial.SetActive(true);
     }
 
     private void OnTriggerStay(Collider other)
@@ -102,10 +104,7 @@ public class WheelBarrowController : MonoBehaviour
         if(!canLift) return;
         
         if (Input.GetButtonDown("Fire3"))
-        {
-            //TODO: show tutorial ui saying press E
             ToggleBarrowLifting();
-        }
     }
 
     private void OnTriggerExit(Collider other)
@@ -113,5 +112,6 @@ public class WheelBarrowController : MonoBehaviour
         if(!other.gameObject.CompareTag("Player")) return;
 
         canLift = false;
+        tutorial.SetActive(false);
     }
 }
