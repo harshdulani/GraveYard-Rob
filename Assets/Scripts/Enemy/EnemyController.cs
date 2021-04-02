@@ -28,8 +28,13 @@ public class EnemyController : MonoBehaviour
     private Rigidbody _rigidbody;
     private AudioSource _audio;
 
+    [Header("Hit FreezeFrame / HitStop")] 
+    public float deathFreezeFrame = 0.2f;
+    public float heavyAttackFreezeFrame = 0.075f;
+
     private WaitForSeconds _waitBeforeAttack, _waitBeforeFirstAttack;
-    
+    private WaitForSecondsRealtime _death, _heavyAttack;
+
     private static readonly int ShouldMeleeHash = Animator.StringToHash("shouldMelee");
     private static readonly int DeathHash = Animator.StringToHash("death");
     private static readonly int IsMovingHash = Animator.StringToHash("isMoving");
@@ -65,6 +70,10 @@ public class EnemyController : MonoBehaviour
 
         _waitBeforeAttack = new WaitForSeconds(_enemyStats.waitBeforeAttackTime);
         _waitBeforeFirstAttack = new WaitForSeconds(_enemyStats.waitBeforeAttackTime / 1.5f);
+        
+        
+        _heavyAttack = new WaitForSecondsRealtime(heavyAttackFreezeFrame);
+        _death = new WaitForSecondsRealtime(deathFreezeFrame);
     }
 
     private void Update()
@@ -85,8 +94,11 @@ public class EnemyController : MonoBehaviour
     {
         if(amt == PlayerStats.main.lightAttackDamage)
             _shakes.Light();
-        else if(amt == PlayerStats.main.heavyAttackDamage)
+        else if (amt == PlayerStats.main.heavyAttackDamage)
+        {
             _shakes.Heavy();
+            StartCoroutine(FreezeFrame(_heavyAttack));
+        }
         
         //the impact sound
         _audio.PlayOneShot(hitSFX[2], 0.8f);
@@ -97,14 +109,25 @@ public class EnemyController : MonoBehaviour
         {
             //die
             print("Enemy Killed.");
+            StopAllCoroutines();
+            StartCoroutine(FreezeFrame(_death));
             EnemyEvents.current.InvokeEnemyDeath(transform);
-            EnemyDeath();
+            //EnemyDeath();
         }
         else
         {
             _anim.SetTrigger(HitReceivedHash);
         }
         UpdateHealthBar();
+    }
+    
+    private IEnumerator FreezeFrame(WaitForSecondsRealtime wait)
+    {
+        Time.timeScale = 0f;
+        yield return wait;
+        Time.timeScale = 1f;
+        if(wait == _death)
+            EnemyDeath();
     }
 
     private void UpdateHealthBar()
