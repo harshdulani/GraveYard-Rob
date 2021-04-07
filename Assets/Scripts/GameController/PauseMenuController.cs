@@ -57,7 +57,7 @@ public class PauseMenuController : AMenuController
                 cameraAnim.SetTrigger(LeftKeyPress);
                 SelectedMenuOption--;
             }
-            if (Input.GetButtonDown("Submit"))
+            if (Input.GetButtonDown("Submit") || Input.GetButtonDown("Fire1"))
             {
                 MakeSelection(SelectedMenuOption);
             }
