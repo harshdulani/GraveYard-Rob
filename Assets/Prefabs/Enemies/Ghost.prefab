@@ -970,6 +970,8 @@ MonoBehaviour:
   timeBeforeInflictingBumpDamage: 2
   minimumEnemyMovementSpeed: 2.5
   enemyMovementSpeedVariability: 4
+  deathFreezeFrame: 0.2
+  heavyAttackFreezeFrame: 0.075
 --- !u!114 &773945334
 MonoBehaviour:
   m_ObjectHideFlags: 0
