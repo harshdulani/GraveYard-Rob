@@ -33,6 +33,11 @@ public class TargetAreaController : MonoBehaviour
 
     private int _goldBricksRemaining;
 
+    [Header("Marker")] 
+    public GameObject marker;
+
+    private bool _hasDugOnce; 
+
     private PlayerCombat _playerCombat;
     private TargetingEnemyByTrigger _targeter;
 
@@ -77,6 +82,12 @@ public class TargetAreaController : MonoBehaviour
     private IEnumerator TargetTakeHit()
     {
         yield return _waitHalfSec;
+
+        if (!_hasDugOnce)
+        {
+            _hasDugOnce = true;
+            marker.SetActive(false);
+        }
         
         var targetPercent = (--_digHitsRemaining) / (float)(digsHitsRequired);
 
@@ -140,6 +151,7 @@ public class TargetAreaController : MonoBehaviour
         
         //insert code to enable dragging wheelbarrow around
         WheelBarrowController.main.hasMaxGold = true;
+        WheelBarrowController.main.marker.SetActive(true);
         
         GameFlowEvents.current.InvokeUpdateObjective();
     }
@@ -176,6 +188,7 @@ public class TargetAreaController : MonoBehaviour
             _hasFoundGrave = true;
             GameFlowEvents.current.InvokeUpdateObjective();
             graveCanvas.StartSliding();
+            marker.SetActive(true);
         }
         
         _playerCombat.IsAllowedToDig = true;

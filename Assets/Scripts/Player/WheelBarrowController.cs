@@ -22,6 +22,8 @@ public class WheelBarrowController : MonoBehaviour
     public GameObject tutorial;
     public CinemachineFreeLook tpsCam;
 
+    public GameObject marker;
+
     public float lowSensi = 200;
     private float _normSensi;
     
@@ -69,13 +71,15 @@ public class WheelBarrowController : MonoBehaviour
     {
         isLifted = !isLifted;
 
+        _animator.SetBool(BarrowLifted, isLifted);
+        MovementInput.current.blockStrafing = isLifted;
+        MovementInput.current.blockWalkBack = isLifted;
+        MovementInput.current.blockJumping = isLifted;
+        
+        marker.SetActive(!isLifted);
+        
         if (isLifted)
         {
-            _animator.SetBool(BarrowLifted, true);
-            MovementInput.current.blockStrafing = true;
-            MovementInput.current.blockWalkBack = true;
-            MovementInput.current.blockJumping = true;
-            
             transform.SetParent(_animator.transform);
             transform.localPosition = liftedState.position;
             transform.localRotation = liftedState.rotation;
@@ -84,11 +88,6 @@ public class WheelBarrowController : MonoBehaviour
         }
         else
         {
-            _animator.SetBool(BarrowLifted, false);
-            MovementInput.current.blockStrafing = false;
-            MovementInput.current.blockWalkBack = false;
-            MovementInput.current.blockJumping = false;
-            
             transform.SetParent(null);
             transform.Rotate(-transform.rotation.eulerAngles.x, 0, 0);
             transform.position = new Vector3(transform.position.x, _originalYPos, transform.position.z);
