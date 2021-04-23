@@ -41,7 +41,9 @@ QualitySettings:
     asyncUploadPersistentBuffer: 1
     resolutionScalingFixedDPIFactor: 1
     customRenderPipeline: {fileID: 0}
-    excludedTargetPlatforms: []
+    excludedTargetPlatforms:
+    - WebGL
+    - Standalone
   - serializedVersion: 2
     name: Low
     pixelLightCount: 0
@@ -77,7 +79,9 @@ QualitySettings:
     asyncUploadPersistentBuffer: 1
     resolutionScalingFixedDPIFactor: 1
     customRenderPipeline: {fileID: 0}
-    excludedTargetPlatforms: []
+    excludedTargetPlatforms:
+    - Standalone
+    - WebGL
   - serializedVersion: 2
     name: Medium
     pixelLightCount: 1
@@ -113,7 +117,9 @@ QualitySettings:
     asyncUploadPersistentBuffer: 1
     resolutionScalingFixedDPIFactor: 1
     customRenderPipeline: {fileID: 0}
-    excludedTargetPlatforms: []
+    excludedTargetPlatforms:
+    - WebGL
+    - Standalone
   - serializedVersion: 2
     name: High
     pixelLightCount: 2
@@ -149,7 +155,9 @@ QualitySettings:
     asyncUploadPersistentBuffer: 1
     resolutionScalingFixedDPIFactor: 1
     customRenderPipeline: {fileID: 0}
-    excludedTargetPlatforms: []
+    excludedTargetPlatforms:
+    - Standalone
+    - WebGL
   - serializedVersion: 2
     name: Very High
     pixelLightCount: 3
@@ -231,7 +239,7 @@ QualitySettings:
     PSP2: 2
     Stadia: 5
     Standalone: 5
-    WebGL: 3
+    WebGL: 4
     Windows Store Apps: 5
     XboxOne: 5
     iPhone: 2

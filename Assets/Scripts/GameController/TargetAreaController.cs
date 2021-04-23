@@ -35,8 +35,9 @@ public class TargetAreaController : MonoBehaviour
 
     [Header("Marker")] 
     public GameObject marker;
+    public Text tutorialText;
 
-    private bool _hasDugOnce; 
+    private bool _hasDugOnce;
 
     private PlayerCombat _playerCombat;
     private TargetingEnemyByTrigger _targeter;
@@ -114,6 +115,8 @@ public class TargetAreaController : MonoBehaviour
         dirtHole.GetChild(1).gameObject.SetActive(true);
 
         wheelBarrow.SetPositionAndRotation(wheelBarrowDest.position, wheelBarrowDest.rotation);
+        
+        tutorialText.text = "Press LMB to Steal Gold";
 
         GameFlowEvents.current.InvokeUpdateObjective();
     }
@@ -149,7 +152,6 @@ public class TargetAreaController : MonoBehaviour
         //destroying gold canvas here
         Destroy(goldCanvas.transform.parent.gameObject);
         
-        //insert code to enable dragging wheelbarrow around
         WheelBarrowController.main.hasMaxGold = true;
         WheelBarrowController.main.marker.SetActive(true);
         
@@ -192,6 +194,7 @@ public class TargetAreaController : MonoBehaviour
         }
         
         _playerCombat.IsAllowedToDig = true;
+        tutorialText.enabled = true;
     }
 
     private void OnTriggerExit(Collider other)
@@ -199,7 +202,10 @@ public class TargetAreaController : MonoBehaviour
         if (!other.gameObject.CompareTag("Player")) return;
 
         if (_playerCombat.IsAllowedToDig)
+        {
             _playerCombat.IsAllowedToDig = false;
+            tutorialText.enabled = false;
+        }
     }
 
     private void OnGameOver()

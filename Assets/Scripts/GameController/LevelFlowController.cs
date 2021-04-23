@@ -32,7 +32,7 @@ public class LevelFlowController : MonoBehaviour
 
     private EnemyWaveController _waveController;
 
-    private WaitForSeconds _waitScreenShake;
+    private WaitForSeconds _waitScreenShake, _waitDialogueHide;
     private WaitForEndOfFrame _endOfFrame;
     
     private void OnEnable()
@@ -60,13 +60,12 @@ public class LevelFlowController : MonoBehaviour
         _waveController = GetComponent<EnemyWaveController>();
         
         _waitScreenShake = new WaitForSeconds(screenShakeSustainTime);
+        _waitDialogueHide = new WaitForSeconds(3f);
         _endOfFrame = new WaitForEndOfFrame();
     }
     
     private void OnGameplayStart()
     {
-        //_waveController.StartWaveSpawning(gameplayStartWaitTime);
-
         foreach (var thing in thingsToEnableWhenGameplayStarts)
         {
             thing.SetActive(true);
@@ -90,11 +89,13 @@ public class LevelFlowController : MonoBehaviour
     {
         if (GameStats.current.currentObjective == 1)
         {
-            ShowDialogue();
+            StartCoroutine(ShowDialogue());
             StartCoroutine(WaitTillYouFindEnemy());
         }
         else if (GameStats.current.currentObjective == 4)
         {
+            dialogueText.text = "My getaway must be at the gate any time now!";
+            StartCoroutine(ShowDialogue());
             van.SetActive(true);
             gateOpen.SetActive(true);
             gateClosed.SetActive(false);
@@ -113,15 +114,16 @@ public class LevelFlowController : MonoBehaviour
         Time.timeScale = 1f;
     }
 
-    private void ShowDialogue()
+    private IEnumerator ShowDialogue()
     {
-        if(!dialogueText) return;
+        if(!dialogueText) yield break;
         
         dialogueText.transform.parent.parent.gameObject.SetActive(true);
         if (GameStats.current.currentObjective == 1)
             dialogueText.text = enemySpawnStartDialogues[Random.Range(0, enemySpawnStartDialogues.Count - 1)];
-        
-        Destroy(dialogueText.transform.parent.parent.gameObject, 3f);
+
+        yield return _waitDialogueHide;
+        dialogueText.transform.parent.parent.gameObject.SetActive(false);
     }
 
     private IEnumerator LookAtEnemy()

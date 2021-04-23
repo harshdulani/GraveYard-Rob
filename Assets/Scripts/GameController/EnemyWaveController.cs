@@ -66,10 +66,6 @@ public class EnemyWaveController : MonoBehaviour
     {
         while (isSpawnerRunning)
         {
-            //StartCoroutine(CountDown(startWaitTime));
-            //wait before starting to spawn enemies
-            //yield return new WaitForSeconds(startWaitTime);
-
             //calculate waves in current game
             int wavesInThisGame = Random.Range(idealWaveCount - deviationWaveCount,
                 idealWaveCount + deviationWaveCount);
@@ -112,7 +108,7 @@ public class EnemyWaveController : MonoBehaviour
                     }
                 }
 
-                while(enemiesKilledInThisWave != enemiesInThisWave)
+                while(enemiesInThisWave - enemiesKilledInThisWave > 1)
                 {
                     yield return _waitOneSec;
                 }
